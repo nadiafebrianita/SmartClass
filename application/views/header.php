@@ -124,7 +124,7 @@
                     <a href="<?php echo site_url('jadwal/aturjadwal'); ?>" class="nav-link">Pengaturan Jadwal</a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('mhsmatkul'); ?>" class="nav-link">Pengaturan Mahasiswa Mata Kuliah</a>
+                    <a href="<?php echo site_url('mhsmatkul'); ?>" class="nav-link" >Pengaturan Mahasiswa Mata Kuliah</a>
                   </li>
                   <li class="nav-item">
                     <a href="<?php echo site_url('kls/show_kls'); ?>" class="nav-link">Pengaturan Kelas</a>

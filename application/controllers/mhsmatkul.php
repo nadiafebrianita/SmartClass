@@ -16,6 +16,28 @@ class Mhsmatkul extends CI_Controller {
         $this->load->view('header');
         $this->load->view('v_mhsmatkul',$data);
         $this->load->view('footer');
-		
-	}
+    }
+	public function mhs()
+	{
+		$data['dd']=$this->m_mhsmatkul->dd();
+		$data['u']=$this->m_mhsmatkul->show_mhsmatkul();
+        $this->load->view('header');
+        $this->load->view('v_mhsm',$data);
+        $this->load->view('footer');
+    }
+    public function pilih()
+    {
+        $p = $this->input->post('pilih');
+        switch($p)
+        {
+            case "2":
+            redirect('mhsmatkul/mhs');
+            break;
+            case "3":
+            $this->load->view('v_matkulm');
+            break;
+            default:
+            redirect('mhsmatkul');
+        }
+    }
 }

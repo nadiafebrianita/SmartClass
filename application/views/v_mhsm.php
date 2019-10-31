@@ -6,12 +6,21 @@
           <form action="<?php echo site_url('mhsmatkul/pilih'); ?>" method="post">
           <form role="form">
           <div class="row align-items-center py-1">
-            <div class="col-lg-8 col-7">
+            <div class="col-lg-10 col-7">
               <h6 class="h3 text-white d-inline-block mb-5">Tampilkan Berdasarkan</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                 <select class="form-control-sm" name="pilih">
                   <option value="1">Semua</option>
-                  <option value="2">Mahasiswa</option>
+                  <option value="2" selected>Mahasiswa</option>
+                  <option value="3">Mata Kuliah</option>
+                </select>
+                <button type="submit" class="btn btn-sm btn-success">Set</a>
+              </nav>
+              <h6 class="h3 text-white d-inline-block mb-5 ml-5">Nama Mahasiswa</h6>
+              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
+                <select class="form-control-sm" name="pilih">
+                  <option value="1">Semua</option>
+                  <option value="2" selected>Mahasiswa</option>
                   <option value="3">Mata Kuliah</option>
                 </select>
                 <button type="submit" class="btn btn-sm btn-success">Set</a>
