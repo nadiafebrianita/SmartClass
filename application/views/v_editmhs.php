@@ -32,8 +32,9 @@
                 <input type="text" class="form-control" name="nim" value="<?php echo $u->nim ?>">
               </div>
               <div class="form-group">
-                <label class="form-control-label">Scan Jari</label>
-                <input type="text" class="form-control" name="scan_mhs" value="<?php echo $u->scan_mhs ?>">
+                <label class="form-control-label">Alias</label>
+                <input type="hidden" class="form-control" name="id_scan" value="<?php echo $u->id_scan ?>">
+                <input type="text" class="form-control" name="alias" value="<?php foreach($a as $a){echo $a->alias;} ?>">
               </div>
             </div>
           </div>

@@ -14,13 +14,12 @@ class M_dosen extends CI_Model {
 		$query = $this->db->get('user_scan');
 		return $query;
 	}
-	//COBA//
-	public function edit_data($where,$table){		
-		$this->db->select('dosen.id_dosen, dosen.nama_dosen, dosen.nip, dosen.nidn, user_scan.alias');
+	public function edit_data($where){		
+		$this->db->select('user_scan.id_scan, user_scan.alias');
 		$this->db->from('dosen');
-		$this->db->join('user_scan', 'dosen.id_scan=user_scan.id_scan');
+		$this->db->join('user_scan', 'dosen.id_scan=user_scan.id_scan')->where($where);
 
-		return $this->db->get_where($table,$where);
+		return $this->db->get();
 	}
 	public function insert($data, $datascan)
 	{
@@ -28,7 +27,6 @@ class M_dosen extends CI_Model {
 		$this->db->insert('user_scan', $datascan); 
 		$id_scan = $this->db->insert_id(); 
 
-		//$this->db->where('no_koor',$no_koor);
 		$data['id_scan'] = $id_scan;
 		$this->db->insert('dosen', $data);
 

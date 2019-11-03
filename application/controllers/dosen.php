@@ -18,28 +18,12 @@ class Dosen extends CI_Controller {
 		$this->load->view('footer');
 		
 	}
-	public function editcoba($id_dosen)
-	{
-		$id_scan = $this->input->post('id_scan');
-		$where = array('id_dosen' => $id_dosen);
-		$where1 = array('id_scan' => $id_scan);
-		$data['dd'] = $this->m_dosen->dd();
-		$data['u'] = $this->m->edit_data($where,'dosen')->result();
-		//$data['a'] = $this->m->edit_data($where1,'dosen')->result();
-		
-		$this->m_dosen->alias($id_scan);
-		$data['a'] = $this->m_dosen->alias();
-		$this->load->view('header');
-		$this->load->view('v_editdosen',$data);
-	    $this->load->view('footer');
-	}
-
 	public function edit($id_dosen)
 	{
 		$where = array('id_dosen' => $id_dosen);
 		
-		$data['dd'] = $this->m_dosen->dd();
 		$data['u'] = $this->m->edit_data($where,'dosen')->result();
+		$data['a'] = $this->m_dosen->edit_data($where)->result();
 		$this->load->view('header');
 		$this->load->view('v_editdosen',$data);
 	    $this->load->view('footer');
@@ -50,20 +34,25 @@ class Dosen extends CI_Controller {
 		$nama_dosen = $this->input->post('nama_dosen');
 		$nip = $this->input->post('nip');
 		$nidn = $this->input->post('nidn');
-		$scan_dosen = $this->input->post('scan_dosen');
-		
+		$id_scan = $this->input->post('id_scan');
+		$alias = $this->input->post('alias');
+
 		$data = array(
 			'nama_dosen' => $nama_dosen,
 			'nip' => $nip,
 			'nidn' => $nidn,
-			'scan_dosen' => $scan_dosen);
-	
+			'id_scan' => $id_scan
+			);
+		$datascan = array(
+			'alias' => $alias
+			);
 		$where = array('id_dosen' => $id_dosen);
+		$where1 = array('id_scan' => $id_scan);
 		
 		$this->m->update_data($where,$data,'dosen');
+		$this->m->update_data($where1,$datascan,'user_scan');
 		redirect('dosen/index');
 	}
-
 	public function tambah(){
 		$this->load->view('header');
 		$this->load->view('v_tambahdosen');

@@ -37,7 +37,7 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label">Alias</label>
-                <input type="hidden" class="form-control" name="id_dosen" value="<?php echo $u->id_scan ?>">
+                <input type="hidden" class="form-control" name="id_scan" value="<?php echo $u->id_scan ?>">
                 <input type="text" class="form-control" name="alias" value="<?php foreach($a as $a){echo $a->alias;} ?>">
               </div>
             </div>
