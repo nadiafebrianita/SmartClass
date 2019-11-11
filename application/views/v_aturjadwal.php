@@ -27,9 +27,11 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">Hari</th>
-                    <th scope="col">Waktu</th>
+                    <th scope="col">Mulai</th>
+                    <th scope="col">Akhir</th>
                     <th scope="col">Mata Kuliah</th>
-                    <th scope="col">Dosen</th>
+                    <th scope="col">Dosen 1</th>
+                    <th scope="col">Dosen 2</th>
                     <th scope="col">Kelas</th>
                     <th scope="col">Opsi</th>
                   </tr>
@@ -42,8 +44,10 @@
                   <tr>
                     <td><?php echo $j->hari ?></td>
                     <td><?php echo $j->waktu ?></td>
+                    <td><?php echo $j->akhir ?></td>
                     <td><?php echo $j->nama_matkul ?></td>
-                    <td><?php echo $j->nama_dosen ?></td>
+                    <td><?php echo $j->alias ?></td>
+                    <td><?php echo $j->id_dosen2 ?></td>
                     <td><?php echo $j->nama_kls ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('jadwal/edit/'.$j->id_jadwal,'Edit');?></button>

@@ -8,9 +8,7 @@
               <h6 class="h3 text-white d-inline-block mb-5">Semester Aktif</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-4">
               <input type="text" class="form-control-sm" name="tahun" value="<?php foreach ($a->result() as $a) {
-                          echo $a->nama_smt; echo $a->tahun;
-                        }
-                      ?>"readonly>
+                          echo $a->nama_smt; echo $a->tahun;}?>"readonly>
               </nav>
             </div>
             </div>

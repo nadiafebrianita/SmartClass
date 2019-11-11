@@ -10,6 +10,7 @@
               <h6 class="h3 text-white d-inline-block mb-5">Tampilkan Berdasarkan</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                 <select class="form-control-sm" name="pilih">
+                  <option value="1">Semua</option>
                   <option value="2" selected>Mahasiswa</option>
                   <option value="3">Mata Kuliah</option>
                 </select>
@@ -23,8 +24,9 @@
             <form role="form"> 
               <h6 class="h3 text-white d-inline-block mb-5">Nama Mahasiswa</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
-                <select class="form-control-sm" name="id_mhs">
-                  <option>- Pilih Mahasiswa -</option>
+                <select class="form-control-sm" name="id_mhs" value="<?php foreach($s as $s){
+                  if ($s->id_mhs = $id_mhs) {echo $s->nama_mhs;}} ?>">
+                  <option ></option>
                     <?php
                       foreach ($ddmhs->result() as $dd) {
                         echo "<option value='".$dd->id_mhs."'>".$dd->nama_mhs."</option>";
@@ -50,6 +52,9 @@
                 <div class="col">
                   <h3 class="mb-0">Pengaturan Mahasiswa - Mata Kuliah</h3>
                 </div>
+                <div class="col text-right">
+                  <a href="#!" class="btn btn-sm btn-primary">Tambah</a>
+                </div>
               </div>
             </div>
             <div class="table-responsive">
@@ -58,24 +63,21 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Nama Mahasiswa</th>
-                    <th scope="col">Kode Mata Kuliah</th>
-                    <th scope="col">Nama Mata Kuliah</th>
+                    <th scope="col">Mata Kuliah</th>
                     <th scope="col">Opsi</th>
                   </tr>
-                </thead>
-                <tbody>
-                <?php 
+                  <?php 
                   $no = 1;
                   foreach($u as $u){ 
                 ?>
+                </thead>
+                <tbody>
                   <tr>
                     <td><?php echo $no++ ?></td>
-                    <td><?php echo $u->nama_mhs ?></td>
-                    <td><?php echo $u->kode_matkul ?></td>
                     <td><?php echo $u->nama_matkul ?></td>
                     <td>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhsmatkul/hapus/'.$u->id_mhsmatkul,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-success">Edit</button>
+                    <button type="button" class="btn btn-sm btn-danger">Hapus</button>
                     </td>
                   </tr>
                   <?php } ?>
@@ -84,4 +86,4 @@
             </div>
           </div>
         </div>
-      </div>      
+      </div>

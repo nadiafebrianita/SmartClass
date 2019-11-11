@@ -95,4 +95,13 @@ class Smt extends CI_Controller {
 		$this->m->update_data($where,$data,'smt');
 		redirect('smt');
 	}
+	public function hapus($id_smt)
+	{
+		$del = "1";
+		$data = array(
+            'del' => $del);
+        $where = array('id_smt' => $id_smt);
+        $this->m->update_data($where,$data,'smt');
+        redirect('smt');
+	}
 }

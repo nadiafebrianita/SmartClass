@@ -45,7 +45,12 @@
                     <td><?php echo $u->alias ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('mhs/edit/'.$u->id_mhs,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhs/hapus/'.$u->id_mhs,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhs/hapus/'.$u->id_mhs,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Mahasiswa-Mata Kuliah, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>

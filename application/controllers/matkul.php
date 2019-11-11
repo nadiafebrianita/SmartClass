@@ -65,10 +65,14 @@ class Matkul extends CI_Controller {
 		$this->m->update_data($where,$data,'matkul');
 		redirect('matkul/aturmatkul');
 	}
-	public function hapus($id_matkul){
-		$where = array('id_matkul' => $id_matkul);
-		$this->m->hapus_data($where,'matkul');
-		redirect('matkul/aturmatkul');
+	public function hapus($id_matkul)
+	{
+		$del = "1";
+		$data = array(
+            'del' => $del);
+        $where = array('id_matkul' => $id_matkul);
+        $this->m->update_data($where,$data,'matkul');
+        redirect('matkul/aturmatkul');
 	}
 
 	//SEARCH//

@@ -75,9 +75,13 @@ class Mhs extends CI_Controller {
 		$this->m_mhs->insert($data, $datascan);
 		redirect('mhs/index');
 	}
-	public function hapus($id_mhs){
-		$where = array('id_mhs' => $id_mhs);
-		$this->m->hapus_data($where,'mhs');
-		redirect('mhs/index');
+	public function hapus($id_mhs)
+	{
+		$del = "1";
+		$data = array(
+            'del' => $del);
+        $where = array('id_mhs' => $id_mhs);
+        $this->m->update_data($where,$data,'mhs');
+        redirect('mhs');
 	}
 }

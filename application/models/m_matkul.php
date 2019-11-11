@@ -5,8 +5,7 @@ class M_matkul extends CI_Model {
 	public function show_matkul(){
         $this->db->select('matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi');
 		$this->db->from('prodi');
-		$this->db->join('matkul', 'prodi.id_prodi=matkul.id_prodi');
-		$this->db->order_by("matkul.kode_matkul", "asc");
+		$this->db->join('matkul', 'prodi.id_prodi=matkul.id_prodi')->where('matkul.del',NULL);
 		$this->db->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query->result ();

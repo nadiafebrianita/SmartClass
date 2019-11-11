@@ -59,9 +59,13 @@ class Fkl extends CI_Controller {
 		$this->m->input_data($data,'fakultas');
 		redirect('fkl');
 	}
-	public function hapus($id_kls){
-		$where = array('id_kls' => $id_kls);
-		$this->m->hapus_data($where,'kelas');
-		redirect('kls/show_kls');
+	public function hapus($id_fakultas)
+	{
+		$del = "1";
+		$data = array(
+            'del' => $del);
+        $where = array('id_fakultas' => $id_fakultas);
+        $this->m->update_data($where,$data,'fakultas');
+        redirect('fkl');
 	}
 }

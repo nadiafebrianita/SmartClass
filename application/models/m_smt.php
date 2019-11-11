@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_smt extends CI_Model {
 	public function tampil(){
         $this->db->select('*');
-		$this->db->from('smt');
+		$this->db->from('smt')->where('del',NULL);
 		$this->db->order_by("tahun", "desc");
 		$this->db->order_by("nama_smt", "desc");
 		$query = $this->db->get();

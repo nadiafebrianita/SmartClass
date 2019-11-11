@@ -61,9 +61,13 @@ class Prodi extends CI_Controller {
 		$this->m->input_data($data,'prodi');
 		redirect('prodi');
 	}
-	public function hapus($id_kls){
-		$where = array('id_kls' => $id_kls);
-		$this->m->hapus_data($where,'kelas');
-		redirect('kls/show_kls');
+	public function hapus($id_prodi)
+	{
+		$del = "1";
+		$data = array(
+            'del' => $del);
+        $where = array('id_prodi' => $id_prodi);
+        $this->m->update_data($where,$data,'prodi');
+        redirect('prodi');
 	}
 }

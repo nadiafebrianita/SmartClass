@@ -77,9 +77,13 @@ class Dosen extends CI_Controller {
 		$this->m_dosen->insert($data, $datascan);
 		redirect('dosen/index');
 	}
-	public function hapus($id_dosen){
-		$where = array('id_dosen' => $id_dosen);
-		$this->m->hapus_data($where,'dosen');
-		redirect('dosen/index');
+	public function hapus($id_dosen)
+	{
+		$del = "1";
+		$data = array(
+            'del' => $del);
+        $where = array('id_dosen' => $id_dosen);
+        $this->m->update_data($where,$data,'dosen');
+        redirect('dosen');
 	}
 }

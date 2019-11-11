@@ -5,7 +5,7 @@ class M_dosen extends CI_Model {
 	public function show_dosen(){
         $this->db->select('dosen.id_dosen, dosen.nama_dosen, dosen.nip, dosen.nidn, user_scan.alias');
 		$this->db->from('dosen');
-		$this->db->join('user_scan', 'dosen.id_scan=user_scan.id_scan', 'left');
+		$this->db->join('user_scan', 'dosen.id_scan=user_scan.id_scan', 'left')->where('dosen.del',NULL);
 		$query = $this->db->get();
 		return $query->result ();
 	}

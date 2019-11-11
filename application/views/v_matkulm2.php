@@ -10,8 +10,9 @@
               <h6 class="h3 text-white d-inline-block mb-5">Tampilkan Berdasarkan</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                 <select class="form-control-sm" name="pilih">
-                  <option value="2" selected>Mahasiswa</option>
-                  <option value="3">Mata Kuliah</option>
+                  <option value="1">Semua</option>
+                  <option value="2" >Mahasiswa</option>
+                  <option value="3"selected>Mata Kuliah</option>
                 </select>
                 <button type="submit" class="btn btn-sm btn-success">Set</a>
               </nav>
@@ -19,22 +20,10 @@
               </form>
               </div>
             <div class="col-lg-5">
-            <form action="<?php echo site_url('mhsmatkul/tampilmhs'); ?>" method="post">
-            <form role="form"> 
-              <h6 class="h3 text-white d-inline-block mb-5">Nama Mahasiswa</h6>
+              <h6 class="h3 text-white d-inline-block mb-5">Nama Mata Kuliah</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
-                <select class="form-control-sm" name="id_mhs">
-                  <option>- Pilih Mahasiswa -</option>
-                    <?php
-                      foreach ($ddmhs->result() as $dd) {
-                        echo "<option value='".$dd->id_mhs."'>".$dd->nama_mhs."</option>";
-                      }
-                    ?>
-                </select>
-                <button type="submit" class="btn btn-sm btn-success">Set</a>
+              <input type="text" class="form-control-sm" name="nama_matkul" value="<?php foreach($s as $s) {echo $s->nama_matkul;} ?>"readonly>
               </nav>
-            </form>
-            </form>
             </div>
           </div>
         </div>
@@ -50,6 +39,22 @@
                 <div class="col">
                   <h3 class="mb-0">Pengaturan Mahasiswa - Mata Kuliah</h3>
                 </div>
+                <form action="<?php echo site_url('mhsmatkul/tambahmhs'); ?>" method="post">
+                <form role="form">
+                <div class="col text-right">
+                <input type="hidden" class="form-control" name="id_jadwal" value="<?php echo $m;?>">
+                  <select class="form-control-sm" name="id_mhs">
+                    <option>- Pilih Mahasiswa -</option>
+                      <?php
+                        foreach ($ddmhs->result() as $dd) {
+                          echo "<option value='".$dd->id_mhs."'>".$dd->nama_mhs."</option>";
+                        }
+                      ?>
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-primary">Tambah</a>
+                </div>
+                </form>
+                </form>
               </div>
             </div>
             <div class="table-responsive">
@@ -59,8 +64,6 @@
                   <tr>
                     <th scope="col">No</th>
                     <th scope="col">Nama Mahasiswa</th>
-                    <th scope="col">Kode Mata Kuliah</th>
-                    <th scope="col">Nama Mata Kuliah</th>
                     <th scope="col">Opsi</th>
                   </tr>
                 </thead>
@@ -72,10 +75,8 @@
                   <tr>
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->nama_mhs ?></td>
-                    <td><?php echo $u->kode_matkul ?></td>
-                    <td><?php echo $u->nama_matkul ?></td>
                     <td>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhsmatkul/hapus/'.$u->id_mhsmatkul,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhsmatkul/hapusmhs/'.$u->id_mhsmatkul,'Hapus');?></button>
                     </td>
                   </tr>
                   <?php } ?>
@@ -84,4 +85,4 @@
             </div>
           </div>
         </div>
-      </div>      
+      </div>

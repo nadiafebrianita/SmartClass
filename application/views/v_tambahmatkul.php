@@ -23,16 +23,16 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label">Kode Mata Kuliah</label>
-                <input type="text" class="form-control" name="kode_matkul" placeholder="">
+                <input type="text" class="form-control" name="kode_matkul" placeholder="Masukkan Kode Mata Kuliah">
               </div>
               <div class="form-group">
                 <label class="form-control-label">Nama Mata Kuliah</label>
-                <input type="text" class="form-control" name="nama_matkul" placeholder="">
+                <input type="text" class="form-control" name="nama_matkul" placeholder="Masukkan Nama Mata Kuliah">
               </div>
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <label class="form-control-label">Jumlah SKS</label>
                 <input type="number" class="form-control" name="sks" placeholder="">
-              </div>
+              </div> -->
               <div class="form-group">
                 <label class="form-control-label">Program Studi</label>
                     <select class="form-control" name="id_prodi" id="id_prodi">
