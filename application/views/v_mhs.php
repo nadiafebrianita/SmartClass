@@ -48,7 +48,7 @@
                     <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhs/hapus/'.$u->id_mhs,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
                     <script>
                     function confirmDialog() {
-                        return confirm("Data berhubungan dengan Tabel Mahasiswa-Mata Kuliah, Yakin akan menghapus?")
+                        return confirm("Data berhubungan dengan Tabel Mahasiswa-Mata Kuliah dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
                     }
                     </script>
                     </td>

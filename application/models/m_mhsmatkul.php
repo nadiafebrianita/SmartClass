@@ -2,15 +2,15 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_mhsmatkul extends CI_Model {
-	public function show_mhsmatkul(){
-        $this->db->select('mhsmatkul.id_mhsmatkul, mhs.nama_mhs, matkul.nama_matkul');
-		$this->db->from('matkul');
-		$this->db->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul');
-		$this->db->join('mhsmatkul', 'jadwal.id_jadwal=mhsmatkul.id_jadwal');
-		$this->db->join('mhs', 'mhsmatkul.id_mhs=mhs.id_mhs');
-		$query = $this->db->get();
-		return $query->result ();
-	}
+	// public function show_mhsmatkul(){
+    //     $this->db->select('mhsmatkul.id_mhsmatkul, mhs.nama_mhs, matkul.nama_matkul');
+	// 	$this->db->from('matkul');
+	// 	$this->db->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul');
+	// 	$this->db->join('mhsmatkul', 'jadwal.id_jadwal=mhsmatkul.id_jadwal');
+	// 	$this->db->join('mhs', 'mhsmatkul.id_mhs=mhs.id_mhs');
+	// 	$query = $this->db->get();
+	// 	return $query->result ();
+	// }
 	//Dropdown milih nama mahasiswa
 	public function ddmhs()
 	{
@@ -31,11 +31,11 @@ class M_mhsmatkul extends CI_Model {
 	}
 	//Tampil data mhs berdasarkan dd
 	public function tampilallmhs(){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.id_mhs, mhs.nama_mhs, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del');
+		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.id_mhs, mhs.nama_mhs, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del, jadwal.del');
 		$this->db->from('mhs');
 		$this->db->join('mhsmatkul', 'mhs.id_mhs=mhsmatkul.id_mhs');
 		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('mhsmatkul.del',NULL)->where('mhs.del',NULL);
+		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('mhsmatkul.del',NULL)->where('mhs.del',NULL)->where('jadwal.del',NULL);
 		$this->db->order_by("mhs.nama_mhs", "asc");
 		$query = $this->db->get();
 		return $query->result ();

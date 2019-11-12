@@ -53,7 +53,12 @@
                     <td><?php echo $u->nama_prodi ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('matkul/edit/'.$u->id_matkul,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('matkul/hapus/'.$u->id_matkul,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('matkul/hapus/'.$u->id_matkul,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>

@@ -62,11 +62,23 @@ class Mhs extends CI_Controller {
 		$id_scan = $this->input->post('id_scan');
 		$nama_mhs = $this->input->post('nama_mhs');
 		$nim = $this->input->post('nim');
+		// $this->db->select('*')->from('mhs')->where('nama_mhs',$nama_mhs);
+		// $query = $this->db->get();
+		// $cek = $query->row();
+		// if ($nama_mhs==$cek){
+		// 	$rec = NULL;
+		// 	$data = array(
+		// 		'del' => $rec);
+		// 	$where = array('nama_mhs' => $nama_mhs);
+		// 	$this->m->update_data($where,$data,'mhs');
+		// 	redirect('mhs');
+		// }		
+		// else {echo $cek;}
 		$datascan = array(
 			'id_scan' => $id_scan,
 			'alias' => $alias
 			);
- 
+	
 		$data = array(
 			'nama_mhs' => $nama_mhs,
 			'nim' => $nim,

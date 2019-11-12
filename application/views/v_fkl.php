@@ -43,7 +43,12 @@
                     <td><?php echo $u->singkat ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('fkl/edit/'.$u->id_fakultas,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('fkl/hapus/'.$u->id_fakultas,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('fkl/hapus/'.$u->id_fakultas,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Program Studi, Tabel Mata Kuliah, serta Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>

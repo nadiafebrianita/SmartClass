@@ -47,7 +47,12 @@
                     <td><?php echo $u->alias ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('dosen/edit/'.$u->id_dosen,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('dosen/hapus/'.$u->id_dosen,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('dosen/hapus/'.$u->id_dosen,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>

@@ -43,7 +43,12 @@
                     <td><?php echo $u->ket ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('kls/edit/'.$u->id_kls,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('kls/hapus/'.$u->id_kls,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('kls/hapus/'.$u->id_kls,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>

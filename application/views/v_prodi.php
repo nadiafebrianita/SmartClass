@@ -43,7 +43,12 @@
                     <td><?php echo $u->nama_fakultas ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('prodi/edit/'.$u->id_prodi,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('prodi/hapus/'.$u->id_prodi,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('prodi/hapus/'.$u->id_prodi,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Mata Kuliah serta Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>

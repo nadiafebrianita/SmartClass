@@ -3,9 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_matkul extends CI_Model {
 	public function show_matkul(){
-        $this->db->select('matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi');
+        $this->db->select('matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi, prodi.del, fakultas.del');
 		$this->db->from('prodi');
-		$this->db->join('matkul', 'prodi.id_prodi=matkul.id_prodi')->where('matkul.del',NULL);
+		$this->db->join('matkul', 'prodi.id_prodi=matkul.id_prodi');
+		$this->db->join('fakultas', 'fakultas.id_fakultas=prodi.id_fakultas')->where('matkul.del',NULL)->where('prodi.del',NULL)->where('fakultas.del',NULL);
 		$this->db->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query->result ();

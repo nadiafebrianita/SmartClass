@@ -55,7 +55,12 @@
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-success"><?php echo anchor('smt/aktif/'.$u->id_smt,'Aktif');?></button>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('smt/edit/'.$u->id_smt,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('smt/hapus/'.$u->id_smt,'Hapus');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('smt/hapus/'.$u->id_smt,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <script>
+                    function confirmDialog() {
+                        return confirm("Data berhubungan dengan Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
+                    }
+                    </script>
                     </td>
                   </tr>
                   <?php } ?>
