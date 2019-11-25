@@ -13,11 +13,14 @@
           <div class="card shadow">
             <div class="card-header border-0">
               <div class="row align-items-center">
-                <div class="col">
+                <div class="col-lg-10">
                   <h3 class="mb-0">Data Mahasiswa</h3>
                 </div>
                 <div class="col text-right">
                   <a href="<?php echo site_url('mhs/tambah'); ?>" class="btn btn-sm btn-primary">Tambah</a>
+                </div>
+                <div class="col text-right">
+                  <a href="<?php echo site_url('mhs/form'); ?>" class="btn btn-sm btn-success">Import</a>
                 </div>
               </div>
             </div>
@@ -44,8 +47,8 @@
                     <td><?php echo $u->nim ?></td>
                     <td><?php echo $u->alias ?></td>
                     <td>
-                    <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('mhs/edit/'.$u->id_mhs,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhs/hapus/'.$u->id_mhs,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
+                    <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('mhs/edit/'.$u->nim,'Edit');?></button>
+                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhs/hapus/'.$u->nim,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
                     <script>
                     function confirmDialog() {
                         return confirm("Data berhubungan dengan Tabel Mahasiswa-Mata Kuliah dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")

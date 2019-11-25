@@ -23,11 +23,11 @@
             <form role="form"> 
               <h6 class="h3 text-white d-inline-block mb-5">Nama Mahasiswa</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
-                <select class="form-control-sm" name="id_mhs">
+                <select class="form-control-sm" name="nim">
                   <option>- Pilih Mahasiswa -</option>
                     <?php
                       foreach ($ddmhs->result() as $dd) {
-                        echo "<option value='".$dd->id_mhs."'>".$dd->nama_mhs."</option>";
+                        echo "<option value='".$dd->nim."'>".$dd->nama_mhs."</option>";
                       }
                     ?>
                 </select>

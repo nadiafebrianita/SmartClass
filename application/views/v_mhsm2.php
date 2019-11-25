@@ -22,7 +22,8 @@
             <div class="col-lg-5">
               <h6 class="h3 text-white d-inline-block mb-5">Nama Mahasiswa</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
-              <input type="text" class="form-control-sm" name="nama_mhs" value="<?php foreach($s as $s) {echo $s->nama_mhs;} ?>"readonly>
+              <input type="hidden" class="form-control-sm" name="nim" value="<?php echo $m; ?>">
+              <input type="text" class="form-control-sm" name="nama_mhs" size="35" value="<?php foreach($s as $s) {echo $s->nama_mhs;} ?>"readonly>
               </nav>
             </div>
           </div>
@@ -42,7 +43,7 @@
                 <form action="<?php echo site_url('mhsmatkul/tambahmatkul'); ?>" method="post">
                 <form role="form">
                 <div class="col text-right">
-                <input type="hidden" class="form-control" name="id_mhs" value="<?php echo $m;?>">
+                <input type="hidden" class="form-control" name="nim" value="<?php echo $m;?>">
                   <select class="form-control-sm" name="id_jadwal">
                     <option>- Pilih Mata Kuliah -</option>
                       <?php

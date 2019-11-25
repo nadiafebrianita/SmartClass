@@ -28,4 +28,23 @@ class M_matkul extends CI_Model {
 		$query = $this->db->get();
 		return $query->result ();
 	  }
+
+	public function insert_multiple($dataprodi,$data)
+	{
+		$this->db->trans_start();
+		for($i = 0; $i < count($dataprodi); $i++){
+			$this->db->select('id_prodi, nama_prodi')->from('prodi')->where('nama_prodi',$dataprodi[$i]['nama_prodi']);
+			$prodi=$this->db->get()->result();
+			$cekprodi = $prodi[0]->nama_prodi;
+			if(!empty($prodi) && $cekprodi==$dataprodi[$i]['nama_prodi']){
+				$id_prodi = $prodi[0]->id_prodi;
+				$data[$i]['id_prodi'] = $id_prodi;
+				$this->db->insert('matkul', $data[$i]);
+			}
+			else {
+				echo "<script>alert('Import Gagal!');history.go(-1);</script>";
+			}
+		}
+		$this->db->trans_complete();
+	}
 }

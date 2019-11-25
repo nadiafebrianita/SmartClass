@@ -27,9 +27,11 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">No</th>
-                    <th scope="col">Nama Mata Kuliah</th>
-                    <th scope="col">Nama Mahasiswa</th>
+                    <th scope="col">Tanggal</th>
                     <th scope="col">Waktu</th>
+                    <th scope="col">Kode Mata Kuliah</th>
+                    <th scope="col">Mata Kuliah</th>
+                    <th scope="col">Mahasiswa</th>
                   </tr>
                   <?php 
                   $no = 1;
@@ -39,9 +41,11 @@
                 <tbody>
                   <tr>
                     <td><?php echo $no++ ?></td>
+                    <td><?php echo $u->tanggal_scan ?></td>
+                    <td><?php echo $u->waktu_scan ?></td>
+                    <td><?php echo $u->kode_matkul ?></td>
                     <td><?php echo $u->nama_matkul ?></td>
                     <td><?php echo $u->nama_mhs ?></td>
-                    <td><?php echo $u->waktu ?></td>
                   </tr>
                   <?php } ?>
                 </tbody>

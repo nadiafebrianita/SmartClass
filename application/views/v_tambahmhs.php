@@ -23,17 +23,13 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label">Nama Mahasiswa</label>
-                <input type="hidden" class="form-control" name="id_mhs">
+                <input type="hidden" class="form-control" name="nim">
                 <input type="text" class="form-control" name="nama_mhs" placeholder="Masukkan Nama Mahasiswa">
               </div>
               <div class="form-group">
                 <label class="form-control-label">NIM</label>
-                <input type="text" class="form-control" name="nim" placeholder="Masukkan NIM">
-              </div>
-              <div class="form-group">
-                <label class="form-control-label">Alias</label>
-                <input type="hidden" class="form-control" name="id_scan">
-                <input type="text" class="form-control" name="alias" placeholder="Masukkan Nama Singkat">
+                <input type="number" class="form-control" name="nim" placeholder="Masukkan NIM">
+                <input type="hidden" name="id_scan">
               </div>
             </div>
           </div>

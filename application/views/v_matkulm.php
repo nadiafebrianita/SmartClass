@@ -3,22 +3,22 @@
       <div class="container-fluid">
         <div class="header-body">
           <!-- Card stats -->
-          <div class="row align-items-center py-1">
+          <div class="row align-items-center">
             <div class="col-lg-5">
             <form action="<?php echo site_url('mhsmatkul/pilih'); ?>" method="post">
             <form role="form">
               <h6 class="h3 text-white d-inline-block mb-5">Tampilkan Berdasarkan</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                 <select class="form-control-sm" name="pilih">
-                  <option value="2" >Mahasiswa</option>
                   <option value="3" selected>Mata Kuliah</option>
+                  <option value="2" >Mahasiswa</option>
                 </select>
                 <button type="submit" class="btn btn-sm btn-success">Set</a>
               </nav>
               </form>
               </form>
               </div>
-            <div class="col-lg-6">
+            <div class="col-lg-7">
             <form action="<?php echo site_url('mhsmatkul/tampilmatkul'); ?>" method="post">
             <form role="form"> 
               <h6 class="h3 text-white d-inline-block mb-5">Nama Mata Kuliah</h6>
@@ -47,8 +47,14 @@
           <div class="card shadow">
             <div class="card-header border-0">
               <div class="row align-items-center">
-                <div class="col">
+                <div class="col-lg-10">
                   <h3 class="mb-0">Pengaturan Mahasiswa - Mata Kuliah</h3>
+                </div>
+                <div class="col text-right">
+                  <a href="<?php echo site_url('mhsmatkul/tambah'); ?>" class="btn btn-sm btn-primary">Tambah</a>
+                </div>
+                <div class="col text-right">
+                  <a href="<?php echo site_url('mhsmatkul/form'); ?>" class="btn btn-sm btn-success">Import</a>
                 </div>
               </div>
             </div>

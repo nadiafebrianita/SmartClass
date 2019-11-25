@@ -13,11 +13,14 @@
           <div class="card shadow">
             <div class="card-header border-0">
               <div class="row align-items-center">
-                <div class="col">
+                <div class="col-lg-10">
                   <h3 class="mb-0">Pengaturan Jadwal</h3>
                 </div>
                 <div class="col text-right">
                   <a href="<?php echo site_url('jadwal/tambah'); ?>" class="btn btn-sm btn-primary">Tambah</a>
+                </div>
+                <div class="col text-right">
+                  <a href="<?php echo site_url('jadwal/form'); ?>" class="btn btn-sm btn-success">Import</a>
                 </div>
               </div>
             </div>

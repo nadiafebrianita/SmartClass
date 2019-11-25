@@ -10,7 +10,13 @@ class M_presensimhs extends CI_Model {
 		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul');
 		$query = $this->db->get();
 		return $query->result ();
-    }
+	}
+	public function show(){
+		$this->db->select('*');
+		$this->db->from('viewpresensi');
+		$query = $this->db->get();
+		return $query->result ();
+	}
 }
 
 

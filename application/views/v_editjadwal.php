@@ -28,11 +28,11 @@
                 <input type="hidden" class="form-control" name="id_smt" value="<?php echo $u->id_smt ?>">
                 <select class="form-control" name="hari">
                   <option value="<?php echo $u->hari ?>">- Edit Hari -</option>
-                  <option value="Senin">Senin</option>
-                  <option value="Selasa">Selasa</option>
-                  <option value="Rabu">Rabu</option>
-                  <option value="Kamis">Kamis</option>
-                  <option value="Jumat">Jumat</option>
+                  <option value="Monday">Monday</option>
+                  <option value="Tuesday">Tuesday</option>
+                  <option value="Wednesday">Wednesday</option>
+                  <option value="Thursday">Thursday</option>
+                  <option value="Friday">Friday</option>
                 </select>              
               </div>
               <div class="row align-items-center py-1">

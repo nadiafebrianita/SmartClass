@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Matkul extends CI_Controller {
+	private $filename = "import_data"; // Kita tentukan nama filenya
+
 	function __construct()
 	{
         parent::__construct();
@@ -90,4 +92,75 @@ class Matkul extends CI_Controller {
 		);
 		echo json_encode($callback); // konversi varibael $callback menjadi JSON
 	  }
+	
+	//IMPORT EXCEL
+	public function form(){
+		$data = array(); // Buat variabel $data sebagai array
+		if(isset($_POST['preview'])){ // Jika user menekan tombol Preview pada form
+			
+			// lakukan upload file dengan memanggil function upload yang ada di SiswaModel.php
+			$upload = $this->m->upload_file($this->filename);
+			
+			if($upload['result'] == "success"){ // Jika proses upload sukses
+			// Load plugin PHPExcel nya
+			include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+			
+			$csvreader = PHPExcel_IOFactory::createReader('CSV');
+			$loadcsv = $csvreader->load('csv/'.$this->filename.'.csv'); // Load file yang tadi diupload ke folder csv
+			$sheet = $loadcsv->getActiveSheet()->getRowIterator();
+			
+			// Masukan variabel $sheet ke dalam array data yang nantinya akan di kirim ke file form.php
+			// Variabel $sheet tersebut berisi data-data yang sudah diinput di dalam excel yang sudha di upload sebelumnya
+			$data['sheet'] = $sheet; 
+			}else{ // Jika proses upload gagal
+			$data['upload_error'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
+			}
+		}
+		$this->load->view('header');
+		$this->load->view('v_matkulform', $data);
+		$this->load->view('footer');
+		}
+	public function import(){
+		// Load plugin PHPExcel nya
+		include APPPATH.'third_party/PHPExcel/PHPExcel.php';
+		$csvreader = PHPExcel_IOFactory::createReader('CSV');
+		$loadcsv = $csvreader->load('csv/'.$this->filename.'.csv'); // Load file yang tadi diupload ke folder csv
+		$sheet = $loadcsv->getActiveSheet()->getRowIterator();
+		// Buat sebuah variabel array untuk menampung array data yg akan kita insert ke database
+		$data = [];
+		$dataprodi = [];
+		$numrow = 1;
+		foreach($sheet as $row){
+			// Cek $numrow apakah lebih dari 1
+			// Artinya karena baris pertama adalah nama-nama kolom
+			// Jadi dilewat saja, tidak usah diimport
+			if($numrow > 1){
+			$cellIterator = $row->getCellIterator();
+			$cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
+			$get = array(); // Valuenya akan di simpan kedalam array,dimulai dari index ke 0
+			foreach ($cellIterator as $cell) {
+				array_push($get, $cell->getValue()); // Menambahkan value ke variabel array $get
+			}
+			// <-- END
+			// Ambil data value yang telah di ambil dan dimasukkan ke variabel $get
+			$kode = strtoupper($get[1]); 
+			$nama = ucwords(strtolower($get[2])); 
+			$prodi = ucwords(strtolower($get[3]));
+			$id_prodi = $this->input->post('id_prodi');
+			// Kita push (add) array data ke variabel data
+			array_push($dataprodi,[
+				'nama_prodi'=>$prodi
+			]);
+			array_push($data, [
+				'kode_matkul'=>$kode, // Insert data nis
+				'nama_matkul'=>$nama,
+				'id_prodi'=>$id_prodi
+			]);
+			}
+			$numrow++; // Tambah 1 setiap kali looping
+		}
+		//var_dump($dataprodi); die;
+		$this->m_matkul->insert_multiple($dataprodi,$data);
+		redirect("matkul/aturmatkul"); // Redirect ke halaman awal (ke controller siswa fungsi index)
+	}
 }

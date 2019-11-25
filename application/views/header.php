@@ -37,6 +37,15 @@
   <link href="<?php echo base_url('assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css') ?>" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="<?php echo base_url('assets/css/argon-dashboard.min.css?v=1.1.0') ?>" rel="stylesheet" />
+  <!-- Load File jquery.min.js yang ada difolder js -->
+  <script src="<?php echo base_url('js/jquery2.min.js'); ?>"></script>
+  <script>
+  $(document).ready(function(){
+    // Sembunyikan alert validasi kosong
+    $("#kosong").hide();
+  });
+  </script>
+
   <!-- Google Tag Manager -->
   <script>
     (function(w, d, s, l, i) {
@@ -124,7 +133,7 @@
                     <a href="<?php echo site_url('jadwal/aturjadwal'); ?>" class="nav-link">Pengaturan Jadwal</a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('mhsmatkul/mhs'); ?>" class="nav-link" >Pengaturan Mahasiswa Mata Kuliah</a>
+                    <a href="<?php echo site_url('mhsmatkul/matkul'); ?>" class="nav-link" >Pengaturan Mahasiswa Mata Kuliah</a>
                   </li>
                   <li class="nav-item">
                     <a href="<?php echo site_url('kls/show_kls'); ?>" class="nav-link">Pengaturan Kelas</a>

@@ -24,7 +24,7 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label">Nama Mahasiswa</label>
-                <input type="hidden" class="form-control" name="id_mhs" value="<?php echo $u->id_mhs ?>">
+                <input type="hidden" class="form-control" name="nim" value="<?php echo $u->nim ?>">
                 <input type="text" class="form-control" name="nama_mhs" value="<?php echo $u->nama_mhs ?>">
               </div>
               <div class="form-group">

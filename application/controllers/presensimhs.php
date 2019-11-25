@@ -11,7 +11,7 @@ class Presensimhs extends CI_Controller {
 
 	public function index()
 	{
-		$data['u']=$this->m_presensimhs->show_presensimhs();
+		$data['u']=$this->m_presensimhs->show();
         $this->load->view('header');
         $this->load->view('v_presensimhs',$data);
         $this->load->view('footer');
