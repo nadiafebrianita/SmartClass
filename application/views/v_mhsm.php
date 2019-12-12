@@ -24,7 +24,7 @@
               <h6 class="h3 text-white d-inline-block mb-5">Nama Mahasiswa</h6>
               <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                 <select class="form-control-sm" name="nim">
-                  <option>- Pilih Mahasiswa -</option>
+                  <option value="0">Semua</option>
                     <?php
                       foreach ($ddmhs->result() as $dd) {
                         echo "<option value='".$dd->nim."'>".$dd->nama_mhs."</option>";
@@ -54,7 +54,7 @@
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table class="table align-items-center table-flush">
+              <table id="mhsmatkulm" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">No</th>
@@ -81,6 +81,51 @@
                   <?php } ?>
                 </tbody>
               </table>
+              <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#mhsmatkulm').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                          {
+                            extend: 'copyHtml5',
+                            title: function(){
+                              return "Data Mahasiswa Mata Kuliah - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          },
+                          {
+                            extend: 'pdfHtml5',
+                            title: function(){
+                              return "Data Mahasiswa Mata Kuliah - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          },
+                          {
+                            extend: 'excelHtml5',
+                            title: function(){
+                              return "Data Mahasiswa Mata Kuliah - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          },
+                          {
+                            extend: 'csvHtml5',
+                            title: function(){
+                              return "Data Mahasiswa Mata Kuliah - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          }
+                        ]
+                    });
+                });
+              </script>
             </div>
           </div>
         </div>

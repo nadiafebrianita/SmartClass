@@ -24,11 +24,11 @@
               <div class="form-group">
                 <label class="form-control-label">Nama Mahasiswa</label>
                 <input type="hidden" class="form-control" name="nim">
-                <input type="text" class="form-control" name="nama_mhs" placeholder="Masukkan Nama Mahasiswa">
+                <input type="text" class="form-control" name="nama_mhs" placeholder="Masukkan Nama Mahasiswa" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label">NIM</label>
-                <input type="number" class="form-control" name="nim" placeholder="Masukkan NIM">
+                <input type="number" class="form-control" name="nim" placeholder="Masukkan NIM" required>
                 <input type="hidden" name="id_scan">
               </div>
             </div>

@@ -55,13 +55,16 @@ class M_mhs extends CI_Model {
 	public function insert_multiple($datascan,$data)
 	{
 		$this->db->trans_start();
-		// foreach($datascan as $scan){
 		for($i = 0; $i < count($datascan); $i++){
-			$this->db->insert('user_scan', $datascan[$i]);
-			$id_scan = $this->db->insert_id(); 
+			$this->db->select('nim, nama_mhs')->from('mhs')->where('nim',$data[$i]['nim'])->where('nama_mhs',$data[$i]['nama_mhs']);
+			$ada=$this->db->get()->result();
+			if(empty($ada)){
+				$this->db->insert('user_scan', $datascan[$i]);
+				$id_scan = $this->db->insert_id(); 
 
-			$data[$i]['id_scan'] = $id_scan;
-			$this->db->insert('mhs', $data[$i]);
+				$data[$i]['id_scan'] = $id_scan;
+				$this->db->insert('mhs', $data[$i]);
+			}		
 		}
 		$this->db->trans_complete();
 		// die;

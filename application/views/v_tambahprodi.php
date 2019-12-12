@@ -23,12 +23,12 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label">Nama Program Studi</label>
-                <input type="text" class="form-control" name="nama_prodi" placeholder="Masukkan Nama Program Studi">
+                <input type="text" class="form-control" name="nama_prodi" placeholder="Masukkan Nama Program Studi" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label">Fakultas</label>
-                    <select class="form-control" name="id_fakultas" id="id_fakultas">
-                      <option value="1">- Pilih Prodi -</option>
+                    <select required class="form-control" name="id_fakultas" id="id_fakultas">
+                      <option value="">- Pilih Fakultas -</option>
                       <?php
                         foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_fakultas."'>".$baris->nama_fakultas."</option>";

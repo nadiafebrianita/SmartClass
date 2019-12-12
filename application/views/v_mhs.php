@@ -26,7 +26,7 @@
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table class="table align-items-center table-flush">
+              <table id="mhs" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">No</th>
@@ -35,12 +35,12 @@
                     <th scope="col">Alias</th>
                     <th scope="col">Opsi</th>
                   </tr>
-                  <?php 
+                </thead>
+                <tbody>
+                <?php 
                   $no = 1;
                   foreach($mhs as $u){ 
                 ?>
-                </thead>
-                <tbody>
                   <tr>
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->nama_mhs ?></td>
@@ -59,6 +59,51 @@
                   <?php } ?>
                 </tbody>
               </table>
+              <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#mhs').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                          {
+                            extend: 'copyHtml5',
+                            title: function(){
+                              return "Data Mahasiswa - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          },
+                          {
+                            extend: 'pdfHtml5',
+                            title: function(){
+                              return "Data Mahasiswa - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          },
+                          {
+                            extend: 'excelHtml5',
+                            title: function(){
+                              return "Data Mahasiswa - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          },
+                          {
+                            extend: 'csvHtml5',
+                            title: function(){
+                              return "Data Mahasiswa - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3]
+                            }
+                          }
+                        ]
+                    });
+                });
+              </script>
             </div>
           </div>
         </div>

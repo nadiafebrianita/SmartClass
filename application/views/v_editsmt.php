@@ -25,7 +25,11 @@
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Nama Semester</label>
                 <input type="hidden" class="form-control" name="id_smt" value="<?php echo $u->id_smt ?>">
-                <input type="text" class="form-control" name="nama_smt" value="<?php echo $u->nama_smt ?>">
+                  <select class="form-control mt-2" name="nama_smt">
+                    <option value="<?php echo $u->nama_smt ?>"><?php echo $u->nama_smt ?></option>
+                    <option>Gasal</option>
+                    <option>Genap</option>
+                  </select>
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Tahun</label>

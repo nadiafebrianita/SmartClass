@@ -7,7 +7,10 @@ class Prodi extends CI_Controller {
         parent::__construct();
         $this->load->model('m');
         $this->load->model('m_prodi');
-        $this->load->helper('url');
+		$this->load->helper('url');
+		if($this->session->userdata('status') != "login"){
+			redirect(site_url("admin/login"));
+		}
     }
 
 	public function index()

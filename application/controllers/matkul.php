@@ -9,15 +9,35 @@ class Matkul extends CI_Controller {
         parent::__construct();
         $this->load->model('m_matkul');
         $this->load->model('m');
-        $this->load->helper('url');
+		$this->load->helper('url');
+		if($this->session->userdata('status') != "login"){
+			redirect(site_url("admin/login"));
+		}
     }
 
 	public function aturmatkul()
 	{
 		$data['u']=$this->m_matkul->show_matkul();
+		$data['ddprodi']=$this->m_matkul->ddprodi();
+		$data['p']=1;
 		$this->load->view('header');
         $this->load->view('v_aturmatkul',$data);	
 		$this->load->view('footer');
+	}
+	public function prodi()
+	{
+		$id_prodi = $this->input->post('id_prodi');
+        if($id_prodi=="0"){
+            redirect('matkul/aturmatkul');
+        }
+        else{
+            //$where = array('id_prodi' => $id_prodi);
+			$data['u']=$this->m_matkul->selected($id_prodi);
+			$data['ddprodi']=$this->m_matkul->ddprodi();
+			$this->load->view('header');
+			$this->load->view('v_aturmatkul',$data);
+			$this->load->view('footer');	
+			}
 	}
 	public function tambah()
     {
@@ -37,8 +57,15 @@ class Matkul extends CI_Controller {
 			'nama_matkul' => $nama_matkul,
 			'id_prodi' => $id_prodi
 			);
-		$this->m->input_data($data,'matkul');
-		redirect('matkul/aturmatkul');
+		$res = $this->m->input_data($data,'matkul');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
+			redirect('matkul/aturmatkul');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menambahkan Data, Mata Kuliah Sudah Terdaftar");
+			redirect('matkul/aturmatkul');
+		}
 	}
 	
 	public function edit($id_matkul)
@@ -64,8 +91,15 @@ class Matkul extends CI_Controller {
 			);
 	
 		$where = array('id_matkul' => $id_matkul);
-		$this->m->update_data($where,$data,'matkul');
-		redirect('matkul/aturmatkul');
+		$res = $this->m->update_data($where,$data,'matkul');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
+			redirect('matkul/aturmatkul');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengubah Data");
+			redirect('matkul/aturmatkul');
+		}
 	}
 	public function hapus($id_matkul)
 	{
@@ -73,25 +107,33 @@ class Matkul extends CI_Controller {
 		$data = array(
             'del' => $del);
         $where = array('id_matkul' => $id_matkul);
-        $this->m->update_data($where,$data,'matkul');
-        redirect('matkul/aturmatkul');
+		
+		$res = $this->m->update_data($where,$data,'matkul');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
+			redirect('matkul/aturmatkul');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menghapus Data");
+			redirect('matkul/aturmatkul');
+		}
 	}
 
 	//SEARCH//
-	public function search(){
-		// Ambil data NIS yang dikirim via ajax post
-		$keyword = $this->input->post('keyword');
-		$siswa = $this->m_matkul->search($keyword);
+	// public function search(){
+	// 	// Ambil data NIS yang dikirim via ajax post
+	// 	$keyword = $this->input->post('keyword');
+	// 	$siswa = $this->m_matkul->search($keyword);
 		
-		// Kita load file view.php sambil mengirim data siswa hasil query function search di SiswaModel
-		$hasil = $this->load->view('aturmatkul', array('matkul'=>$siswa), true);
+	// 	// Kita load file view.php sambil mengirim data siswa hasil query function search di SiswaModel
+	// 	$hasil = $this->load->view('aturmatkul', array('matkul'=>$siswa), true);
 		
-		// Buat sebuah array
-		$callback = array(
-		  'hasil' => $hasil, // Set array hasil dengan isi dari view.php yang diload tadi
-		);
-		echo json_encode($callback); // konversi varibael $callback menjadi JSON
-	  }
+	// 	// Buat sebuah array
+	// 	$callback = array(
+	// 	  'hasil' => $hasil, // Set array hasil dengan isi dari view.php yang diload tadi
+	// 	);
+	// 	echo json_encode($callback); // konversi varibael $callback menjadi JSON
+	//   }
 	
 	//IMPORT EXCEL
 	public function form(){

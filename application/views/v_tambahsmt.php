@@ -22,15 +22,16 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label class="form-control-label" for="example3cols1Input">Nama Semester</label>
-                <select class="form-control" name="nama_smt">
+                <label class="form-control-label">Nama Semester</label>
+                <select class="form-control" name="nama_smt" required>
+                  <option value="">- Pilih Nama Semester -</option>
                   <option>Gasal</option>
                   <option>Genap</option>
                 </select>
               </div>
               <div class="form-group">
-                <label class="form-control-label" for="example3cols1Input">Tahun</label>
-                <input type="text" class="form-control" name="tahun" placeholder="Masukkan Tahun">
+                <label class="form-control-label">Tahun</label>
+                <input type="text" class="form-control" name="tahun" placeholder="Masukkan Tahun, contoh: 2019/2020" required>
               </div>
             </div>
           </div>

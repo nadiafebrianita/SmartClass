@@ -22,12 +22,12 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
-                <label class="form-control-label" for="example3cols1Input">Nama Kelas</label>
-                <input type="text" class="form-control" name="nama_kls" placeholder="contoh: E201">
+                <label class="form-control-label" >Nama Kelas</label>
+                <input type="text" class="form-control" name="nama_kls" placeholder="Masukkan Nama Kelas contoh: E201" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Keterangan</label>
-                <input type="text" class="form-control" name="ket" placeholder="Berikan keterangan">
+                <input type="text" class="form-control" name="ket" placeholder="Berikan keterangan" required>
               </div>
             </div>
           </div>

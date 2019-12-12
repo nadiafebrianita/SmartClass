@@ -7,7 +7,10 @@ class Dosen extends CI_Controller {
         parent::__construct();
         $this->load->model('m');
         $this->load->model('m_dosen');
-        $this->load->helper(array('form', 'url'));
+		$this->load->helper(array('form', 'url'));
+		if($this->session->userdata('status') != "login"){
+			redirect(site_url("admin/login"));
+		}
     }
 
 	public function index()

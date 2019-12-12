@@ -24,20 +24,20 @@
               <div class="form-group">
                 <label class="form-control-label">Nama Dosen</label>
                 <input type="hidden" class="form-control" name="id_dosen">
-                <input type="text" class="form-control" name="nama_dosen" placeholder="Masukkan Nama Dosen beserta Gelar">
+                <input type="text" class="form-control" name="nama_dosen" placeholder="Masukkan Nama Dosen beserta Gelar" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label">NIP</label>
-                <input type="text" class="form-control" name="nip" placeholder="Masukkan NIP">
+                <input type="text" class="form-control" name="nip" placeholder="Masukkan NIP" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label">NIDN</label>
-                <input type="text" class="form-control" name="nidn" placeholder="Masukkan NIDN">
+                <input type="text" class="form-control" name="nidn" placeholder="Masukkan NIDN" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label">Alias</label>
                 <input type="hidden" class="form-control" name="id_scan">
-                <input type="text" class="form-control" name="alias" placeholder="Masukkan Nama Singkat">
+                <input type="text" class="form-control" name="alias" placeholder="Masukkan Nama Singkat" required>
               </div>
             </div>
           </div>

@@ -9,25 +9,36 @@ class Jadwal extends CI_Controller {
         parent::__construct();
         $this->load->model('m');
         $this->load->model('m_jadwal');
-        $this->load->helper('url');
+		$this->load->helper('url');
+		if($this->session->userdata('status') != "login"){
+			redirect(site_url("admin/login"));
+		}
     }
 
 	public function aturjadwal()
 	{
 		$data['jadwal']=$this->m_jadwal->show_jadwal();
-		$data['dosen2'] = $this->m_jadwal->dosen2();
+		$data['ddprodi']=$this->m_jadwal->ddprodi();
+		$data['p']=1;
 		$this->load->view('header');
 		$this->load->view('v_aturjadwal',$data);
 		$this->load->view('footer');	
 		
 	}
-	public function show_jadwal()
+	public function prodi()
 	{
-		$data['jadwal']=$this->m_jadwal->show_jadwal();
-		$this->load->view('header');
-		$this->load->view('v_jadwal',$data);
-		$this->load->view('footer');	
-		
+		$id_prodi = $this->input->post('id_prodi');
+        if($id_prodi=="0"){
+            redirect('jadwal/aturjadwal');
+        }
+        else{
+            //$where = array('id_prodi' => $id_prodi);
+			$data['jadwal']=$this->m_jadwal->selected($id_prodi);
+			$data['ddprodi']=$this->m_jadwal->ddprodi();
+			$this->load->view('header');
+			$this->load->view('v_aturjadwal',$data);
+			$this->load->view('footer');	
+			}
 	}
 	public function tambah(){
 		$data['ddsmt'] = $this->m_jadwal->ddsmt();
@@ -51,46 +62,27 @@ class Jadwal extends CI_Controller {
 			$id_dosen2 = NULL;
 		}
 		$id_kls = $this->input->post('id_kls1');
-		if($id_matkul==0){
-			echo '<script>alert("Belum Isi Matkul!");</script>';
-			redirect('jadwal/tambah', 'refresh');
-		}
-		if($id_dosen==0){
-			echo '<script>alert("Belum Isi Dosen!");</script>';
-			redirect('jadwal/tambah', 'refresh');
-		}
-		if($id_kls==0){
-			echo '<script>alert("Belum Isi Kelas!");</script>';
-			redirect('jadwal/tambah', 'refresh');
-		}
-		if($hari=="- Pilih Hari -"){
-			echo '<script>alert("Belum Isi Hari!");</script>';
-			redirect('jadwal/tambah', 'refresh');
-		}
-		if($waktu=="00:00"){
-			echo '<script>alert("Belum Isi Waktu Awal!");</script>';
-			redirect('jadwal/tambah', 'refresh');
-		}
-		if($akhir=="00:00"){
-			echo '<script>alert("Belum Isi Waktu Akhir!");</script>';
-			redirect('jadwal/tambah', 'refresh');
-		}
+		$data = array(
+			'id_smt' => $id_smt,
+			'hari' => $hari,
+			'waktu' => $waktu,
+			'akhir' => $akhir,
+			'id_matkul' => $id_matkul,
+			'id_dosen' => $id_dosen,
+			'id_dosen2' => $id_dosen2,
+			'id_kls' => $id_kls
+			);
 		
-		else{
-			$data = array(
-				'id_smt' => $id_smt,
-				'hari' => $hari,
-				'waktu' => $waktu,
-				'akhir' => $akhir,
-				'id_matkul' => $id_matkul,
-				'id_dosen' => $id_dosen,
-				'id_dosen2' => $id_dosen2,
-				'id_kls' => $id_kls
-				);
-			$this->m->input_data($data,'jadwal');
+		$res = $this->m_jadwal->cek($data);
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
+			redirect('jadwal/aturjadwal');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menambahkan Data, Kelas Dipakai");
 			redirect('jadwal/aturjadwal');
 		}
-		
+		//$this->m->input_data($data,'jadwal');
 		
 	}
 	public function hapus($id_jadwal)
@@ -99,8 +91,15 @@ class Jadwal extends CI_Controller {
 		$data = array(
             'del' => $del);
         $where = array('id_jadwal' => $id_jadwal);
-        $this->m->update_data($where,$data,'jadwal');
-        redirect('jadwal/aturjadwal');
+        $res = $this->m->update_data($where,$data,'jadwal');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
+			redirect('jadwal/aturjadwal');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menghapus Data");
+			redirect('jadwal/aturjadwal');
+		}
 	}
 
 	public function edit($id_jadwal)
@@ -110,7 +109,8 @@ class Jadwal extends CI_Controller {
 		$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
 		$data['dddosen'] = $this->m_jadwal->dddosen();
 		$data['ddkelas'] = $this->m_jadwal->ddkelas();
-		$data['u'] = $this->m->edit_data($where,'jadwal')->result();
+		$data['u'] = $this->m_jadwal->edit_data($id_jadwal);
+		//var_dump($data['u']);die;
 		$this->load->view('header');
 		$this->load->view('v_editjadwal',$data);
 	    $this->load->view('footer');
@@ -143,8 +143,15 @@ class Jadwal extends CI_Controller {
 	
 		$where = array('id_jadwal' => $id_jadwal);
 		
-		$this->m->update_data($where,$data,'jadwal');
-		redirect('jadwal/aturjadwal');
+		$res = $this->m->update_data($where,$data,'jadwal');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
+			redirect('jadwal/aturjadwal');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengubah Data");
+			redirect('jadwal/aturjadwal');
+		}
 	}
 
 	//IMPORTTT

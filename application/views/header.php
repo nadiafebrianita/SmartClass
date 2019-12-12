@@ -29,7 +29,7 @@
   <meta property="og:description" content="Start your development with a Dashboard for Bootstrap 4." />
   <meta property="og:site_name" content="Creative Tim" />
   <!-- Favicon -->
-  <link href="<?php echo base_url('assets/img/brand/favicon.png') ?>" rel="icon" type="image/png">
+  <link href="<?php echo base_url('assets/img/brand/fp.png') ?>" rel="icon" type="image/png">
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
   <!-- Icons -->
@@ -37,7 +37,7 @@
   <link href="<?php echo base_url('assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css') ?>" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="<?php echo base_url('assets/css/argon-dashboard.min.css?v=1.1.0') ?>" rel="stylesheet" />
-  <!-- Load File jquery.min.js yang ada difolder js -->
+  <!-- Import -->
   <script src="<?php echo base_url('js/jquery2.min.js'); ?>"></script>
   <script>
   $(document).ready(function(){
@@ -45,7 +45,13 @@
     $("#kosong").hide();
   });
   </script>
+  <!-- Export -->
+  <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/jszip-2.5.0/dt-1.10.20/af-2.3.4/b-1.6.1/b-colvis-1.6.1/b-flash-1.6.1/b-html5-1.6.1/b-print-1.6.1/cr-1.5.2/fc-3.3.0/fh-3.1.6/kt-2.5.1/r-2.2.3/rg-1.1.1/rr-1.2.6/sc-2.0.1/sl-1.3.1/datatables.min.css"/> -->
+  <link rel="stylesheet" type="text/css" href="<?php echo base_url('DataTables/datatables.min.css')?>"/>  
 
+  <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.6/css/buttons.dataTables.min.css"> -->
+  
   <!-- Google Tag Manager -->
   <script>
     (function(w, d, s, l, i) {
@@ -78,8 +84,8 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <!-- Brand -->
-      <a class="navbar-brand pt-0">
-        <img src="<?php echo base_url('assets/img/brand/undip.png') ?>" class="navbar-brand-img" alt="...">
+      <a class="navbar-brand pt-3">
+        <img src="<?php echo base_url('assets/img/brand/sc.png') ?>" class="navbar-brand-img" alt="...">
       </a>
       <!-- Collapse -->
       <div class="collapse navbar-collapse" id="sidenav-collapse-main">
@@ -110,10 +116,10 @@
             </div>
           </div>
         </form>
-                <!-- Navigation -->
-                <ul class="navbar-nav">
+        <!-- Navigation -->
+        <ul class="navbar-nav">
           <li class="nav-item  class=" active" ">
-          <a class=" nav-link active " href="<?php echo base_url(); ?>"> <i class="ni ni-tv-2 text-primary"></i> Dashboard
+          <a class=" nav-link active " href="<?php echo site_url('dashboard') ?>"> <i class="ni ni-tv-2 text-primary"></i> Dashboard
             </a>
           </li>
           <li class="nav-item">
@@ -127,19 +133,30 @@
                     <a href="<?php echo site_url('smt'); ?>" class="nav-link">Pengaturan Semester</a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('matkul/aturmatkul'); ?>" class="nav-link">Pengaturan Mata Kuliah</a>
-                  </li>
-                  <li class="nav-item">
                     <a href="<?php echo site_url('jadwal/aturjadwal'); ?>" class="nav-link">Pengaturan Jadwal</a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('mhsmatkul/matkul'); ?>" class="nav-link" >Pengaturan Mahasiswa Mata Kuliah</a>
+                    <a href="<?php echo site_url('matkul/aturmatkul'); ?>" class="nav-link">Pengaturan Mata Kuliah</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#navbar-mhsm" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-mhsm">
+                      <span class="nav-link-text">Pengaturan Mahasiswa - Mata Kuliah</span>
+                    </a>
+                    <div class="collapse" id="navbar-mhsm">
+                      <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                          <a href="<?php echo site_url('mhsmatkul/matkul'); ?>" class="nav-link">Berdasarkan Mata Kuliah</a>
+                        </li>
+                        <li class="nav-item">
+                          <a href="<?php echo site_url('mhsmatkul/mhs'); ?>" class="nav-link">Berdasarkan Mahasiswa</a>
+                        </li>
+                      </ul>
                   </li>
                   <li class="nav-item">
                     <a href="<?php echo site_url('kls/show_kls'); ?>" class="nav-link">Pengaturan Kelas</a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('prodi'); ?>" class="nav-link">Pengaturan Program Studi</a>
+                    <a href="<?php echo site_url('prodi'); ?>" class="nav-link">Pengaturan Prodi</a>
                   </li>
                   <li class="nav-item">
                     <a href="<?php echo site_url('fkl'); ?>" class="nav-link">Pengaturan Fakultas</a>
@@ -155,9 +172,12 @@
             <div class="collapse" id="navbar-laporan">
                 <ul class="nav nav-sm flex-column">
                   <li class="nav-item">
-                    <a href="<?php echo site_url('presensimhs'); ?>" class="nav-link">Presensi Mahasiswa</a>
+                    <a href="<?php echo site_url('presensidosen'); ?>" class="nav-link">Presensi Dosen</a>
                   </li>
                   <li class="nav-item">
+                    <a href="<?php echo site_url('presensimhs'); ?>" class="nav-link">Presensi Mahasiswa</a>
+                  </li>
+                  <!-- <li class="nav-item">
                     <a href="" class="nav-link">Data Mahasiswa per Mata Kuliah</a>
                   </li>
                   <li class="nav-item">
@@ -168,7 +188,7 @@
                   </li>
                   <li class="nav-item">
                     <a href="<?php echo site_url('kls'); ?>" class="nav-link">Daftar Kelas</a>
-                  </li>
+                  </li> -->
                 </ul>
               </div>
           </li>
@@ -194,11 +214,11 @@
   <div class="main-content">
     <!-- Navbar -->
     <nav class="navbar navbar-top navbar-expand-md navbar-dark" id="navbar-main">
-      <div class="container-fluid">
+      <div class="container-fluid mt-3">
         <!-- Brand -->
-        <div class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block">Smart Class</div>
+        <div class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"></div>
         <!-- Form -->
-        <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
+        <!-- <form class="navbar-search navbar-search-dark form-inline mr-3 d-none d-md-flex ml-lg-auto">
           <div class="form-group mb-0">
             <div class="input-group input-group-alternative">
               <div class="input-group-prepend">
@@ -207,17 +227,47 @@
               <input class="form-control" placeholder="Search" type="text">
             </div>
           </div>
-        </form>
+        </form> -->
+        <!-- Notification -->
+        <?php 
+          if($this->session->flashdata('true')){
+        ?>
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+              <span class="alert-inner--icon"><i class="ni ni-check-bold mr-2"></i></span>
+              <span class="alert-inner--text"><strong><?php echo $this->session->flashdata('true'); ?></strong></span>
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+        <?php    
+        } else if($this->session->flashdata('err')){
+        ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <span class="alert-inner--icon"><i class="ni ni-notification-70 mr-2"></i></span>
+            <span class="alert-inner--text"><strong><?php echo $this->session->flashdata('err'); ?></strong></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <?php 
+        } else if($this->session->flashdata('info')){
+        ?>
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            <span class="alert-inner--icon"><i class="ni ni-notification-70 mr-2"></i></span>
+            <span class="alert-inner--text"><strong><?php echo $this->session->flashdata('info'); ?></strong></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <?php } ?>
         <!-- User -->
         <ul class="navbar-nav align-items-center d-none d-md-flex">
           <li class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
-                <span class="avatar avatar-sm rounded-circle">
-                  <img alt="Image placeholder" src="<?php echo base_url('assets/img/theme/team-4-800x800.jpg')?>">
-                </span>
+                <span><i class="ni ni-lg ni-circle-08 mr-1"></i></span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">Admin</span>
+                  <span class="mb-0 text-md  font-weight-bold"><?php echo $this->session->userdata("nama"); ?></span>
                 </div>
               </div>
             </a>
@@ -225,12 +275,12 @@
               <div class=" dropdown-header noti-title">
                 <h6 class="text-overflow m-0">Welcome!</h6>
               </div>
-              <a href="<?php echo base_url('examples/profile.html')?>" class="dropdown-item">
+              <a href="<?php echo site_url('admin/atur'); ?>" class="dropdown-item">
                 <i class="ni ni-settings-gear-65"></i>
-                <span>Settings</span>
+                <span>Pengaturan Admin</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#!" class="dropdown-item">
+              <a href="<?php echo site_url('admin/logout'); ?>" class="dropdown-item">
                 <i class="ni ni-user-run"></i>
                 <span>Logout</span>
               </a>

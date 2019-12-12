@@ -29,8 +29,8 @@
                </div>
               <div class="form-group">
                 <label class="form-control-label">Hari</label>
-                <select class="form-control" name="hari">
-                  <option>- Pilih Hari -</option>
+                <select required class="form-control" name="hari">
+                  <option value="">- Pilih Hari -</option>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
                   <option value="Wednesday">Wednesday</option>
@@ -47,16 +47,16 @@
                       <div class="col-lg-6"><label class="form-control-label">Waktu Akhir</label></div>
                     </div>
                     <div class="row align-items-center py-1">
-                      <div class="col-lg-6"><input type="time" class="form-control" name="waktu"></div>
-                      <div class="col-lg-6"><input type="time" class="form-control" name="akhir"></div>
+                      <div class="col-lg-6"><input type="time" class="form-control" name="waktu" required></div>
+                      <div class="col-lg-6"><input type="time" class="form-control" name="akhir" required></div>
                     </div>
                   </div>
                 </div>
                 <div class="col-lg-3">
                   <div class="form-group">
                     <label class="form-control-label">Mata Kuliah</label>
-                    <select class="form-control mt-2" name="id_matkul1">
-                      <option>- Pilih Mata Kuliah -</option>
+                    <select required class="form-control mt-2" name="id_matkul1">
+                      <option value="">- Pilih Mata Kuliah -</option>
                       <?php
                         foreach ($ddmatkul->result() as $baris) {
                           echo "<option value='".$baris->id_matkul."'>".$baris->nama_matkul."</option>";
@@ -68,8 +68,8 @@
                 <div class="col-lg-2">
                   <div class="form-group">
                     <label class="form-control-label">Dosen 1</label>
-                    <select class="form-control mt-2" name="id_dosen1">
-                      <option>- Pilih Dosen 1 -</option>
+                    <select required class="form-control mt-2" name="id_dosen1">
+                      <option value="">- Pilih Dosen 1 -</option>
                       <?php
                         foreach ($dddosen->result() as $baris) {
                           echo "<option value='".$baris->id_dosen."'>".$baris->alias."</option>";
@@ -94,8 +94,8 @@
                 <div class="col-lg-2">
                   <div class="form-group">
                     <label class="form-control-label">Kelas</label>
-                      <select class="form-control mt-2" name="id_kls1">
-                        <option>- Pilih Kelas -</option>
+                      <select required class="form-control mt-2" name="id_kls1">
+                        <option value="">- Pilih Kelas -</option>
                         <?php
                           foreach ($ddkelas->result() as $baris) {
                             echo "<option value='".$baris->id_kls."'>".$baris->nama_kls."</option>";

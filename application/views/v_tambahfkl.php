@@ -23,11 +23,11 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Nama Fakultas</label>
-                <input type="text" class="form-control" name="nama_fakultas" placeholder="Masukkan Nama Fakultas">
+                <input type="text" class="form-control" name="nama_fakultas" placeholder="Masukkan Nama Fakultas" required>
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Singkatan Fakultas</label>
-                <input type="text" class="form-control" name="singkat" placeholder="Masukkan Singkatan Fakultas">
+                <input type="text" class="form-control" name="singkat" placeholder="Masukkan Singkatan Fakultas" required>
               </div>
             </div>
           </div>

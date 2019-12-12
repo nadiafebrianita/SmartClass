@@ -9,7 +9,10 @@ class Mhs extends CI_Controller {
         parent::__construct();
         $this->load->model('m_mhs');
         $this->load->model('m');
-        $this->load->helper(array('form', 'url', 'text'));
+		$this->load->helper(array('form', 'url', 'text'));
+		if($this->session->userdata('status') != "login"){
+			redirect(site_url("admin/login"));
+		}
     }
 
 	public function index()

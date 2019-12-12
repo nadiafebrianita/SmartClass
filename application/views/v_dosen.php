@@ -23,7 +23,7 @@
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table class="table align-items-center table-flush">
+              <table id="dosen" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">No</th>
@@ -33,12 +33,12 @@
                     <th scope="col">Alias</th>
                     <th scope="col">Opsi</th>
                   </tr>
-                  <?php 
+                </thead>
+                <tbody>
+                <?php 
                   $no = 1;
                   foreach($dosen as $u){ 
                 ?>
-                </thead>
-                <tbody>
                   <tr>
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->nama_dosen ?></td>
@@ -58,6 +58,51 @@
                   <?php } ?>
                 </tbody>
               </table>
+              <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#dosen').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
+                          {
+                            extend: 'copyHtml5',
+                            title: function(){
+                              return "Data Dosen - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4]
+                            }
+                          },
+                          {
+                            extend: 'pdfHtml5',
+                            title: function(){
+                              return "Data Dosen - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4]
+                            }
+                          },
+                          {
+                            extend: 'excelHtml5',
+                            title: function(){
+                              return "Data Dosen - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4]
+                            }
+                          },
+                          {
+                            extend: 'csvHtml5',
+                            title: function(){
+                              return "Data Dosen - Smart Class"
+                            },
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4]
+                            }
+                          }
+                        ]
+                    });
+                });
+              </script>
             </div>
           </div>
         </div>

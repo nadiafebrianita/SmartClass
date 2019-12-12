@@ -21,29 +21,28 @@
           <!-- Form groups used in grid -->
           <div class="row">
             <div class="col">
-                  <div class="form-group">
-                    <label class="form-control-label">Mata Kuliah</label>
-                    <select class="form-control mt-2" name="id_jadwal">
-                      <option>- Pilih Mata Kuliah -</option>
-                      <?php
-                        foreach ($ddmatkul->result() as $baris) {
-                          echo "<option value='".$baris->id_jadwal."'>".$baris->nama_matkul."</option>";
-                        }
-                      ?>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-control-label">Mahasiswa</label>
-                    <select class="form-control mt-2" name="nim">
-                      <option>- Pilih Mahasiswa -</option>
-                      <?php
-                        foreach ($ddmhs->result() as $baris) {
-                          echo "<option value='".$baris->nim."'>".$baris->nama_mhs."</option>";
-                        }
-                      ?>
-                    </select>
-                  </div>
-<!-- SELESAI -->
+              <div class="form-group">
+                <label class="form-control-label">Mata Kuliah</label>
+                <select required class="form-control mt-2" name="id_jadwal">
+                  <option value="">- Pilih Mata Kuliah -</option>
+                  <?php
+                    foreach ($ddmatkul->result() as $baris) {
+                      echo "<option value='".$baris->id_jadwal."'>".$baris->nama_matkul."</option>";
+                    }
+                  ?>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label">Mahasiswa</label>
+                <select required class="form-control mt-2" name="nim">
+                  <option value="">- Pilih Mahasiswa -</option>
+                  <?php
+                    foreach ($ddmhs->result() as $baris) {
+                      echo "<option value='".$baris->nim."'>".$baris->nama_mhs."</option>";
+                    }
+                  ?>
+                </select>
+              </div>
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 25px">Simpan</button>

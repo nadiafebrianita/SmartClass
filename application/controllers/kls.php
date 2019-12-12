@@ -7,7 +7,10 @@ class Kls extends CI_Controller {
         parent::__construct();
         $this->load->model('m');
         $this->load->model('m_kls');
-        $this->load->helper('url');
+		$this->load->helper('url');
+		if($this->session->userdata('status') != "login"){
+			redirect(site_url("admin/login"));
+		}
     }
 
 	public function index()
@@ -46,8 +49,15 @@ class Kls extends CI_Controller {
 	
 		$where = array('id_kls' => $id_kls);
 		
-		$this->m->update_data($where,$data,'kelas');
-		redirect('kls/show_kls');
+		$res = $this->m->update_data($where,$data,'kelas');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
+			redirect('kls/show_kls');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengubah Data");
+			redirect('kls/show_kls');
+		}
 	}
 
 	public function tambah(){
@@ -63,8 +73,16 @@ class Kls extends CI_Controller {
 			'nama_kls' => $nama_kls,
 			'ket' => $ket
 			);
-		$this->m->input_data($data,'kelas');
-		redirect('kls/show_kls');
+		
+		$res = $this->m->input_data($data,'kelas');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
+			redirect('kls/show_kls');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menambahkan Data");
+			redirect('kls/show_kls');
+		}
 	}
 	public function hapus($id_kls)
 	{
@@ -72,7 +90,15 @@ class Kls extends CI_Controller {
 		$data = array(
             'del' => $del);
         $where = array('id_kls' => $id_kls);
-        $this->m->update_data($where,$data,'kelas');
-        redirect('kls/show_kls');
+        
+		$res = $this->m->update_data($where,$data,'kelas');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
+			redirect('kls/show_kls');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menghapus Data");
+			redirect('kls/show_kls');
+		}
 	}
 }

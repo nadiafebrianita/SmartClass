@@ -27,7 +27,7 @@
                 <input type="hidden" class="form-control" name="id_jadwal" value="<?php echo $u->id_jadwal ?>">
                 <input type="hidden" class="form-control" name="id_smt" value="<?php echo $u->id_smt ?>">
                 <select class="form-control" name="hari">
-                  <option value="<?php echo $u->hari ?>">- Edit Hari -</option>
+                  <option value="<?php echo $u->hari ?>"><?php echo $u->hari ?></option>
                   <option value="Monday">Monday</option>
                   <option value="Tuesday">Tuesday</option>
                   <option value="Wednesday">Wednesday</option>
@@ -52,7 +52,7 @@
                   <div class="form-group">
                     <label class="form-control-label">Mata Kuliah</label>
                     <select class="form-control mt-2" name="id_matkul">
-                      <option value="<?php echo $u->id_matkul ?>">- Edit Mata Kuliah -</option>
+                      <option value="<?php echo $u->id_matkul ?>"><?php echo $u->nama_matkul ?></option>
                       <?php
                         foreach ($ddmatkul->result() as $baris) {
                           echo "<option value='".$baris->id_matkul."'>".$baris->nama_matkul."</option>";
@@ -65,7 +65,7 @@
                   <div class="form-group">
                     <label class="form-control-label">Dosen 1 </label>
                     <select class="form-control mt-2" name="id_dosen">
-                      <option value="<?php echo $u->id_dosen ?>">- Edit Dosen 1 -</option>
+                      <option value="<?php echo $u->id_dosen ?>"><?php echo $u->dosen1 ?></option>
                       <?php
                         foreach ($dddosen->result() as $baris) {
                           echo "<option value='".$baris->id_dosen."'>".$baris->alias."</option>";
@@ -78,7 +78,7 @@
                   <div class="form-group">
                     <label class="form-control-label">Dosen 2</label>
                     <select class="form-control mt-2" name="id_dosen2">
-                      <option value="<?php echo $u->id_dosen2 ?>">- Edit Dosen 2 -</option>
+                      <option value="<?php echo $u->id_dosen2 ?>"><?php echo $u->dosen2?></option>
                       <?php
                         foreach ($dddosen->result() as $baris) {
                           echo "<option value='".$baris->id_dosen."'>".$baris->alias."</option>";
@@ -91,7 +91,7 @@
                   <div class="form-group">
                     <label class="form-control-label">Kelas</label>
                       <select class="form-control mt-2" name="id_kls">
-                        <option value="<?php echo $u->id_kls ?>">- Edit Kelas -</option>
+                        <option value="<?php echo $u->id_kls ?>"><?php echo $u->nama_kls ?></option>
                         <?php
                           foreach ($ddkelas->result() as $baris) {
                             echo "<option value='".$baris->id_kls."'>".$baris->nama_kls."</option>";
