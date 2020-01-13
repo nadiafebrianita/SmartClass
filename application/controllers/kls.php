@@ -27,15 +27,29 @@ class Kls extends CI_Controller {
 		$data['u']=$this->m_kls->tampilkls();
 		$this->load->view('v_aturkls',$data);
 		$this->load->view('footer');
-		
+	}
+	public function show_klsprodi()
+	{
+		$this->load->view('header2');
+		$data['u']=$this->m_kls->tampilkls();
+		$this->load->view('v_aturkls',$data);
+		$this->load->view('footer');
 	}
 	public function edit($id_kls)
 	{
 		$where = array('id_kls' => $id_kls);
 		$data['u'] = $this->m->edit_data($where,'kelas')->result();
-		$this->load->view('header');
-		$this->load->view('v_editkls',$data);
-	    $this->load->view('footer');
+		$prodi=$this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$this->load->view('header2');
+			$this->load->view('v_editkls',$data);
+			$this->load->view('footer');
+		}
+		else{
+			$this->load->view('header');
+			$this->load->view('v_editkls',$data);
+			$this->load->view('footer');	
+		}
 	}
 	
 	public function update(){
@@ -61,9 +75,17 @@ class Kls extends CI_Controller {
 	}
 
 	public function tambah(){
-		$this->load->view('header');
-		$this->load->view('v_tambahkls');
-		$this->load->view('footer');
+		$prodi=$this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$this->load->view('header2');
+			$this->load->view('v_tambahkls');
+			$this->load->view('footer');
+		}
+		else{
+			$this->load->view('header');
+			$this->load->view('v_tambahkls');
+			$this->load->view('footer');	
+		}
 	}
 	public function tambah_aksi(){
 		$nama_kls = $this->input->post('nama_kls');

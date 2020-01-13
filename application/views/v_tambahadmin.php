@@ -27,12 +27,13 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Password</label>
-                <input pattern=".{6,}" type="password" class="form-control" name="password" title="Password harus terdiri dari minimal 6 karakter" placeholder="Masukkan Password, minimal 6 karakter" required />
+                <input pattern="(?=.*\d).{6,}" type="password" class="form-control" name="password" title="Password harus terdiri dari minimal 6 karakter dan 1 angka" placeholder="Masukkan Password, minimal 6 karakter" required />
               </div>
               <div class="form-group">
                 <label class="form-control-label">Prodi</label>
                     <select required class="form-control" name="id_prodi">
-                      <option value="">- Pilih Prodi -</option>
+                      <option>- Pilih Prodi -</option>
+                      <option value='0' >Admin</option>
                       <?php
                         foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";

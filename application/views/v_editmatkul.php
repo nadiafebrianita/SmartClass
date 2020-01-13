@@ -36,8 +36,16 @@
                     <select class="form-control" name="id_prodi">
                       <option value="<?php echo $u->id_prodi ?>">- Pilih Prodi -</option>
                       <?php
-                        foreach ($dropdown->result() as $baris) {
+                        $prodi=$this->session->userdata("id_prodi");
+                        if(!empty($prodi)){
+                          foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                          }
+                        }
+                        else{
+                          foreach ($ddprodi->result() as $baris) {
+                            echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                          }  
                         }
                       ?>
                 </select>

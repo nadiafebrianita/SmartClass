@@ -25,6 +25,15 @@ class Jadwal extends CI_Controller {
 		$this->load->view('footer');	
 		
 	}
+	public function aturjadwalprodi()
+	{
+		$prodi = $this->session->userdata("id_prodi");
+		$data['jadwal']=$this->m_jadwal->show_jadwalprodi($prodi);
+		$this->load->view('header2');
+		$this->load->view('v2_aturjadwal',$data);
+		$this->load->view('footer');	
+		
+	}
 	public function prodi()
 	{
 		$id_prodi = $this->input->post('id_prodi');
@@ -41,13 +50,24 @@ class Jadwal extends CI_Controller {
 			}
 	}
 	public function tambah(){
+		$prodi = $this->session->userdata("id_prodi");
+
 		$data['ddsmt'] = $this->m_jadwal->ddsmt();
-		$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
 		$data['dddosen'] = $this->m_jadwal->dddosen();
 		$data['ddkelas'] = $this->m_jadwal->ddkelas();
-		$this->load->view('header');
-		$this->load->view('v_tambahjadwal',$data);
-		$this->load->view('footer');
+
+		if(!empty($prodi)){
+			$data['ddmatkulprodi'] = $this->m_jadwal->ddmatkulprodi($prodi);
+			$this->load->view('header2');
+			$this->load->view('v_tambahjadwal',$data);
+			$this->load->view('footer');
+		}
+		else{
+			$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
+			$this->load->view('header');
+			$this->load->view('v_tambahjadwal',$data);
+			$this->load->view('footer');	
+		}
 	}
 	public function tambah_aksi(){
 		// 1
@@ -77,13 +97,23 @@ class Jadwal extends CI_Controller {
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
-			redirect('jadwal/aturjadwal');
+			$prodi = $this->session->userdata("id_prodi");
+			if(!empty($prodi)){
+				redirect('jadwal/aturjadwalprodi');	
+			}
+			else{
+				redirect('jadwal/aturjadwal');
+			}
 		}else{
 			$this->session->set_flashdata('err', "Gagal Menambahkan Data, Kelas Dipakai");
-			redirect('jadwal/aturjadwal');
-		}
-		//$this->m->input_data($data,'jadwal');
-		
+			$prodi = $this->session->userdata("id_prodi");
+			if(!empty($prodi)){
+				redirect('jadwal/aturjadwalprodi');	
+			}
+			else{
+				redirect('jadwal/aturjadwal');
+			}
+		}		
 	}
 	public function hapus($id_jadwal)
 	{
@@ -95,10 +125,22 @@ class Jadwal extends CI_Controller {
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
-			redirect('jadwal/aturjadwal');
+			$prodi = $this->session->userdata("id_prodi");
+			if(!empty($prodi)){
+				redirect('jadwal/aturjadwalprodi');	
+			}
+			else{
+				redirect('jadwal/aturjadwal');
+			}
 		}else{
 			$this->session->set_flashdata('err', "Gagal Menghapus Data");
-			redirect('jadwal/aturjadwal');
+			$prodi = $this->session->userdata("id_prodi");
+			if(!empty($prodi)){
+				redirect('jadwal/aturjadwalprodi');	
+			}
+			else{
+				redirect('jadwal/aturjadwal');
+			}
 		}
 	}
 
@@ -106,14 +148,22 @@ class Jadwal extends CI_Controller {
 	{
 		$where = array('id_jadwal' => $id_jadwal);
 		$data['ddsmt'] = $this->m_jadwal->ddsmt();
-		$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
 		$data['dddosen'] = $this->m_jadwal->dddosen();
 		$data['ddkelas'] = $this->m_jadwal->ddkelas();
 		$data['u'] = $this->m_jadwal->edit_data($id_jadwal);
-		//var_dump($data['u']);die;
-		$this->load->view('header');
-		$this->load->view('v_editjadwal',$data);
-	    $this->load->view('footer');
+		$prodi=$this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$data['ddmatkulprodi'] = $this->m_jadwal->ddmatkulprodi($prodi);
+			$this->load->view('header2');
+			$this->load->view('v_tambahjadwal',$data);
+			$this->load->view('footer');
+		}
+		else{
+			$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
+			$this->load->view('header');
+			$this->load->view('v_tambahjadwal',$data);
+			$this->load->view('footer');	
+		}
 	}
 
 	public function update(){
@@ -147,10 +197,22 @@ class Jadwal extends CI_Controller {
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
-			redirect('jadwal/aturjadwal');
+			$prodi = $this->session->userdata("id_prodi");
+			if(!empty($prodi)){
+				redirect('jadwal/aturjadwalprodi');	
+			}
+			else{
+				redirect('jadwal/aturjadwal');
+			}
 		}else{
 			$this->session->set_flashdata('err', "Gagal Mengubah Data");
-			redirect('jadwal/aturjadwal');
+			$prodi = $this->session->userdata("id_prodi");
+			if(!empty($prodi)){
+				redirect('jadwal/aturjadwalprodi');	
+			}
+			else{
+				redirect('jadwal/aturjadwal');
+			}
 		}
 	}
 
@@ -250,8 +312,13 @@ class Jadwal extends CI_Controller {
 			$numrow++; // Tambah 1 setiap kali looping
 		}
 		$this->m_jadwal->insert_multiple($datasmt,$datamatkul,$datadosen1,$datadosen2,$datakls,$data);
-		redirect("jadwal/aturjadwal");
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			redirect('jadwal/aturjadwalprodi');	
+		}
+		else{
+			redirect('jadwal/aturjadwal');
+		}
 	}
-	
 }
 

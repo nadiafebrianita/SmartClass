@@ -43,12 +43,33 @@
                     <td><?php echo $u->nama_fakultas ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('prodi/edit/'.$u->id_prodi,'Edit');?></button>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('prodi/hapus/'.$u->id_prodi,'Hapus', array('class'=>'delete', 'onclick'=>"return confirmDialog();")); ?></button>
-                    <script>
-                    function confirmDialog() {
-                        return confirm("Data berhubungan dengan Tabel Mata Kuliah serta Tabel Jadwal dan data yang terhubung juga akan terhapus, Yakin akan menghapus?")
-                    }
-                    </script>
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-notification<?php echo $u->id_prodi; ?>">Hapus</button>
+
+                    <div class="modal fade" id="modal-notification<?php echo $u->id_prodi; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                      <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                        <div class="modal-content bg-gradient-danger">
+                          <div class="modal-header">
+                              <h6 class="modal-title" id="modal-title-notification"></h6>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <div class="py-3 text-center">
+                                  <i class="ni ni-bell-55 ni-3x"></i>
+                                  <h4 class="heading mt-4">Yakin Hapus Data ?</h4>
+                                  <p></p>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-white"><?php echo anchor('prodi/hapus/'.$u->id_prodi,'Hapus');?></button>
+                            <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Batal</button> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
                     </td>
                   </tr>
                   <?php } ?>

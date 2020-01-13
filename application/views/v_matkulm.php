@@ -25,25 +25,6 @@
                 </nav>
                 </form>
                 </form>
-                <!-- <form action="<?php echo site_url('mhsmatkul/filter'); ?>" method="post">
-                <form role="form">
-                <h6 class="h3 text-white d-inline-block mb-5 mr-1 ml-4">Mata Kuliah</h6> 
-                <select class="form-control-sm" style="width: 200px" name="id_jadwal">
-                  <option value="0">Semua</option>
-                  <?php
-                      if (!empty($s)) {
-                        echo "<option value selected='".$s[0]->id_jadwal."'>".$s[0]->nama_matkul."</option>";
-                      }
-                    ?>
-                  <?php
-                    foreach ($ddmatkul->result() as $dd) {
-                      echo "<option value='".$dd->id_jadwal."'>".$dd->nama_matkul."</option>";
-                    }
-                  ?>
-                </select>
-                <button type="submit" class="btn btn-sm btn-success">Set</a>
-              </form>
-              </form> -->
             </div>
           </div>
         </div>
@@ -89,8 +70,34 @@
                     <td><?php echo $u->kode_matkul ?></td>
                     <td><?php echo $u->nama_matkul ?></td>
                     <td><?php echo $u->nama_mhs ?></td>
-                    <td>
-                    <button type="button" class="btn btn-sm btn-outline-danger"><?php echo anchor('mhsmatkul/hapusmhs/'.$u->id_mhsmatkul,'Hapus');?></button>
+                    <td>                    
+                    <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-notification<?php echo $u->id_mhsmatkul; ?>">Hapus</button>
+
+                    <div class="modal fade" id="modal-notification<?php echo $u->id_mhsmatkul; ?>" tabindex="-1" role="dialog" aria-labelledby="modal-notification" aria-hidden="true">
+                      <div class="modal-dialog modal-danger modal-dialog-centered modal-" role="document">
+                        <div class="modal-content bg-gradient-danger">
+                          <div class="modal-header">
+                              <h6 class="modal-title" id="modal-title-notification"></h6>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">×</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                              <div class="py-3 text-center">
+                                  <i class="ni ni-bell-55 ni-3x"></i>
+                                  <h4 class="heading mt-4">Yakin Hapus Data ?</h4>
+                                  <p></p>
+                              </div>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-white"><?php echo anchor('mhsmatkul/hapusmhs/'.$u->id_mhsmatkul,'Hapus');?></button>
+                            <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Batal</button> 
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    
                     </td>
                   </tr>
                   <?php } ?>

@@ -11,6 +11,15 @@ class M_matkul extends CI_Model {
 		$query = $this->db->get();
 		return $query->result ();
 	}
+	public function show_matkulprodi($prodi){
+        $this->db->select('matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi, prodi.del, fakultas.del');
+		$this->db->from('prodi');
+		$this->db->join('matkul', 'prodi.id_prodi=matkul.id_prodi');
+		$this->db->join('fakultas', 'fakultas.id_fakultas=prodi.id_fakultas')->where('prodi.id_prodi',$prodi)->where('matkul.del',NULL)->where('prodi.del',NULL)->where('fakultas.del',NULL);
+		$this->db->order_by("matkul.nama_matkul", "asc");
+		$query = $this->db->get();
+		return $query->result ();
+	}
 	public function selected($id_prodi){
         $this->db->select('matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi, prodi.del, fakultas.del');
 		$this->db->from('prodi');
@@ -21,27 +30,16 @@ class M_matkul extends CI_Model {
 		return $query->result ();
 	}
 	
-	public function dropdown()
-	{
-		$query = $this->db->get('prodi');
-		return $query;
-	}
 	public function ddprodi()
 	{
-		$query = $this->db->get('prodi');
+		$query = $this->db->get_where('prodi',array('del' => NULL));
 		return $query;
 	}
-
-	// public function search($keyword){
-	// 	$this->db->select('matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi');
-	// 	$this->db->from('prodi');
-	// 	$this->db->join('matkul', 'prodi.id_prodi=matkul.id_prodi');
-	// 	$this->db->like('matkul.kode_matkul', $keyword);
-	// 	$this->db->or_like('matkul.nama_matkul', $keyword);
-	// 	$this->db->or_like('prodi.nama_prodi', $keyword);
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	//   }
+	public function dd($prodi)
+	{
+		$query = $this->db->get_where('prodi',array('id_prodi' => $prodi,'del' => NULL));
+		return $query;
+	}
 
 	public function insert_multiple($dataprodi,$data)
 	{

@@ -29,17 +29,21 @@
                 <label class="form-control-label">Nama Mata Kuliah</label>
                 <input type="text" class="form-control" name="nama_matkul" placeholder="Masukkan Nama Mata Kuliah" required>
               </div>
-              <!-- <div class="form-group">
-                <label class="form-control-label">Jumlah SKS</label>
-                <input type="number" class="form-control" name="sks" placeholder="">
-              </div> -->
               <div class="form-group">
                 <label class="form-control-label">Program Studi</label>
                     <select required class="form-control" name="id_prodi" id="id_prodi">
                       <option value="">- Pilih Prodi -</option>
                       <?php
-                        foreach ($dropdown->result() as $baris) {
+                        $prodi=$this->session->userdata("id_prodi");
+                        if(!empty($prodi)){
+                          foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                          }
+                        }
+                        else{
+                          foreach ($ddprodi->result() as $baris) {
+                            echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                          }  
                         }
                       ?>
                 </select>

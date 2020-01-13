@@ -24,6 +24,16 @@ class Matkul extends CI_Controller {
         $this->load->view('v_aturmatkul',$data);	
 		$this->load->view('footer');
 	}
+	public function aturmatkulprodi()
+	{
+		$prodi = $this->session->userdata("id_prodi");
+
+		$data['u']=$this->m_matkul->show_matkulprodi($prodi);
+		$this->load->view('header2');
+        $this->load->view('v2_aturmatkul',$data);	
+		$this->load->view('footer');
+	}
+
 	public function prodi()
 	{
 		$id_prodi = $this->input->post('id_prodi');
@@ -41,10 +51,19 @@ class Matkul extends CI_Controller {
 	}
 	public function tambah()
     {
-        $data['dropdown'] = $this->m_matkul->dropdown();
-		$this->load->view('header');
-		$this->load->view('v_tambahmatkul', $data);
-		$this->load->view('footer');
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			$data['dd'] = $this->m_matkul->dd($prodi);
+			$this->load->view('header2');
+			$this->load->view('v_tambahmatkul', $data);
+			$this->load->view('footer');
+		}
+		else{
+			$data['ddprodi'] = $this->m_matkul->ddprodi();
+			$this->load->view('header');
+			$this->load->view('v_tambahmatkul', $data);
+			$this->load->view('footer');	
+		}
 	}
 	
 	public function tambah_aksi(){
@@ -58,24 +77,45 @@ class Matkul extends CI_Controller {
 			'id_prodi' => $id_prodi
 			);
 		$res = $this->m->input_data($data,'matkul');
+		$prodi = $this->session->userdata("id_prodi");
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
-			redirect('matkul/aturmatkul');
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
 		}else{
 			$this->session->set_flashdata('err', "Gagal Menambahkan Data, Mata Kuliah Sudah Terdaftar");
-			redirect('matkul/aturmatkul');
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}
 		}
 	}
 	
 	public function edit($id_matkul)
 	{
 		$where = array('id_matkul' => $id_matkul);
-		$data['dropdown'] = $this->m_matkul->dropdown();
 		$data['u'] = $this->m->edit_data($where,'matkul')->result();
-		$this->load->view('header');
-		$this->load->view('v_editmatkul',$data);
-	    $this->load->view('footer');
+		
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			$data['dd'] = $this->m_matkul->dd($prodi);
+			$this->load->view('header2');
+			$this->load->view('v_editmatkul',$data);
+			$this->load->view('footer');	
+		}
+		else{
+			$data['ddprodi'] = $this->m_matkul->ddprodi();
+			$this->load->view('header');
+			$this->load->view('v_editmatkul',$data);
+			$this->load->view('footer');	
+		}
 	}
 	
 	public function update(){
@@ -92,13 +132,25 @@ class Matkul extends CI_Controller {
 	
 		$where = array('id_matkul' => $id_matkul);
 		$res = $this->m->update_data($where,$data,'matkul');
+		$prodi = $this->session->userdata("id_prodi");
+
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
-			redirect('matkul/aturmatkul');
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
 		}else{
 			$this->session->set_flashdata('err', "Gagal Mengubah Data");
-			redirect('matkul/aturmatkul');
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
 		}
 	}
 	public function hapus($id_matkul)
@@ -109,13 +161,25 @@ class Matkul extends CI_Controller {
         $where = array('id_matkul' => $id_matkul);
 		
 		$res = $this->m->update_data($where,$data,'matkul');
+		$prodi = $this->session->userdata("id_prodi");
+
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
-			redirect('matkul/aturmatkul');
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
 		}else{
 			$this->session->set_flashdata('err', "Gagal Menghapus Data");
-			redirect('matkul/aturmatkul');
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
 		}
 	}
 
@@ -202,7 +266,24 @@ class Matkul extends CI_Controller {
 			$numrow++; // Tambah 1 setiap kali looping
 		}
 		//var_dump($dataprodi); die;
-		$this->m_matkul->insert_multiple($dataprodi,$data);
-		redirect("matkul/aturmatkul"); // Redirect ke halaman awal (ke controller siswa fungsi index)
+		$res = $this->m_matkul->insert_multiple($dataprodi,$data);
+		$prodi = $this->session->userdata("id_prodi");
+		if($res==true){
+			$this->session->set_flashdata('true', "Berhasil Mengimpor Data"); 
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengimpor Data");
+			if(!empty($prodi)){
+				redirect('matkul/aturmatkulprodi');	
+			}
+			else{
+				redirect('matkul/aturmatkul');
+			}		
+		}	
 	}
 }

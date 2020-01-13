@@ -19,6 +19,23 @@ class M_jadwal extends CI_Model {
         $query=$this->db->query($sql);
 		return $query->result ();
 	}
+	public function show_jadwalprodi($prodi){
+        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, smt.del, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, matkul.del, kelas.nama_kls, kelas.del, a.del, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.del, fakultas.del
+		FROM smt
+		JOIN jadwal ON smt.id_smt=jadwal.id_smt
+		JOIN kelas ON kelas.id_kls=jadwal.id_kls
+		JOIN matkul ON jadwal.id_matkul=matkul.id_matkul
+		JOIN prodi ON matkul.id_prodi=prodi.id_prodi
+		JOIN fakultas ON fakultas.id_fakultas=prodi.id_fakultas
+		inner join dosen a on jadwal.id_dosen = a.id_dosen 
+		left join dosen b on jadwal.id_dosen2 = b.id_dosen
+		inner join user_scan u on a.id_scan = u.id_scan 
+		left join user_scan s on b.id_scan = s.id_scan
+		WHERE jadwal.del is null and a.del is NULL and smt.del is NULL and matkul.del is NULL and kelas.del is NULL and prodi.del is NULL and fakultas.del is NULL and smt.status='Aktif' and prodi.id_prodi=$prodi
+		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
+        $query=$this->db->query($sql);
+		return $query->result ();
+	}
 	public function selected($id_prodi){
         $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, smt.del, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, matkul.del, kelas.nama_kls, kelas.del, a.del, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.del, prodi.nama_prodi, fakultas.del
 		FROM smt
@@ -44,26 +61,32 @@ class M_jadwal extends CI_Model {
 	public function ddmatkul()
 	{
 		$this->db->order_by("nama_matkul", "asc");
-		$query = $this->db->get('matkul');
+		$query = $this->db->get_where('matkul',array('del' => NULL));
+		return $query;
+	}
+	public function ddmatkulprodi($prodi)
+	{
+		$this->db->order_by("nama_matkul", "asc");
+		$query = $this->db->get_where('matkul', array('id_prodi' => $prodi, 'del' => NULL));
 		return $query;
 	}
 	public function dddosen()
 	{
 		$this->db->select('dosen.id_dosen,dosen.nama_dosen,user_scan.id_scan,user_scan.alias');
 		$this->db->from('dosen');
-		$this->db->join('user_scan', 'user_scan.id_scan=dosen.id_scan');
+		$this->db->join('user_scan', 'user_scan.id_scan=dosen.id_scan')->where('del', NULL);
 		$this->db->order_by("user_scan.alias", "asc");
 		$query = $this->db->get();
 		return $query;
 	}
 	public function ddkelas()
 	{
-		$query = $this->db->get('kelas');
+		$query = $this->db->get_where('kelas',array('del' => NULL));
 		return $query;
 	}
 	public function ddprodi()
 	{
-		$query = $this->db->get('prodi');
+		$query = $this->db->get_where('prodi',array('del' => NULL));
 		return $query;
 	}
 	public function insert_multiple($datasmt,$datamatkul,$datadosen1,$datadosen2,$datakls,$data)

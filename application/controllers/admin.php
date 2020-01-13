@@ -18,31 +18,41 @@ class Admin extends CI_Controller {
 	public function login()
 	{
 		$this->load->view('v_login');
-    }
+	}
+	
+
     function aksi_login(){
 		$username = $this->input->post('username');
-		$password = $this->input->post('password');
-		$where = array(
-			'username' => $username,
-			'password' => md5($password)
-			);
-		$cek = $this->m_admin->cek_login("admin",$where)->num_rows();
-		if($cek > 0){
- 
-			$data_session = array(
-				'nama' => $username,
-				'status' => "login"
-				);
- 
-			$this->session->set_userdata($data_session);
- 
-			redirect(site_url("dashboard"));
- 
-		}else{
-			echo "Username dan password salah !";
+		$password = md5($this->input->post('password'));
+		$cek = $this->m_admin->cek($username, $password);
+		//var_dump($cek);die;
+		if(!empty($cek)){
+			if(!empty($cek[0]->id_prodi)){
+				$data_session = array(
+					'nama' => $username,
+					'id_prodi' => $cek[0]->id_prodi,
+					'nama_prodi' => $cek[0]->nama_prodi,
+					'status' => "login"
+					);
+				$this->session->set_userdata($data_session);
+				redirect(site_url("dashboard/prodi"));
+			}
+			else{
+				$data_session = array(
+					'nama' => $username,
+					'id_prodi' => $cek[0]->id_prodi,
+					'status' => "login"
+					);
+				$this->session->set_userdata($data_session);
+				redirect(site_url("dashboard/admin"));
+			}
+		}
+		else{
+			$this->session->set_flashdata('err', "Username atau Password Salah");
+			redirect('admin/login');
 		}
 	}
- 
+
 	function logout(){
 		$this->session->sess_destroy();
 		redirect(site_url('admin/login'));

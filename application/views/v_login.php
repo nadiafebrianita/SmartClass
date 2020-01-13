@@ -101,6 +101,18 @@
                   <button type="submit" class="btn btn-primary btn-block my-4">Sign in</button>
                 </div>
               </form>
+              <!-- <h5 class="text-center" style="color:red">Username</h5> -->
+              <!-- Notification -->
+              <?php    
+              if($this->session->flashdata('err')){
+              ?>
+              <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                  <span class="alert-inner--text"><strong><?php echo $this->session->flashdata('err'); ?></strong></span>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <?php } ?>
             </div>
           </div>
         </div>

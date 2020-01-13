@@ -7,6 +7,7 @@ class Mhsmatkul extends CI_Controller {
 	{
         parent::__construct();
         $this->load->model('m_mhsmatkul');
+        $this->load->model('m_matkul');
         $this->load->model('m');
         $this->load->helper('url');
         $this->load->library('session');
@@ -22,27 +23,37 @@ class Mhsmatkul extends CI_Controller {
     //     $this->load->view('v_mhsmatkul',$data);
     //     $this->load->view('footer');
     // }
-    public function pilih()
-    {
-        $p = $this->input->post('pilih');
-        switch($p)
-        {
-            case "2":
-            redirect('mhsmatkul/mhs');
-            break;
-            case "3":
-            redirect('mhsmatkul/matkul');
-            break;
-            default:
-            redirect('mhsmatkul');
-        }
-    }
+    // public function pilih()
+    // {
+    //     $p = $this->input->post('pilih');
+    //     switch($p)
+    //     {
+    //         case "2":
+    //         redirect('mhsmatkul/mhs');
+    //         break;
+    //         case "3":
+    //         redirect('mhsmatkul/matkul');
+    //         break;
+    //         default:
+    //         redirect('mhsmatkul');
+    //     }
+    // }
     public function tambah(){
-		$data['ddmatkul'] = $this->m_mhsmatkul->ddmatkul();
-		$data['ddmhs'] = $this->m_mhsmatkul->ddmhs();
-		$this->load->view('header');
-		$this->load->view('v_tambahmhsmatkul',$data);
-		$this->load->view('footer');
+        $data['ddmhs'] = $this->m_mhsmatkul->ddmhs();
+        
+        $prodi = $this->session->userdata("id_prodi");
+        if(!empty($prodi)){
+            $data['ddmatkulprodi'] = $this->m_mhsmatkul->ddmatkulprodi($prodi);
+            $this->load->view('header2');
+            $this->load->view('v_tambahmhsmatkul',$data);
+            $this->load->view('footer');    
+        }
+        else{
+            $data['ddmatkul'] = $this->m_mhsmatkul->ddmatkul();
+            $this->load->view('header');
+            $this->load->view('v_tambahmhsmatkul',$data);
+            $this->load->view('footer');    
+        }
 	}
 	public function tambah_aksi(){
 		$id_jadwal = $this->input->post('id_jadwal');
@@ -54,43 +65,63 @@ class Mhsmatkul extends CI_Controller {
 			);
 		
         $res = $this->m->input_data($data,'mhsmatkul');
+        $prodi = $this->session->userdata("id_prodi");
+
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
-			redirect('mhsmatkul/matkul');
-		}else{
+            if(!empty($prodi)){
+                redirect('mhsmatkul/matkulprodi');	
+            }
+            else{
+                redirect('mhsmatkul/matkul');
+            }		
+        }else{
 			$this->session->set_flashdata('err', "Gagal Menambahkan Data");
-			redirect('mhsmatkul/matkul');
-		}
+            if(!empty($prodi)){
+                redirect('mhsmatkul/matkulprodi');	
+            }
+            else{
+                redirect('mhsmatkul/matkul');
+            }	
+        }
 	}
 
     //MAHASISWA//
 	public function mhs()
 	{
         $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
-        $data['u']=$this->m_mhsmatkul->tampilallmhs();
+        $data['u']=$this->m_mhsmatkul->mhs();
         $this->load->view('header');
         $this->load->view('v_mhsm',$data);
         $this->load->view('footer');
     }
-    public function tampilmhs()
+	public function mhsprodi()
 	{
-        $nim = $this->input->post('nim');
-        if($nim=="0"){
-            redirect('mhsmatkul/mhs');
-        }
-        else{
-            // $data['m'] = $this->input->post('nim');
-            $where = array('nim' => $nim);
-            $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
-            // $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
-            $data['u']=$this->m_mhsmatkul->tampilmhs($nim);
-            // $data['s']=$this->m_mhsmatkul->selectedmhs($nim);
-            $this->load->view('header');
-            $this->load->view('v_mhsm',$data);
-            $this->load->view('footer');
-        }
+        $prodi=$this->session->userdata("id_prodi");
+        $data['u']=$this->m_mhsmatkul->mhsprodi($prodi);
+        $this->load->view('header2');
+        $this->load->view('v2_mhsm',$data);
+        $this->load->view('footer');
     }
+    // public function tampilmhs()
+	// {
+    //     $nim = $this->input->post('nim');
+    //     if($nim=="0"){
+    //         redirect('mhsmatkul/mhs');
+    //     }
+    //     else{
+    //         // $data['m'] = $this->input->post('nim');
+    //         $where = array('nim' => $nim);
+    //         $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
+    //         // $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
+    //         $data['u']=$this->m_mhsmatkul->tampilmhs($nim);
+    //         // $data['s']=$this->m_mhsmatkul->selectedmhs($nim);
+    //         $this->load->view('header');
+    //         $this->load->view('v_mhsm',$data);
+    //         $this->load->view('footer');
+    //     }
+    // }
     // public function tambahmatkul()
     // {
     //     $nim = $this->input->post('nim');
@@ -121,13 +152,19 @@ class Mhsmatkul extends CI_Controller {
     //MATA KULIAH//
 	public function matkul()
 	{
-        $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
         $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
-        $data['u']=$this->m_mhsmatkul->tampilallmatkul();
+        $data['u']=$this->m_mhsmatkul->matkul();
         $data['p']=1;
-        //$data['j']=1;
         $this->load->view('header');
         $this->load->view('v_matkulm',$data);
+        $this->load->view('footer');
+    }
+	public function matkulprodi()
+	{
+        $prodi = $this->session->userdata("id_prodi");
+        $data['u']=$this->m_mhsmatkul->matkulprodi($prodi);
+        $this->load->view('header2');
+        $this->load->view('v2_matkulm',$data);
         $this->load->view('footer');
     }
     public function prodi()
@@ -139,7 +176,6 @@ class Mhsmatkul extends CI_Controller {
         else{
             $where = array('id_prodi' => $id_prodi);
             $data['u']=$this->m_mhsmatkul->selected($id_prodi);
-            //var_dump($data['u'][0]);die;
             $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
             $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
 			$this->load->view('header');
@@ -147,74 +183,74 @@ class Mhsmatkul extends CI_Controller {
 			$this->load->view('footer');	
 			}
 	}
-    public function tampilmatkul()
-	{
-        $id_jadwal = $this->input->post('id_jadwal');
-        if($id_jadwal=="0"){
-            redirect('mhsmatkul/matkul');
-        }
-        else{
-            //$data['m'] = $id_jadwal;
-            $where = array('id_jadwal' => $id_jadwal);
-            $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
-            $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
-            // $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
-            $data['u']=$this->m_mhsmatkul->tampilmatkul($id_jadwal);
-            $data['s']=$this->m_mhsmatkul->selectedmatkul($id_jadwal);
-            //$matkul = $data['s'][0]->nama_matkul;
-            $this->load->view('header');
-            $this->load->view('v_matkulm',$data);
-            $this->load->view('footer');
-        }
-    }
-    public function filter()
-	{
-        $id_prodi = $this->input->post('id_prodi');
-        $id_jadwal = $this->input->post('id_jadwal');
-        //var_dump($id_jadwal);die;
-        // if($id_prodi=="0" && $id_jadwal=="0"){
-        //     redirect('mhsmatkul/matkul');
-        // }
-        // if($id_prodi!=="0" && $id_jadwal=="0"){
-        //     $where = array('id_prodi' => $id_prodi);
-        //     //$data['p']=1;
-        //     $data['u']=$this->m_mhsmatkul->selected($id_prodi);
-        //     $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
-        //     $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
-        //     $this->load->view('header');
-        //     $this->load->view('v_matkulm',$data);
-        //     $this->load->view('footer');
-        // }
-        if($id_prodi=="0" && $id_jadwal!=="0"){
-            //$data['m'] = $id_jadwal;
-            //$where = array('id_jadwal' => $id_jadwal);
-            $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
-            $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
-            //$data['j']=1;
-            // $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
-            $data['u']=$this->m_mhsmatkul->tampilmatkul($id_jadwal);
-            $data['s']=$this->m_mhsmatkul->selectedmatkul($id_jadwal);
-            //$matkul = $data['s'][0]->nama_matkul;
-            $this->load->view('header');
-            $this->load->view('v_matkulm',$data);
-            $this->load->view('footer');
-        }
-        else{
-            // $where1 = array('id_prodi' => $id_prodi);
-            // $where2 = array('id_jadwal' => $id_jadwal);
-            $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
-            $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
-            $data['u']=$this->m_mhsmatkul->filter($id_jadwal, $id_prodi);
-            $data['s']=$this->m_mhsmatkul->selectedmatkul($id_jadwal);
-            //$data['j']=$this->m_mhsmatkul->selectedprodi($id_prodi);
-            $data['p']=1;
-            //var_dump($data['u'][0]);die;
-            $this->load->view('header');
-            $this->load->view('v_matkulm',$data);
-            $this->load->view('footer');
-        }
+    // public function tampilmatkul()
+	// {
+    //     $id_jadwal = $this->input->post('id_jadwal');
+    //     if($id_jadwal=="0"){
+    //         redirect('mhsmatkul/matkul');
+    //     }
+    //     else{
+    //         //$data['m'] = $id_jadwal;
+    //         $where = array('id_jadwal' => $id_jadwal);
+    //         $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
+    //         $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
+    //         // $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
+    //         $data['u']=$this->m_mhsmatkul->tampilmatkul($id_jadwal);
+    //         $data['s']=$this->m_mhsmatkul->selectedmatkul($id_jadwal);
+    //         //$matkul = $data['s'][0]->nama_matkul;
+    //         $this->load->view('header');
+    //         $this->load->view('v_matkulm',$data);
+    //         $this->load->view('footer');
+    //     }
+    // }
+    // public function filter()
+	// {
+    //     $id_prodi = $this->input->post('id_prodi');
+    //     $id_jadwal = $this->input->post('id_jadwal');
+    //     //var_dump($id_jadwal);die;
+    //     // if($id_prodi=="0" && $id_jadwal=="0"){
+    //     //     redirect('mhsmatkul/matkul');
+    //     // }
+    //     // if($id_prodi!=="0" && $id_jadwal=="0"){
+    //     //     $where = array('id_prodi' => $id_prodi);
+    //     //     //$data['p']=1;
+    //     //     $data['u']=$this->m_mhsmatkul->selected($id_prodi);
+    //     //     $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
+    //     //     $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
+    //     //     $this->load->view('header');
+    //     //     $this->load->view('v_matkulm',$data);
+    //     //     $this->load->view('footer');
+    //     // }
+    //     if($id_prodi=="0" && $id_jadwal!=="0"){
+    //         //$data['m'] = $id_jadwal;
+    //         //$where = array('id_jadwal' => $id_jadwal);
+    //         $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
+    //         $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
+    //         //$data['j']=1;
+    //         // $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
+    //         $data['u']=$this->m_mhsmatkul->tampilmatkul($id_jadwal);
+    //         $data['s']=$this->m_mhsmatkul->selectedmatkul($id_jadwal);
+    //         //$matkul = $data['s'][0]->nama_matkul;
+    //         $this->load->view('header');
+    //         $this->load->view('v_matkulm',$data);
+    //         $this->load->view('footer');
+    //     }
+    //     else{
+    //         // $where1 = array('id_prodi' => $id_prodi);
+    //         // $where2 = array('id_jadwal' => $id_jadwal);
+    //         $data['ddmatkul']=$this->m_mhsmatkul->ddmatkul();
+    //         $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
+    //         $data['u']=$this->m_mhsmatkul->filter($id_jadwal, $id_prodi);
+    //         $data['s']=$this->m_mhsmatkul->selectedmatkul($id_jadwal);
+    //         //$data['j']=$this->m_mhsmatkul->selectedprodi($id_prodi);
+    //         $data['p']=1;
+    //         //var_dump($data['u'][0]);die;
+    //         $this->load->view('header');
+    //         $this->load->view('v_matkulm',$data);
+    //         $this->load->view('footer');
+    //     }
 		
-    }
+    // }
     // public function tambahmhs()
     // {
     //     $nim = $this->input->post('nim');
@@ -233,14 +269,25 @@ class Mhsmatkul extends CI_Controller {
         $where = array('id_mhsmatkul' => $id_mhsmatkul);
         
         $res = $this->m->update_data($where,$data,'mhsmatkul');
+        $prodi = $this->session->userdata('id_prodi');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
-			redirect('mhsmatkul/matkul');
-		}else{
+                if(!empty($prodi)){
+                    redirect('mhsmatkul/matkulprodi');	
+                }
+                else{
+                    redirect('mhsmatkul/matkul');
+                }	
+        }else{
 			$this->session->set_flashdata('err', "Gagal Menghapus Data");
-			redirect('mhsmatkul/matkul');
-		}
+            if(!empty($prodi)){
+                redirect('mhsmatkul/matkulprodi');	
+            }
+            else{
+                redirect('mhsmatkul/matkul');
+            }			
+        }
     }
     
     //IMPORT EXCEL
@@ -325,7 +372,26 @@ class Mhsmatkul extends CI_Controller {
             }
           $numrow++; // Tambah 1 setiap kali looping
         }
-        $this->m_mhsmatkul->cekmhs($datascan,$datamhs,$data);
-        redirect("mhsmatkul/matkul");
-      }
+        $res = $this->m_mhsmatkul->cekmhs($datascan,$datamhs,$data);
+		$prodi = $this->session->userdata("id_prodi");
+
+        if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengimpor Data"); 
+                if(!empty($prodi)){
+                    redirect('mhsmatkul/matkulprodi');	
+                }
+                else{
+                    redirect('mhsmatkul/matkul');
+                }	
+        }else{
+			$this->session->set_flashdata('err', "Gagal Mengimpor Data");
+            if(!empty($prodi)){
+                redirect('mhsmatkul/matkulprodi');	
+            }
+            else{
+                redirect('mhsmatkul/matkul');
+            }			
+        }	      
+        }
     }

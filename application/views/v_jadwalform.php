@@ -31,6 +31,10 @@
                   <div class="col-sm-4"><input type="submit" class="btn btn-sm btn-success" name="preview" value="Preview"></div>
                 </div>
               </form>
+              <div class="row mt-2">
+                  <div class="col-sm-2"><label class="form-control-label">Keterangan</label></div>
+                  <div class="col-sm-6"><label class="col-form-label-sm">Mata Kuliah, Dosen, dan Kelas harus sudah terdaftar</label></div>
+                </div>
             </div>
             <div class="form-group">
               <form method="post" action="<?php echo site_url("jadwal/import"); ?>" enctype="multipart/form-data">
