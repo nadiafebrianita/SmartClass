@@ -13,11 +13,19 @@ class Presensidosen extends CI_Controller {
     }
 	public function index()
 	{
-		$data['u']=$this->m_presensidosen->show();
-		$data['ddprodi']=$this->m_presensidosen->ddprodi();
-		$data['p']=1;
-        $this->load->view('header');
-        $this->load->view('v_presensidosen',$data);
+		$prodi=$this->session->userdata('nama_prodi');
+		if(!empty($prodi)){
+			$data['u']=$this->m_presensidosen->showprodi($prodi);
+			$this->load->view('header2');
+			$this->load->view('v2_presensidosen',$data);	
+		}
+		else{
+			$data['u']=$this->m_presensidosen->show();
+			$data['ddprodi']=$this->m_presensidosen->ddprodi();
+			$data['p']=1;
+			$this->load->view('header');
+			$this->load->view('v_presensidosen',$data);	
+		}
         $this->load->view('footer');
 	}
 	public function prodi()
@@ -27,7 +35,6 @@ class Presensidosen extends CI_Controller {
             redirect('presensidosen');
         }
         else{
-            //$where = array('id_prodi' => $id_prodi);
 			$data['u']=$this->m_presensidosen->selected($id_prodi);
 			$data['ddprodi']=$this->m_presensidosen->ddprodi();
 			$this->load->view('header');

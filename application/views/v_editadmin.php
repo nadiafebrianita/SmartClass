@@ -34,10 +34,23 @@
               <div class="form-group">
                 <label class="form-control-label">Prodi</label>
                     <select required class="form-control" name="id_prodi">
-                      <option value="<?php echo $u->id_prodi ?>"><?php echo $u->nama_prodi ?></option>
                       <?php
-                        foreach ($dd->result() as $baris) {
-                          echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                        $prodi = $this->session->userdata('id_prodi');
+                        $namaprodi = $this->session->userdata('nama_prodi');
+                        if(!empty($prodi)){
+                          echo "<option value='".$prodi."'>".$namaprodi."</option>";
+                        }
+                        else{
+                          if(empty($u->id_prodi)){
+                            echo "<option value='0'>Admin</option>";
+                          }
+                          else{
+                            echo "<option value='".$u->id_prodi."'>".$u->nama_prodi."</option>";
+                            echo "<option value='0'>Admin</option>";  
+                          }
+                          foreach ($dd->result() as $baris) {
+                            echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                          }
                         }
                       ?>
                 </select>

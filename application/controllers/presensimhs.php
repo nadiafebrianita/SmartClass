@@ -13,11 +13,19 @@ class Presensimhs extends CI_Controller {
     }
 	public function index()
 	{
-		$data['u']=$this->m_presensimhs->show();
-		$data['ddprodi']=$this->m_presensimhs->ddprodi();
-		$data['p']=1;
-        $this->load->view('header');
-        $this->load->view('v_presensimhs',$data);
+		$prodi=$this->session->userdata('nama_prodi');
+		if(!empty($prodi)){
+			$data['u']=$this->m_presensimhs->showprodi($prodi);
+			$this->load->view('header2');
+			$this->load->view('v2_presensimhs',$data);	
+		}
+		else{
+			$data['u']=$this->m_presensimhs->show();
+			$data['ddprodi']=$this->m_presensimhs->ddprodi();
+			$data['p']=1;
+			$this->load->view('header');
+			$this->load->view('v_presensimhs',$data);	
+		}
         $this->load->view('footer');
 	}
 	public function prodi()
@@ -27,7 +35,6 @@ class Presensimhs extends CI_Controller {
             redirect('presensimhs');
         }
         else{
-            //$where = array('id_prodi' => $id_prodi);
 			$data['u']=$this->m_presensimhs->selected($id_prodi);
 			$data['ddprodi']=$this->m_presensimhs->ddprodi();
 			$this->load->view('header');

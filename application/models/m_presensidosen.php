@@ -8,6 +8,13 @@ class M_presensidosen extends CI_Model {
 		$query = $this->db->get();
 		return $query->result ();
 	}
+	public function showprodi($prodi){
+		$this->db->select('*')
+		->from('presensi_dosen')
+		->where('nama_prodi',$prodi);
+		$query = $this->db->get();
+		return $query->result ();
+	}
 	public function selected($id_prodi){
 		$this->db->select('*');
 		$this->db->from('presensi_dosen')->where('id_prodi',$id_prodi);

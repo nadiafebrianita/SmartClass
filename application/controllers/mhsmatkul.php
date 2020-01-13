@@ -40,20 +40,17 @@ class Mhsmatkul extends CI_Controller {
     // }
     public function tambah(){
         $data['ddmhs'] = $this->m_mhsmatkul->ddmhs();
-        
         $prodi = $this->session->userdata("id_prodi");
         if(!empty($prodi)){
             $data['ddmatkulprodi'] = $this->m_mhsmatkul->ddmatkulprodi($prodi);
             $this->load->view('header2');
-            $this->load->view('v_tambahmhsmatkul',$data);
-            $this->load->view('footer');    
         }
         else{
             $data['ddmatkul'] = $this->m_mhsmatkul->ddmatkul();
             $this->load->view('header');
-            $this->load->view('v_tambahmhsmatkul',$data);
-            $this->load->view('footer');    
         }
+        $this->load->view('v_tambahmhsmatkul',$data);
+        $this->load->view('footer');    
 	}
 	public function tambah_aksi(){
 		$id_jadwal = $this->input->post('id_jadwal');
@@ -65,43 +62,31 @@ class Mhsmatkul extends CI_Controller {
 			);
 		
         $res = $this->m->input_data($data,'mhsmatkul');
-        $prodi = $this->session->userdata("id_prodi");
-
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
-            if(!empty($prodi)){
-                redirect('mhsmatkul/matkulprodi');	
-            }
-            else{
-                redirect('mhsmatkul/matkul');
-            }		
+            redirect('mhsmatkul/matkul');
         }else{
 			$this->session->set_flashdata('err', "Gagal Menambahkan Data");
-            if(!empty($prodi)){
-                redirect('mhsmatkul/matkulprodi');	
-            }
-            else{
-                redirect('mhsmatkul/matkul');
-            }	
+            redirect('mhsmatkul/matkul');
         }
 	}
 
     //MAHASISWA//
 	public function mhs()
 	{
-        $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
-        $data['u']=$this->m_mhsmatkul->mhs();
-        $this->load->view('header');
-        $this->load->view('v_mhsm',$data);
-        $this->load->view('footer');
-    }
-	public function mhsprodi()
-	{
         $prodi=$this->session->userdata("id_prodi");
-        $data['u']=$this->m_mhsmatkul->mhsprodi($prodi);
-        $this->load->view('header2');
-        $this->load->view('v2_mhsm',$data);
+        if(!empty($prodi)){
+            $data['u']=$this->m_mhsmatkul->mhsprodi($prodi);
+            $this->load->view('header2');
+            $this->load->view('v2_mhsm',$data);    
+        }
+        else{
+            $data['ddmhs']=$this->m_mhsmatkul->ddmhs();
+            $data['u']=$this->m_mhsmatkul->mhs();
+            $this->load->view('header');
+            $this->load->view('v_mhsm',$data);    
+        }
         $this->load->view('footer');
     }
     // public function tampilmhs()
@@ -152,19 +137,19 @@ class Mhsmatkul extends CI_Controller {
     //MATA KULIAH//
 	public function matkul()
 	{
-        $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
-        $data['u']=$this->m_mhsmatkul->matkul();
-        $data['p']=1;
-        $this->load->view('header');
-        $this->load->view('v_matkulm',$data);
-        $this->load->view('footer');
-    }
-	public function matkulprodi()
-	{
         $prodi = $this->session->userdata("id_prodi");
-        $data['u']=$this->m_mhsmatkul->matkulprodi($prodi);
-        $this->load->view('header2');
-        $this->load->view('v2_matkulm',$data);
+        if(!empty($prodi)){
+            $data['u']=$this->m_mhsmatkul->matkulprodi($prodi);
+            $this->load->view('header2');
+            $this->load->view('v2_matkulm',$data);    
+        }
+        else{
+            $data['ddprodi']=$this->m_mhsmatkul->ddprodi();
+            $data['u']=$this->m_mhsmatkul->matkul();
+            $data['p']=1;
+            $this->load->view('header');
+            $this->load->view('v_matkulm',$data);    
+        }
         $this->load->view('footer');
     }
     public function prodi()
@@ -269,24 +254,13 @@ class Mhsmatkul extends CI_Controller {
         $where = array('id_mhsmatkul' => $id_mhsmatkul);
         
         $res = $this->m->update_data($where,$data,'mhsmatkul');
-        $prodi = $this->session->userdata('id_prodi');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
-                if(!empty($prodi)){
-                    redirect('mhsmatkul/matkulprodi');	
-                }
-                else{
-                    redirect('mhsmatkul/matkul');
-                }	
+            redirect('mhsmatkul/matkul');
         }else{
 			$this->session->set_flashdata('err', "Gagal Menghapus Data");
-            if(!empty($prodi)){
-                redirect('mhsmatkul/matkulprodi');	
-            }
-            else{
-                redirect('mhsmatkul/matkul');
-            }			
+            redirect('mhsmatkul/matkul');
         }
     }
     
@@ -313,12 +287,18 @@ class Mhsmatkul extends CI_Controller {
             $data['upload_error'] = $upload['error']; // Ambil pesan error uploadnya untuk dikirim ke file form dan ditampilkan
           }
         }
-        $this->load->view('header');
+        $prodi=$this->session->userdata('id_prodi');
+        if(!empty($prodi)){
+            $this->load->view('header2');
+        }
+        else{
+            $this->load->view('header');
+        }
         $this->load->view('v_mhsmatkulform', $data);
         $this->load->view('footer');
       }
       
-      public function import(){
+    public function import(){
         // Load plugin PHPExcel nya
         include APPPATH.'third_party/PHPExcel/PHPExcel.php';
         
@@ -373,25 +353,14 @@ class Mhsmatkul extends CI_Controller {
           $numrow++; // Tambah 1 setiap kali looping
         }
         $res = $this->m_mhsmatkul->cekmhs($datascan,$datamhs,$data);
-		$prodi = $this->session->userdata("id_prodi");
-
         if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Mengimpor Data"); 
-                if(!empty($prodi)){
-                    redirect('mhsmatkul/matkulprodi');	
-                }
-                else{
-                    redirect('mhsmatkul/matkul');
-                }	
-        }else{
+            redirect('mhsmatkul/matkul');
+        }
+        else{
 			$this->session->set_flashdata('err', "Gagal Mengimpor Data");
-            if(!empty($prodi)){
-                redirect('mhsmatkul/matkulprodi');	
-            }
-            else{
-                redirect('mhsmatkul/matkul');
-            }			
+            redirect('mhsmatkul/matkul');
         }	      
         }
     }

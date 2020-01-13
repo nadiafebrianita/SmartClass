@@ -31,7 +31,7 @@
                       <h3 class="mb-0">Mata Kuliah</h3>
                     </div>
                     <div class="col text-right mt-2">
-                      <a href="<?php echo site_url('matkul/aturmatkulprodi'); ?>" class="btn btn-sm btn-primary">Atur</a>
+                      <a href="<?php echo site_url('matkul/aturmatkul'); ?>" class="btn btn-sm btn-primary">Atur</a>
                     </div>
                   </div>
                   <div class="row">
@@ -51,7 +51,7 @@
                       <h3 class="mb-0">Mahasiswa Mata Kuliah</h3>
                     </div>
                     <div class="col text-right mt-2">
-                      <a href="<?php echo site_url('mhsmatkul/matkulprodi'); ?>" class="btn btn-sm btn-primary">Atur</a>
+                      <a href="<?php echo site_url('mhsmatkul/matkul'); ?>" class="btn btn-sm btn-primary">Atur</a>
                     </div>
                   </div>
                   <div class="row">
@@ -98,7 +98,7 @@
                       ?></h3>
                 </div>
                 <div class="col text-right">
-                  <a href="<?php echo site_url('jadwal/aturjadwalprodi'); ?>" class="btn btn-sm btn-primary">Atur</a>
+                  <a href="<?php echo site_url('jadwal/aturjadwal'); ?>" class="btn btn-sm btn-primary">Atur</a>
                 </div>
               </div>
             </div>

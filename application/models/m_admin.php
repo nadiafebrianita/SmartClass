@@ -27,9 +27,15 @@ class M_admin extends CI_Model{
 	// 	$query = $this->db->get();
 	// 	return $query->result ();
 	// }	
-	public function tampiladmin(){
+	public function admin(){
         $this->db->select('admin.id_admin, admin.username, admin.id_prodi, prodi.nama_prodi');
 		$this->db->from('admin')->join('prodi','prodi.id_prodi=admin.id_prodi','left')->where('admin.del',NULL);
+		$query = $this->db->get();
+		return $query->result ();
+	}
+	public function adminprodi($prodi){
+        $this->db->select('admin.id_admin, admin.username, admin.id_prodi, prodi.id_prodi, prodi.nama_prodi');
+		$this->db->from('admin')->join('prodi','prodi.id_prodi=admin.id_prodi')->where('prodi.id_prodi',$prodi)->where('prodi.del',NULL)->where('admin.del',NULL);
 		$query = $this->db->get();
 		return $query->result ();
 	}
@@ -55,7 +61,7 @@ class M_admin extends CI_Model{
 	}
 	public function edit_data($id_admin){
 		$this->db->select('admin.id_admin, admin.username, admin.id_prodi, prodi.nama_prodi')
-		->from('admin')->join('prodi','prodi.id_prodi=admin.id_prodi')
+		->from('admin')->join('prodi','prodi.id_prodi=admin.id_prodi','left')
 		->where('admin.id_admin',$id_admin);
 		$query = $this->db->get();
 		return $query->result ();

@@ -10,8 +10,15 @@ class Admin extends CI_Controller {
 	}
 	public function atur()
 	{
-		$this->load->view('header');
-		$data['u']=$this->m_admin->tampiladmin();
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			$data['u']=$this->m_admin->adminprodi($prodi);
+			$this->load->view('header2');
+		}
+		else{
+			$data['u']=$this->m_admin->admin();
+			$this->load->view('header');
+		}
 		$this->load->view('v_admin',$data);
 		$this->load->view('footer');
 	}
@@ -20,7 +27,6 @@ class Admin extends CI_Controller {
 		$this->load->view('v_login');
 	}
 	
-
     function aksi_login(){
 		$username = $this->input->post('username');
 		$password = md5($this->input->post('password'));
@@ -59,14 +65,27 @@ class Admin extends CI_Controller {
 	}
 
 	public function tambah(){
-		$data['dd']=$this->m_admin->ddprodi();
-		$this->load->view('header');
-		$this->load->view('v_tambahadmin',$data);
+		$prodi=$this->session->userdata('id_prodi');
+
+		if(!empty($prodi)){
+			$this->load->view('header2');	
+			$this->load->view('v_tambahadmin');
+		}
+		else{
+			$data['dd']=$this->m_admin->ddprodi();
+			$this->load->view('header');
+			$this->load->view('v_tambahadmin',$data);	
+		}
 		$this->load->view('footer');
 	}
 	public function tambah_aksi(){
+		$prodi = $this->session->userdata('id_prodi');
+
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
+		if(!empty($prodi)){
+			$id_prodi = $prodi;
+		}
 		$id_prodi = $this->input->post('id_prodi');
  
 		$data = array(
@@ -79,27 +98,38 @@ class Admin extends CI_Controller {
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
-			redirect('admin/atur');
+			redirect('admin/atur');	
 		}
 		else{
 			$this->session->set_flashdata('info', "Data Admin $username Berhasil Dipulihkan"); 
-			redirect('admin/atur');
+			redirect('admin/atur');	
 		}
 	}
 	public function edit($id_admin)
 	{
-		//$where = array('id_admin' => $id_admin);
-		$data['dd'] = $this->m_admin->ddprodi();
-		$data['u'] = $this->m_admin->edit_data($id_admin);
-		$this->load->view('header');
+		$prodi=$this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$data['u'] = $this->m_admin->edit_data($id_admin);
+			$this->load->view('header2');
+		}
+		else{
+			$data['dd'] = $this->m_admin->ddprodi();
+			$data['u'] = $this->m_admin->edit_data($id_admin);
+			$this->load->view('header');	
+		}
 		$this->load->view('v_editadmin',$data);
 	    $this->load->view('footer');
 	}
 	
 	public function update(){
+		$prodi=$this->session->userdata('id_prodi');
+
 		$id_admin = $this->input->post('id_admin');
 		$username = $this->input->post('username');
 		$password = $this->input->post('password');
+		if(!empty($prodi)){
+			$id_prodi = $prodi;
+		}
 		$id_prodi = $this->input->post('id_prodi');
 		
 		$data = array(
@@ -111,25 +141,32 @@ class Admin extends CI_Controller {
 		$where = array('id_admin' => $id_admin);
 		
 		$this->m->update_data($where,$data,'admin');
-		redirect('admin/login');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
+			redirect('admin/atur');	
+		}
+		else{
+			$this->session->set_flashdata('info', "Gagal Mengubah Data"); 
+			redirect('admin/atur');
+		}
 	}
 	public function hapus($id_admin)
 	{
 		// date_default_timezone_set('UTC');
 		// $del = date("l , j F Y");
-		var_dump($id_admin);die;
 		$del = "1";
 		$data = array(
             'del' => $del);
         $where = array('id_admin' => $id_admin);
-        $res = $this->m->update_data($where,$data,'admin');
+		$res = $this->m->update_data($where,$data,'admin');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Admin"); 
-			redirect('admin/atur');
+			redirect('admin/atur');	
 		}else{
 			$this->session->set_flashdata('err', "Gagal Menghapus Admin");
-			redirect('admin/atur');
+			redirect('admin/atur');	
 		}
 	}
 }

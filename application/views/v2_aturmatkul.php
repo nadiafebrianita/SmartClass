@@ -1,18 +1,5 @@
     <!-- Header -->
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-      <div class="container-fluid">
-        <div class="header-body">
-          <!-- Card stats -->
-          <div class="row align-items-center">
-            <div class="col-lg-5">
-              <h6 class="h3 text-white d-inline-block mb-5">Program Studi</h6>
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-4">
-              <input type="text" class="form-control-sm" name="id_prodi" value="<?php echo $this->session->userdata("nama_prodi"); ?>" readonly>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
     <!-- Tabel -->
     <div class="container-fluid mt--9">

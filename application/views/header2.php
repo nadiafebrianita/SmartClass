@@ -130,10 +130,10 @@
             <div class="collapse" id="navbar-kuliah">
                 <ul class="nav nav-sm flex-column">
                   <li class="nav-item">
-                    <a href="<?php echo site_url('jadwal/aturjadwalprodi'); ?>" class="nav-link">Pengaturan Jadwal</a>
+                    <a href="<?php echo site_url('jadwal/aturjadwal'); ?>" class="nav-link">Pengaturan Jadwal</a>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('matkul/aturmatkulprodi'); ?>" class="nav-link">Pengaturan Mata Kuliah</a>
+                    <a href="<?php echo site_url('matkul/aturmatkul'); ?>" class="nav-link">Pengaturan Mata Kuliah</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link" href="#navbar-mhsm" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-mhsm">
@@ -142,15 +142,15 @@
                     <div class="collapse" id="navbar-mhsm">
                       <ul class="nav nav-sm flex-column">
                         <li class="nav-item">
-                          <a href="<?php echo site_url('mhsmatkul/matkulprodi'); ?>" class="nav-link">Berdasarkan Mata Kuliah</a>
+                          <a href="<?php echo site_url('mhsmatkul/matkul'); ?>" class="nav-link">Berdasarkan Mata Kuliah</a>
                         </li>
                         <li class="nav-item">
-                          <a href="<?php echo site_url('mhsmatkul/mhsprodi'); ?>" class="nav-link">Berdasarkan Mahasiswa</a>
+                          <a href="<?php echo site_url('mhsmatkul/mhs'); ?>" class="nav-link">Berdasarkan Mahasiswa</a>
                         </li>
                       </ul>
                   </li>
                   <li class="nav-item">
-                    <a href="<?php echo site_url('kls/show_klsprodi'); ?>" class="nav-link">Pengaturan Kelas</a>
+                    <a href="<?php echo site_url('kls/show_kls'); ?>" class="nav-link">Pengaturan Kelas</a>
                   </li>
                 </ul>
               </div>
