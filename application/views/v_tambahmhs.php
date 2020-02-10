@@ -28,9 +28,27 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label">NIM</label>
-                <input type="number" class="form-control" name="nim" placeholder="Masukkan NIM" required>
                 <input type="hidden" name="id_scan">
+                <input type="number" pattern=".{5,10}" class="form-control" name="nim" placeholder="Masukkan NIM Mahasiswa" title="NIM terdiri dari 14 angka" required>
               </div>
+              <div class="form-group">
+                <label class="form-control-label">Program Studi</label>
+                    <select required class="form-control" name="id_prodi" id="id_prodi">
+                      <?php
+                      $prodi = $this->session->userdata('id_prodi');
+                      $namaprodi = $this->session->userdata('nama_prodi');
+                      if(!empty($prodi)){
+                        echo "<option value='".$prodi."'>".$namaprodi."</option>";
+                      }
+                      else{
+                        echo "<option>- Pilih Prodi -</option>";
+                        foreach ($ddprodi->result() as $baris) {
+                          echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                        }
+                      }
+                      ?>
+                </select>
+               </div>
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 25px">Simpan</button>
