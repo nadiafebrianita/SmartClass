@@ -32,6 +32,24 @@ class Jadwal extends CI_Controller {
 		}		
 		$this->load->view('footer');
 	}
+	public function laporan()
+	{
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			$data['jadwal']=$this->m_jadwal->show_jadwalprodi($prodi);
+			$this->load->view('header2');
+			$this->load->view('v2_lapjadwal',$data);	
+		}
+		else{
+			$data['jadwal']=$this->m_jadwal->show_jadwal();
+			$data['ddprodi']=$this->m_jadwal->ddprodi();
+			$data['p']=1;
+			$this->load->view('header');
+			$this->load->view('v_aturjadwal',$data);		
+		}		
+		$this->load->view('footer');
+	}
+
 	public function prodi()
 	{
 		$id_prodi = $this->input->post('id_prodi');
@@ -52,14 +70,15 @@ class Jadwal extends CI_Controller {
 
 		$data['ddsmt'] = $this->m_jadwal->ddsmt();
 		$data['dddosen'] = $this->m_jadwal->dddosen();
-		$data['ddkelas'] = $this->m_jadwal->ddkelas();
 
 		if(!empty($prodi)){
 			$data['ddmatkulprodi'] = $this->m_jadwal->ddmatkulprodi($prodi);
+			$data['ddkelas'] = $this->m_jadwal->ddkelas();
 			$this->load->view('header2');
 		}
 		else{
 			$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
+			$data['ddkelas'] = $this->m_jadwal->ddkelas();
 			$this->load->view('header');
 		}
 		$this->load->view('v_tambahjadwal',$data);
@@ -116,14 +135,14 @@ class Jadwal extends CI_Controller {
 		}
 	}
 
-	public function edit($id_jadwal)
-	{
+	public function edit($id_jadwal){
 		$where = array('id_jadwal' => $id_jadwal);
+		$prodi = $this->session->userdata("id_prodi");
+
 		$data['ddsmt'] = $this->m_jadwal->ddsmt();
 		$data['dddosen'] = $this->m_jadwal->dddosen();
 		$data['ddkelas'] = $this->m_jadwal->ddkelas();
 		$data['u'] = $this->m_jadwal->edit_data($id_jadwal);
-		$prodi=$this->session->userdata('id_prodi');
 		if(!empty($prodi)){
 			$data['ddmatkulprodi'] = $this->m_jadwal->ddmatkulprodi($prodi);
 			$this->load->view('header2');
@@ -132,7 +151,7 @@ class Jadwal extends CI_Controller {
 			$data['ddmatkul'] = $this->m_jadwal->ddmatkul();
 			$this->load->view('header');
 		}
-		$this->load->view('v_tambahjadwal',$data);
+		$this->load->view('v_editjadwal',$data);
 		$this->load->view('footer');	
 	}
 

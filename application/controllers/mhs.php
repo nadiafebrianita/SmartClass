@@ -17,8 +17,15 @@ class Mhs extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('header');
-		$data['mhs']=$this->m_mhs->show_mhs();
+		$prodi=$this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$data['mhs']=$this->m_mhs->show_mhsprodi($prodi);	
+			$this->load->view('header2');
+		}
+		else{
+			$data['mhs']=$this->m_mhs->show_mhs();
+			$this->load->view('header');
+		}
 		$this->load->view('v_mhs',$data);
 		$this->load->view('footer');
 		
@@ -57,8 +64,15 @@ class Mhs extends CI_Controller {
 	}
 
 	public function tambah(){
-		$this->load->view('header');
-		$this->load->view('v_tambahmhs');
+		$prodi=$this->session->userdata('id_prodi');
+		$data['ddprodi']=$this->m_mhs->ddprodi();
+		if(!empty($prodi)){
+			$this->load->view('header2');
+		}
+		else{
+			$this->load->view('header');
+		}
+		$this->load->view('v_tambahmhs',$data);
 		$this->load->view('footer');
 	}
 	public function tambah_aksi(){
@@ -67,6 +81,11 @@ class Mhs extends CI_Controller {
 		$nim = $this->input->post('nim');
 		$a = explode(' ',trim($nama_mhs));
 		$alias = $a[0];
+		$prodi=$this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$id_prodi = $prodi;
+		}
+		$id_prodi = $this->input->post('id_prodi');
 
 		$datascan = array(
 			'id_scan' => $id_scan,
@@ -76,8 +95,10 @@ class Mhs extends CI_Controller {
 		$data = array(
 			'nama_mhs' => $nama_mhs,
 			'nim' => $nim,
-			'id_scan' => $id_scan
+			'id_scan' => $id_scan,
+			'id_prodi' => $id_prodi
 			);
+			var_dump($data);die;
 		$this->m_mhs->insert($data, $datascan);
 		redirect('mhs/index');
 	}

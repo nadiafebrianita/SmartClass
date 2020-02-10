@@ -3,14 +3,34 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_mhs extends CI_Model {
 	public function show_mhs(){
-        $this->db->select('mhs.nama_mhs, mhs.nim, user_scan.alias');
-		$this->db->from('mhs');
-		$this->db->join('user_scan', 'user_scan.id_scan=mhs.id_scan')->where('mhs.del',NULL);
-		$this->db->order_by("nim", "asc");
-		$this->db->order_by("nama_mhs", "asc");
+        $this->db->select('mhs.nama_mhs, mhs.nim, user_scan.alias, prodi.nama_prodi')
+		->from('mhs')
+		->join('user_scan', 'user_scan.id_scan=mhs.id_scan')
+		->join('prodi', 'prodi.id_prodi=mhs.id_prodi')
+		->where('mhs.del',NULL)
+		->order_by("nim", "asc")
+		->order_by("nama_mhs", "asc");
 		$query = $this->db->get();
 		return $query->result ();
 	}
+	public function show_mhsprodi($prodi){
+        $this->db->select('mhs.nama_mhs, mhs.nim, user_scan.alias, prodi.nama_prodi')
+		->from('mhs')
+		->join('user_scan', 'user_scan.id_scan=mhs.id_scan')
+		->join('prodi', 'prodi.id_prodi=mhs.id_prodi')
+		->where('mhs.id_prodi',$prodi)
+		->where('mhs.del',NULL)
+		->order_by("nim", "asc")
+		->order_by("nama_mhs", "asc");
+		$query = $this->db->get();
+		return $query->result ();
+	}
+	public function ddprodi()
+	{
+		$query = $this->db->get_where('prodi',array('del' => NULL));
+		return $query;
+	}
+
 	public function edit_data($where){		
 		$this->db->select('user_scan.id_scan, user_scan.alias');
 		$this->db->from('mhs');

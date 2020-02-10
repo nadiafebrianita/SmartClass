@@ -27,6 +27,7 @@
                 <thead class="thead-light">
                   <tr>
                     <th scope="col">No</th>
+                    <th scope="col">Serial Number</th>
                     <th scope="col">Nama Kelas</th>
                     <th scope="col">Keterangan</th>
                     <th scope="col">Opsi</th>
@@ -39,6 +40,7 @@
                   ?>
                   <tr>
                     <td><?php echo $no++ ?></td>
+                    <td><?php echo $u->sn ?></td>
                     <td><?php echo $u->nama_kls ?></td>
                     <td><?php echo $u->ket ?></td>
                     <td>

@@ -22,6 +22,10 @@
           <!-- Form groups used in grid -->
           <div class="row">
             <div class="col">
+            <div class="form-group">
+                <label class="form-control-label" >Serial Number</label>
+                <input type="text" class="form-control" name="sn" value="<?php echo $u->sn ?>">
+              </div>
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Nama Kelas</label>
                 <input type="hidden" class="form-control" name="id_kls" value="<?php echo $u->id_kls ?>">
@@ -31,6 +35,24 @@
                 <label class="form-control-label" for="example3cols1Input">Keterangan</label>
                 <input type="text" class="form-control" name="ket" value="<?php echo $u->ket ?>">
               </div>
+              <div class="form-group">
+                <label class="form-control-label">Program Studi</label>
+                    <select required class="form-control" name="id_prodi" id="id_prodi">
+                      <?php
+                      $prodi = $this->session->userdata('id_prodi');
+                      $namaprodi = $this->session->userdata('nama_prodi');
+                      if(!empty($prodi)){
+                        echo "<option value='".$prodi."'>".$namaprodi."</option>";
+                      }
+                      else{
+                        echo "<option value='".$u->id_kls."'>".$u->nama_kls."</option>";
+                        foreach ($ddprodi->result() as $baris) {
+                          echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                        }
+                      }
+                      ?>
+                </select>
+               </div>
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 25px">Simpan</button>

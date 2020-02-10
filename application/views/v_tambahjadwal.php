@@ -105,9 +105,18 @@
                       <select required class="form-control mt-2" name="id_kls1">
                         <option value="">- Pilih Kelas -</option>
                         <?php
+                        $prodi = $this->session->userdata('id_prodi');
+                        $namaprodi = $this->session->userdata('nama_prodi');
+                        if(!empty($prodi)){
+                          foreach ($ddkelas->result() as $baris) {
+                            echo "<option value='".$baris->id_kls."'>".$baris->nama_kls."</option>";
+                          }                        
+                        }
+                        else{
                           foreach ($ddkelas->result() as $baris) {
                             echo "<option value='".$baris->id_kls."'>".$baris->nama_kls."</option>";
                           }
+                        }
                         ?>
                       </select>
                   </div>

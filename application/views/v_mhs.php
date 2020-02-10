@@ -33,6 +33,7 @@
                     <th scope="col">Nama</th>
                     <th scope="col">NIM</th>
                     <th scope="col">Alias</th>
+                    <th scope="col">Program Studi</th>
                     <th scope="col">Opsi</th>
                   </tr>
                 </thead>
@@ -46,6 +47,7 @@
                     <td><?php echo $u->nama_mhs ?></td>
                     <td><?php echo $u->nim ?></td>
                     <td><?php echo $u->alias ?></td>
+                    <td><?php echo $u->nama_prodi ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('mhs/edit/'.$u->nim,'Edit');?></button>
                     <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-notification<?php echo $u->nim; ?>">Hapus</button>

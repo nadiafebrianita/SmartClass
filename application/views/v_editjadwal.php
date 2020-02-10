@@ -54,8 +54,16 @@
                     <select class="form-control mt-2" name="id_matkul">
                       <option value="<?php echo $u->id_matkul ?>"><?php echo $u->nama_matkul ?></option>
                       <?php
-                        foreach ($ddmatkul->result() as $baris) {
-                          echo "<option value='".$baris->id_matkul."'>".$baris->nama_matkul."</option>";
+                        $prodi=$this->session->userdata("id_prodi");
+                        if(!empty($prodi)){
+                          foreach ($ddmatkulprodi->result() as $baris) {
+                            echo "<option value='".$baris->id_matkul."'>".$baris->nama_matkul."</option>";
+                          }
+                        }
+                        else{
+                          foreach ($ddmatkul->result() as $baris) {
+                            echo "<option value='".$baris->id_matkul."'>".$baris->nama_matkul."</option>";
+                          }
                         }
                       ?>
                     </select>

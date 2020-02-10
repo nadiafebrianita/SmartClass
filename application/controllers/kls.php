@@ -25,12 +25,13 @@ class Kls extends CI_Controller {
 	{
 		$prodi=$this->session->userdata('id_prodi');
 		if(!empty($prodi)){
+			$data['u']=$this->m_kls->klsprodi($prodi);
 			$this->load->view('header2');
 		}
 		else{
+			$data['u']=$this->m_kls->kls();
 			$this->load->view('header');
 		}
-		$data['u']=$this->m_kls->tampilkls();
 		$this->load->view('v_aturkls',$data);
 		$this->load->view('footer');
 	}
@@ -76,21 +77,27 @@ class Kls extends CI_Controller {
 		$prodi=$this->session->userdata('id_prodi');
 		if(!empty($prodi)){
 			$this->load->view('header2');
+			$this->load->view('v_tambahkls');
 		}
 		else{
+			$data['dd'] = $this->m_kls->dd();
 			$this->load->view('header');
+			$this->load->view('v_tambahkls',$data);
 		}
-		$this->load->view('v_tambahkls');
 		$this->load->view('footer');	
 
 	}
 	public function tambah_aksi(){
+		$sn = $this->input->post('sn');
 		$nama_kls = $this->input->post('nama_kls');
 		$ket = $this->input->post('ket');
+		$id_prodi = $this->input->post('id_prodi');
  
 		$data = array(
+			'sn' => $sn,
 			'nama_kls' => $nama_kls,
-			'ket' => $ket
+			'ket' => $ket,
+			'id_prodi' => $id_prodi
 			);
 		
 		$res = $this->m->input_data($data,'kelas');

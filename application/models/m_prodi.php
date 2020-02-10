@@ -11,7 +11,7 @@ class M_prodi extends CI_Model {
 	}
 	public function dd()
 	{
-		$query = $this->db->get('fakultas');
+		$query = $this->db->get_where('fakultas',array('del' => NULL));
 		return $query;
 	}
 }

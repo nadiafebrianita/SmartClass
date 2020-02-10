@@ -22,6 +22,10 @@
           <div class="row">
             <div class="col">
               <div class="form-group">
+                <label class="form-control-label" >Serial Number</label>
+                <input type="text" class="form-control" name="sn" placeholder="Masukkan Serial Number Mesin" required>
+              </div>
+              <div class="form-group">
                 <label class="form-control-label" >Nama Kelas</label>
                 <input type="text" class="form-control" name="nama_kls" placeholder="Masukkan Nama Kelas contoh: E201" required>
               </div>
@@ -29,6 +33,24 @@
                 <label class="form-control-label" for="example3cols1Input">Keterangan</label>
                 <input type="text" class="form-control" name="ket" placeholder="Berikan keterangan" required>
               </div>
+              <div class="form-group">
+                <label class="form-control-label">Program Studi</label>
+                    <select required class="form-control" name="id_prodi" id="id_prodi">
+                      <?php
+                      $prodi = $this->session->userdata('id_prodi');
+                      $namaprodi = $this->session->userdata('nama_prodi');
+                      if(!empty($prodi)){
+                        echo "<option value='".$prodi."'>".$namaprodi."</option>";
+                      }
+                      else{
+                        echo "<option>- Pilih Prodi -</option>";
+                        foreach ($ddprodi->result() as $baris) {
+                          echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                        }
+                      }
+                      ?>
+                </select>
+               </div>
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-lg btn-block" style="margin-top: 25px">Simpan</button>

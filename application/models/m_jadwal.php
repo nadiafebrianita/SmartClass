@@ -84,6 +84,7 @@ class M_jadwal extends CI_Model {
 		$query = $this->db->get_where('kelas',array('del' => NULL));
 		return $query;
 	}
+	
 	public function ddprodi()
 	{
 		$query = $this->db->get_where('prodi',array('del' => NULL));
