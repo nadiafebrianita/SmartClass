@@ -70,7 +70,7 @@
                       <h3 class="mb-0">Kelas</h3>
                     </div>
                     <div class="col text-right mt-2">
-                      <a href="<?php echo site_url('kls/show_klsprodi'); ?>" class="btn btn-sm btn-primary">Atur</a>
+                      <a href="<?php echo site_url('kls/show_kls'); ?>" class="btn btn-sm btn-primary">Atur</a>
                     </div>
                   </div>
                   <div class="row">

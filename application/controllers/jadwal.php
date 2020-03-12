@@ -32,23 +32,6 @@ class Jadwal extends CI_Controller {
 		}		
 		$this->load->view('footer');
 	}
-	public function laporan()
-	{
-		$prodi = $this->session->userdata("id_prodi");
-		if(!empty($prodi)){
-			$data['jadwal']=$this->m_jadwal->show_jadwalprodi($prodi);
-			$this->load->view('header2');
-			$this->load->view('v2_lapjadwal',$data);	
-		}
-		else{
-			$data['jadwal']=$this->m_jadwal->show_jadwal();
-			$data['ddprodi']=$this->m_jadwal->ddprodi();
-			$data['p']=1;
-			$this->load->view('header');
-			$this->load->view('v_aturjadwal',$data);		
-		}		
-		$this->load->view('footer');
-	}
 
 	public function prodi()
 	{
@@ -57,7 +40,6 @@ class Jadwal extends CI_Controller {
             redirect('jadwal/aturjadwal');
         }
         else{
-            //$where = array('id_prodi' => $id_prodi);
 			$data['jadwal']=$this->m_jadwal->selected($id_prodi);
 			$data['ddprodi']=$this->m_jadwal->ddprodi();
 			$this->load->view('header');
@@ -85,7 +67,6 @@ class Jadwal extends CI_Controller {
 		$this->load->view('footer');	
 	}
 	public function tambah_aksi(){
-		// 1
 		$id_smt = $this->input->post('id_smt');
 		$hari = $this->input->post('hari');
 		$waktu = $this->input->post('waktu');
@@ -120,11 +101,8 @@ class Jadwal extends CI_Controller {
 	}
 	public function hapus($id_jadwal)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
         $where = array('id_jadwal' => $id_jadwal);
-        $res = $this->m->update_data($where,$data,'jadwal');
+		$res=$this->m->hapus_data($where,'jadwal');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 

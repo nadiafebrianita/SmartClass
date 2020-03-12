@@ -36,15 +36,22 @@
               <form method="post" action="<?php echo site_url("mhsmatkul/import"); ?>" enctype="multipart/form-data">
               <input type="hidden" name="id_scan">
               <label class="form-control-label">Mata Kuliah</label>
-              <select class="form-control-sm" name="id_jadwal">
-                    <option>- Pilih Mata Kuliah -</option>
-                      <?php
-                        foreach ($ddmatkul->result() as $dd) {
-                          echo "<option value='".$dd->id_jadwal."'>".$dd->nama_matkul."</option>";
-                        }
-                      ?>
-              </select>
-
+              <select required class="form-control mt-2 mb-4" name="id_jadwal">
+                  <option value="">- Pilih Mata Kuliah -</option>
+                  <?php
+                    $prodi=$this->session->userdata("id_prodi");
+                    if(!empty($prodi)){
+                      foreach ($ddmatkulprodi->result() as $baris) {
+                        echo "<option value='".$baris->id_jadwal."'>".$baris->nama_matkul."</option>";
+                      }
+                    }
+                    else{
+                      foreach ($ddmatkul->result() as $dd) {
+                        echo "<option value='".$dd->id_jadwal."'>".$dd->nama_matkul."</option>";
+                      } 
+                    }
+                  ?>
+                </select>
           <?php
           if(isset($_POST['preview'])){ // Jika user menekan tombol Preview pada form 
               if(isset($upload_error)){ // Jika proses upload gagal

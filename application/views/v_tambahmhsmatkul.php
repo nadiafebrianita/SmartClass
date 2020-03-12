@@ -45,11 +45,20 @@
                 <select required class="form-control mt-2" name="nim">
                   <option value="">- Pilih Mahasiswa -</option>
                   <?php
+                  $prodi=$this->session->userdata("id_prodi");
+                  if(!empty($prodi)){
+                    foreach ($ddmhsprodi->result() as $baris) {
+                      echo "<option value='".$baris->nim."'>".$baris->nama_mhs."</option>";
+                    }
+                  }
+                  else{
                     foreach ($ddmhs->result() as $baris) {
                       echo "<option value='".$baris->nim."'>".$baris->nama_mhs."</option>";
                     }
+                  }
                   ?>
                 </select>
+
               </div>
             </div>
           </div>

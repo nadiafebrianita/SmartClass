@@ -15,21 +15,32 @@ class Dosen extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('header');
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			$this->load->view('header2');
+		}
+		else{
+			$this->load->view('header');
+		}
 		$data['dosen']=$this->m_dosen->show_dosen();
 		$this->load->view('v_dosen',$data);
 		$this->load->view('footer');
-		
 	}
 	public function edit($id_dosen)
 	{
+		$prodi = $this->session->userdata("id_prodi");
 		$where = array('id_dosen' => $id_dosen);
-		
 		$data['u'] = $this->m->edit_data($where,'dosen')->result();
 		$data['a'] = $this->m_dosen->edit_data($where)->result();
-		$this->load->view('header');
+		
+		if(!empty($prodi)){
+			$this->load->view('header2');
+		}
+		else{
+			$this->load->view('header');
+		}
 		$this->load->view('v_editdosen',$data);
-	    $this->load->view('footer');
+		$this->load->view('footer');
 	}
 	
 	public function update(){
@@ -52,12 +63,25 @@ class Dosen extends CI_Controller {
 		$where = array('id_dosen' => $id_dosen);
 		$where1 = array('id_scan' => $id_scan);
 		
-		$this->m->update_data($where,$data,'dosen');
-		$this->m->update_data($where1,$datascan,'user_scan');
-		redirect('dosen/index');
+		$res1=$this->m->update_data($where,$data,'dosen');
+		$res2=$this->m->update_data($where1,$datascan,'user_scan');
+		if(!empty($res1 && $res2))
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Dosen"); 
+			redirect('dosen/index');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengubah Dosen");
+			redirect('dosen/index');
+		}
 	}
 	public function tambah(){
-		$this->load->view('header');
+		$prodi = $this->session->userdata("id_prodi");
+		if(!empty($prodi)){
+			$this->load->view('header2');
+		}
+		else{
+			$this->load->view('header');
+		}
 		$this->load->view('v_tambahdosen');
 		$this->load->view('footer');
 	}
@@ -77,16 +101,28 @@ class Dosen extends CI_Controller {
 			'nidn' => $nidn,
 			'id_scan' => $id_scan
 			);
-		$this->m_dosen->insert($data, $datascan);
-		redirect('dosen/index');
+		$res=$this->m_dosen->insert($data, $datascan);
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menambah Dosen"); 
+			redirect('dosen/index');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menambah Dosen");
+			redirect('dosen/index');
+		}
 	}
 	public function hapus($id_dosen)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
         $where = array('id_dosen' => $id_dosen);
-        $this->m->update_data($where,$data,'dosen');
-        redirect('dosen');
+		$res=$this->m->hapus_data($where,'dosen');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menghapus Dosen"); 
+			redirect('dosen/index');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menghapus Dosen");
+			redirect('dosen/index');
+		}
+
 	}
 }

@@ -30,7 +30,7 @@
               <div class="form-group">
                 <label class="form-control-label">Fakultas</label>
                     <select class="form-control" name="id_fakultas">
-                      <option value="<?php echo $u->id_fakultas ?>">- Pilih Prodi -</option>
+                      <option value="<?php echo $u->id_fakultas ?>"><?php echo $u->nama_fakultas ?></option>
                       <?php
                         foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_fakultas."'>".$baris->nama_fakultas."</option>";

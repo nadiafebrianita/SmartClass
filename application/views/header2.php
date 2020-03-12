@@ -136,6 +136,9 @@
                     <a href="<?php echo site_url('matkul/aturmatkul'); ?>" class="nav-link">Pengaturan Mata Kuliah</a>
                   </li>
                   <li class="nav-item">
+                    <a href="<?php echo site_url('mhsmatkul/matkul'); ?>" class="nav-link">Pengaturan Mahasiswa - Mata Kuliah</a>
+                  </li>
+                  <!-- <li class="nav-item">
                     <a class="nav-link" href="#navbar-mhsm" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="navbar-mhsm">
                       <span class="nav-link-text">Pengaturan Mahasiswa - Mata Kuliah</span>
                     </a>
@@ -148,7 +151,7 @@
                           <a href="<?php echo site_url('mhsmatkul/mhs'); ?>" class="nav-link">Berdasarkan Mahasiswa</a>
                         </li>
                       </ul>
-                  </li>
+                  </li> -->
                   <li class="nav-item">
                     <a href="<?php echo site_url('kls/show_kls'); ?>" class="nav-link">Pengaturan Kelas</a>
                   </li>
@@ -167,9 +170,6 @@
                   </li>
                   <li class="nav-item">
                     <a href="<?php echo site_url('presensimhs'); ?>" class="nav-link">Presensi Mahasiswa</a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="<?php echo site_url('jadwal/laporan'); ?>" class="nav-link">Laporan Jadwal</a>
                   </li>
                 </ul>
               </div>

@@ -55,7 +55,7 @@ class Matkul extends CI_Controller {
 			$this->load->view('header2');
 		}
 		else{
-			$data['ddprodi'] = $this->m_matkul->ddprodi();
+			$data['ddprodi'] = $this->m_matkul->ddprodiall();
 			$this->load->view('header');
 		}
 		$this->load->view('v_tambahmatkul', $data);
@@ -72,7 +72,7 @@ class Matkul extends CI_Controller {
 			'nama_matkul' => $nama_matkul,
 			'id_prodi' => $id_prodi
 			);
-		$res = $this->m->input_data($data,'matkul');
+		$res = $this->m_matkul->input_data($data);
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
@@ -85,8 +85,7 @@ class Matkul extends CI_Controller {
 	
 	public function edit($id_matkul)
 	{
-		$where = array('id_matkul' => $id_matkul);
-		$data['u'] = $this->m->edit_data($where,'matkul')->result();
+		$data['u'] = $this->m_matkul->edit_data($id_matkul);
 		
 		$prodi = $this->session->userdata("id_prodi");
 		if(!empty($prodi)){
@@ -129,13 +128,8 @@ class Matkul extends CI_Controller {
 	}
 	public function hapus($id_matkul)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
-        $where = array('id_matkul' => $id_matkul);
-		
-		$res = $this->m->update_data($where,$data,'matkul');
-
+		$where = array('id_matkul' => $id_matkul);
+		$res=$this->m->hapus_data($where,'matkul');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
@@ -145,23 +139,6 @@ class Matkul extends CI_Controller {
 			redirect('matkul/aturmatkul');
 		}
 	}
-
-	//SEARCH//
-	// public function search(){
-	// 	// Ambil data NIS yang dikirim via ajax post
-	// 	$keyword = $this->input->post('keyword');
-	// 	$siswa = $this->m_matkul->search($keyword);
-		
-	// 	// Kita load file view.php sambil mengirim data siswa hasil query function search di SiswaModel
-	// 	$hasil = $this->load->view('aturmatkul', array('matkul'=>$siswa), true);
-		
-	// 	// Buat sebuah array
-	// 	$callback = array(
-	// 	  'hasil' => $hasil, // Set array hasil dengan isi dari view.php yang diload tadi
-	// 	);
-	// 	echo json_encode($callback); // konversi varibael $callback menjadi JSON
-	//   }
-	
 	//IMPORT EXCEL
 	public function form(){
 		$data = array(); // Buat variabel $data sebagai array
@@ -234,7 +211,6 @@ class Matkul extends CI_Controller {
 			}
 			$numrow++; // Tambah 1 setiap kali looping
 		}
-		//var_dump($dataprodi); die;
 		$res = $this->m_matkul->insert_multiple($dataprodi,$data);
 		if($res==true){
 			$this->session->set_flashdata('true', "Berhasil Mengimpor Data"); 

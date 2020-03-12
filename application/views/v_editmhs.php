@@ -29,7 +29,7 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label">NIM</label>
-                <input type="text" class="form-control" name="nim" value="<?php echo $u->nim ?>">
+                <input type="text" class="form-control" name="nim" value="<?php echo $u->nim ?>" readonly>
               </div>
               <div class="form-group">
                 <label class="form-control-label">Alias</label>

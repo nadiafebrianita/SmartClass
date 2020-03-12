@@ -4,38 +4,6 @@
         <div class="header-body">
           <!-- Card stats -->
           <div class="row align-items-center py-1">
-            <div class="col-lg-5">
-            <form action="<?php echo site_url('mhsmatkul/pilih'); ?>" method="post">
-            <form role="form">
-              <h6 class="h3 text-white d-inline-block mb-5">Tampilkan Berdasarkan</h6>
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
-                <select class="form-control-sm" name="pilih">
-                  <option value="2" selected>Mahasiswa</option>
-                  <option value="3">Mata Kuliah</option>
-                </select>
-                <button type="submit" class="btn btn-sm btn-success">Set</a>
-              </nav>
-              </form>
-              </form>
-              </div>
-            <div class="col-lg-5">
-            <form action="<?php echo site_url('mhsmatkul/tampilmhs'); ?>" method="post">
-            <form role="form"> 
-              <h6 class="h3 text-white d-inline-block mb-5">Nama Mahasiswa</h6>
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
-                <select class="form-control-sm" name="nim">
-                  <option value="0">Semua</option>
-                    <?php
-                      foreach ($ddmhs->result() as $dd) {
-                        echo "<option value='".$dd->nim."'>".$dd->nama_mhs."</option>";
-                      }
-                    ?>
-                </select>
-                <button type="submit" class="btn btn-sm btn-success">Set</a>
-              </nav>
-            </form>
-            </form>
-            </div>
           </div>
         </div>
       </div>

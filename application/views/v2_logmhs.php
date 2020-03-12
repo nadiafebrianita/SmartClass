@@ -8,51 +8,53 @@
           <div class="card shadow">
             <div class="card-header border-0">
               <div class="row align-items-center">
-                <div class="col-lg-10">
-                  <h3 class="mb-0">Laporan Jadwal</h3>
+                <div class="col">
+                  <h3 class="mb-0">Presensi Mahasiswa</h3>
                 </div>
               </div>
             </div>
             <div class="table-responsive">
               <!-- Projects table -->
-              <table id="jadwal" class="table align-items-center table-flush">
+              <table id="prmhs" class="table align-items-center table-flush">
                 <thead class="thead-light">
                   <tr>
-                  <th scope="col">Hari</th>
-                  <th scope="col">Jam</th>
-                  <?php 
-                    foreach($jadwal as $j){ 
-                  ?>
-                    <th scope="col"><?php echo $j->nama_kls ?></th>
-                  <?php } ?>
+                    <th scope="col">No</th>
+                    <th scope="col">Hari</th>
+                    <th scope="col">Tanggal</th>
+                    <th scope="col">Waktu</th>
+                    <th scope="col">Kode Mata Kuliah</th>
+                    <th scope="col">Mata Kuliah</th>
+                    <th scope="col">Mahasiswa</th>
+                    <th scope="col">Program Studi</th>
                   </tr>
                 </thead>
                 <tbody>
                 <?php 
-                    foreach($jadwal as $j){ 
+                $no = 1;
+                foreach($u as $u){ 
                 ?>
                   <tr>
-                    <td>Monday</td>
-                    <td>07:00</td>
-                    <td><?php echo $j->nama_matkul ?></td>
+                    <td><?php echo $no++ ?></td>
+                    <td><?php echo $u->hari_scan ?></td>
+                    <td><?php echo $u->tanggal_scan ?></td>
+                    <td><?php echo $u->waktu_scan ?></td>
+                    <td><?php echo $u->kode_matkul ?></td>
+                    <td><?php echo $u->nama_matkul ?></td>
+                    <td><?php echo $u->nama_mhs ?></td>
+                    <td><?php echo $u->nama_prodi ?></td>
                   </tr>
-                <?php } ?>
+                  <?php } ?>
                 </tbody>
               </table>
               <script type="text/javascript">
                 $(document).ready(function () {
-                    $('#jadwal').DataTable({
-                      "dom" : 'Bfrtip',
-                      "order": [],
-                      "columnDefs": [ {
-                        "targets"  : [1],
-                        "orderable": false,
-                      }],
-                      buttons: [
+                    $('#prmhs').DataTable({
+                        dom: 'Bfrtip',
+                        buttons: [
                           {
                             extend: 'copyHtml5',
                             title: function(){
-                              return "Data Jadwal - Smart Class"
+                              return "Data Presensi Mahasiswa - Smart Class"
                             },
                             exportOptions: {
                                 columns: [ 0, 1, 2, 3, 4, 5, 6]
@@ -61,7 +63,7 @@
                           {
                             extend: 'pdfHtml5',
                             title: function(){
-                              return "Data Jadwal - Smart Class"
+                              return "Data Presensi Mahasiswa - Smart Class"
                             },
                             exportOptions: {
                                 columns: [ 0, 1, 2, 3, 4, 5, 6]
@@ -70,7 +72,7 @@
                           {
                             extend: 'excelHtml5',
                             title: function(){
-                              return "Data Jadwal - Smart Class"
+                              return "Data Presensi Mahasiswa - Smart Class"
                             },
                             exportOptions: {
                                 columns: [ 0, 1, 2, 3, 4, 5, 6]
@@ -79,14 +81,13 @@
                           {
                             extend: 'csvHtml5',
                             title: function(){
-                              return "Data Jadwal - Smart Class"
+                              return "Data Presensi Mahasiswa - Smart Class"
                             },
                             exportOptions: {
                                 columns: [ 0, 1, 2, 3, 4, 5, 6]
                             }
                           }
                         ]
-                        
                     });
                 });
               </script>
@@ -94,4 +95,4 @@
           </div>
         </div>
       </div>
-      
+     

@@ -23,7 +23,9 @@ class M_presensidosen extends CI_Model {
 	}
 	public function ddprodi()
 	{
-		$query = $this->db->get('prodi');
+		$sql = "SELECT id_prodi, nama_prodi
+		FROM presensi_mhs GROUP BY id_prodi";
+		$query=$this->db->query($sql);
 		return $query;
 	}
 }

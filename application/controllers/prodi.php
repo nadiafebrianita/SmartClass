@@ -24,9 +24,8 @@ class Prodi extends CI_Controller {
 	
 	public function edit($id_prodi)
 	{
-		$where = array('id_prodi' => $id_prodi);
 		$data['dd'] = $this->m_prodi->dd();
-		$data['u'] = $this->m->edit_data($where,'prodi')->result();
+		$data['u'] = $this->m_prodi->edit_data($id_prodi);
 		$this->load->view('header');
 		$this->load->view('v_editprodi',$data);
 	    $this->load->view('footer');
@@ -42,9 +41,15 @@ class Prodi extends CI_Controller {
 			'id_fakultas' => $id_fakultas);
 	
 		$where = array('id_prodi' => $id_prodi);
-		
-		$this->m->update_data($where,$data,'prodi');
-		redirect('prodi');
+		$res=$this->m->update_data($where,$data,'prodi');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
+			redirect('prodi');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengubah Data");
+			redirect('prodi');
+		}
 	}
 
 	public function tambah(){
@@ -61,16 +66,29 @@ class Prodi extends CI_Controller {
 			'nama_prodi' => $nama_prodi,
 			'id_fakultas' => $id_fakultas
 			);
-		$this->m->input_data($data,'prodi');
-		redirect('prodi');
+		$res=$this->m_prodi->input_data($data);
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menambah Data"); 
+			redirect('prodi');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menambah Data");
+			redirect('prodi');
+		}
+
 	}
 	public function hapus($id_prodi)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
         $where = array('id_prodi' => $id_prodi);
-        $this->m->update_data($where,$data,'prodi');
-        redirect('prodi');
+		$res=$this->m->hapus_data($where,'prodi');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
+			redirect('prodi');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Menghapus Data");
+			redirect('prodi');
+		}
+
 	}
 }

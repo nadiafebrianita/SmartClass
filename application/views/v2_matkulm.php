@@ -5,13 +5,30 @@
           <!-- Card stats -->
           <div class="row align-items-center">
             <div class="col-lg-5">
-              <h6 class="h3 text-white d-inline-block mb-5">Program Studi</h6>
-              <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-4">
-              <input type="text" class="form-control-sm" name="id_prodi" value="<?php echo $this->session->userdata("nama_prodi"); ?>" readonly>
-              </nav>
+              <form action="<?php echo site_url('mhsmatkul/matkul'); ?>" method="post">
+              <form role="form">
+                <h6 class="h3 text-white d-inline-block mb-5">Mata Kuliah</h6>
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
+                  <select class="form-control-sm" style="width: 200px" name="id_matkul">
+                  <option value="0">Pilih</option>
+                    <?php
+                      //$matkul= $this->session->userdata('pilih');
+                      if(!empty($pilih)){
+                        echo "<option value selected='".$pilih."'>".$u[0]->nama_matkul."</option>";}
+                      // if (!empty($u[0]->id_matkul)) {
+                      //   echo "<option value selected='".$u[0]->id_matkul."'>".$u[0]->nama_matkul."</option>";                      }
+                      
+                      foreach ($ddfiltermatkul->result() as $dd) {
+                        echo "<option value='".$dd->id_matkul."'>".$dd->nama_matkul."</option>";
+                      }
+                    ?>
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-success">Set</a>
+                </nav>
+              </form>
+              </form>
             </div>
           </div>
-          
         </div>
       </div>
     </div>

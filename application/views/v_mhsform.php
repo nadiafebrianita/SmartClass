@@ -35,6 +35,21 @@
             <div class="form-group">
               <form method="post" action="<?php echo site_url("mhs/import"); ?>" enctype="multipart/form-data">
               <input type="hidden" name="id_scan">
+              <input type="hidden" name="id_prodi">
+              <?php
+                $id_prodi=$this->session->userdata("id_prodi");
+                if(empty($id_prodi)){
+              ?>
+              <label class="form-control-label">Program Studi</label>
+              <select required class="form-control mt-2 mb-4" name="id_prodi">
+                  <option>- Pilih Program Studi -</option>
+                  <?php
+                    foreach ($ddprodi->result() as $baris) {
+                      echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
+                    }                    
+                  ?>
+                </select>
+              <?php } ?>
           <?php
           if(isset($_POST['preview'])){ // Jika user menekan tombol Preview pada form 
               if(isset($upload_error)){ // Jika proses upload gagal
@@ -91,7 +106,7 @@
                   // Validasi apakah semua data telah diisi
                   $nim_td = ( ! empty($nim))? "" : " style='background: #E07171;'"; // Jika NIS kosong, beri warna merah
                   $nama_td = ( ! empty($nama))? "" : " style='background: #E07171;'"; // Jika Nama kosong, beri warna merah
-          
+
                   // Jika salah satu data ada yang kosong
                   if($nim == "" or $nama == ""){
                     $kosong++; // Tambah 1 variabel $kosong

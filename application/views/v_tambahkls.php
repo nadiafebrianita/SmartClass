@@ -23,7 +23,14 @@
             <div class="col">
               <div class="form-group">
                 <label class="form-control-label" >Serial Number</label>
-                <input type="text" class="form-control" name="sn" placeholder="Masukkan Serial Number Mesin" required>
+                <select required class="form-control" name="sn">
+                  <?php
+                  echo "<option>- Pilih Serial Number -</option>";
+                  foreach ($ddsn->result() as $baris) {
+                    echo "<option value='".$baris->sn."'>".$baris->sn."</option>";
+                  }
+                  ?>
+                </select>
               </div>
               <div class="form-group">
                 <label class="form-control-label" >Nama Kelas</label>
@@ -44,7 +51,7 @@
                       }
                       else{
                         echo "<option>- Pilih Prodi -</option>";
-                        foreach ($ddprodi->result() as $baris) {
+                        foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
                         }
                       }

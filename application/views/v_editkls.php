@@ -38,6 +38,7 @@
               <div class="form-group">
                 <label class="form-control-label">Program Studi</label>
                     <select required class="form-control" name="id_prodi" id="id_prodi">
+                    <option value="<?php echo $u->id_prodi ?>"><?php echo $u->nama_prodi ?></option>
                       <?php
                       $prodi = $this->session->userdata('id_prodi');
                       $namaprodi = $this->session->userdata('nama_prodi');
@@ -45,8 +46,7 @@
                         echo "<option value='".$prodi."'>".$namaprodi."</option>";
                       }
                       else{
-                        echo "<option value='".$u->id_kls."'>".$u->nama_kls."</option>";
-                        foreach ($ddprodi->result() as $baris) {
+                        foreach ($dd->result() as $baris) {
                           echo "<option value='".$baris->id_prodi."'>".$baris->nama_prodi."</option>";
                         }
                       }

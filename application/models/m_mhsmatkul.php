@@ -6,157 +6,130 @@ class M_mhsmatkul extends CI_Model {
 	{
         parent::__construct();
         $this->load->model('m_mhs');
-    }
-	// public function show_mhsmatkul(){
-    //     $this->db->select('mhsmatkul.id_mhsmatkul, mhs.nama_mhs, matkul.nama_matkul');
-	// 	$this->db->from('matkul');
-	// 	$this->db->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul');
-	// 	$this->db->join('mhsmatkul', 'jadwal.id_jadwal=mhsmatkul.id_jadwal');
-	// 	$this->db->join('mhs', 'mhsmatkul.id_mhs=mhs.id_mhs');
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
-	//Dropdown milih nama mahasiswa
+	}
+	public function input_data($data){
+		$this->db->select('*')
+		->from('mhsmatkul')
+		->where('nim',$data['nim'])
+		->where('id_jadwal',$data['id_jadwal']);
+		$query = $this->db->get()->result();
+		if(empty($query)){
+			// $this->db->select('matkul.id_matkul')
+			// ->from('jadwal')
+			// ->join('matkul','jadwal.id_matkul=matkul.id_matkul')
+			// ->where('jadwal.id_jadwal',$data['id_jadwal']);
+			// $query = $this->db->get()->result();
+			// $pilih=$query[0]->id_matkul;
+			// $this->session->unset_userdata('pilih');
+			// $this->session->set_userdata('pilih',"$pilih");	
+
+			$this->db->insert('mhsmatkul', $data);
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 	public function ddmhs()
 	{
 		$this->db->select('*');
-		$this->db->from('mhs')->where('del',NULL);
+		$this->db->from('mhs');
+		$query = $this->db->get();
+		return $query;
+	}
+	public function ddmhsprodi($prodi)
+	{
+		$this->db->select('*');
+		$this->db->from('mhs')->where('id_prodi',$prodi);
 		$query = $this->db->get();
 		return $query;
 	}
 	//Dropdown milih mata kuliah
-	public function ddmatkul()
+	public function ddmatkul() //admin fakultas
 	{
-		$this->db->select('jadwal.id_jadwal, jadwal.del, matkul.nama_matkul, matkul.del')
+		$this->db->select('jadwal.id_jadwal, matkul.nama_matkul')
 		->from('matkul')
-		->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul')->where('matkul.del',NULL)->where('jadwal.del',NULL)
+		->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul')
+		->group_by('matkul.nama_matkul')
 		->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query;
 	}
+	public function ddfiltermatkul($prodi) //admin prodi
+	{
+		$sql = "SELECT mhsmatkul.id_jadwal, matkul.id_matkul, matkul.nama_matkul
+		FROM mhsmatkul JOIN jadwal ON mhsmatkul.id_jadwal=jadwal.id_jadwal JOIN matkul ON matkul.id_matkul=jadwal.id_matkul 
+		WHERE matkul.id_prodi='$prodi' GROUP BY matkul.id_matkul";
+		$query=$this->db->query($sql);
+		// $matkul=$this->session->userdata('pilih');
+		// var_dump($query->result());die;
+		return $query;
+	}
 	public function ddmatkulprodi($prodi)
 	{
-		$this->db->select('jadwal.id_jadwal, jadwal.del, matkul.nama_matkul, matkul.id_prodi, matkul.del')
+		$this->db->select('jadwal.id_jadwal, matkul.nama_matkul, matkul.id_prodi')
 		->from('matkul')
 		->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul')
-		->where('matkul.id_prodi', $prodi)->where('matkul.del',NULL)->where('jadwal.del',NULL)
-		->order_by("matkul.nama_matkul", "asc");
+		->where('matkul.id_prodi', $prodi)
+		->order_by("matkul.nama_matkul", "asc")
+		->group_by("matkul.nama_matkul");
 		$query = $this->db->get();
 		return $query;
 	}
 	public function ddprodi()
 	{
-		$query = $this->db->get('prodi');
+		$this->db->select('prodi.id_prodi, prodi.nama_prodi')
+		->from('jadwal')
+		->join('matkul','matkul.id_matkul=jadwal.id_matkul')
+		->join('prodi','prodi.id_prodi=matkul.id_prodi')
+		->group_by('prodi.id_prodi');
+		$query = $this->db->get();
 		return $query;
 	}
-	//Tampil data mhs berdasarkan dd
-	public function mhs(){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del, jadwal.del');
-		$this->db->from('mhs');
-		$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
-		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('mhsmatkul.del',NULL)->where('mhs.del',NULL)->where('jadwal.del',NULL);
-		$this->db->order_by("mhs.nama_mhs", "asc");
-		$query = $this->db->get();
-		return $query->result ();
-	}
-	public function mhsprodi($prodi){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.kode_matkul, matkul.nama_matkul, matkul.id_prodi, mhsmatkul.del, jadwal.del');
-		$this->db->from('mhs');
-		$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
-		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('matkul.id_prodi',$prodi)->where('mhsmatkul.del',NULL)->where('mhs.del',NULL)->where('jadwal.del',NULL);
-		$this->db->order_by("mhs.nama_mhs", "asc");
-		$query = $this->db->get();
-		return $query->result ();
-	}
-	// public function tampilmhs($nim){
-	// 	$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del');
-	// 	$this->db->from('mhs');
-	// 	$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
-	// 	$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-	// 	$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('mhs.nim',$nim)->where('mhsmatkul.del',NULL);
-	// 	$this->db->order_by("matkul.nama_matkul", "asc");
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
-	// public function selectedmhs($nim){
-	// 	$this->db->select('mhs.nim, mhs.nama_mhs');
-	// 	$this->db->from('mhs')->where('mhs.nim',$nim);
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
-	//Tampil data matkul berdasarkan dd
-	// public function tampilmatkul($id_jadwal){
-	// 	$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del');
-	// 	$this->db->from('mhs');
-	// 	$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
-	// 	$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-	// 	$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('jadwal.id_jadwal',$id_jadwal)->where('mhsmatkul.del',NULL);
-	// 	$this->db->order_by("mhs.nama_mhs", "asc");
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
 	public function matkul(){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del');
+		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul');
 		$this->db->from('mhs');
 		$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
 		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('mhsmatkul.del',NULL);
+		$this->db->join('smt', 'jadwal.id_smt=smt.id_smt');
+		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('smt.status','Aktif');
 		$this->db->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query->result ();
 	}
-	public function matkulprodi($prodi){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, matkul.id_prodi, mhsmatkul.del');
+	public function userdata($pilih){
+		$this->db->select('matkul.id_matkul')
+		->from('mhsmatkul')
+		->join('jadwal','jadwal.id_jadwal=mhsmatkul.id_jadwal')
+		->join('matkul','jadwal.id_matkul=matkul.id_matkul')
+		->where('matkul.id_matkul',$pilih);
+		$query = $this->db->get()->result();
+		if(empty($query)){
+			$this->session->unset_userdata('pilih');
+		}
+	}
+	public function matkulprodi($prodi,$id_matkul){
+		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, matkul.id_prodi');
 		$this->db->from('mhs');
 		$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
 		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('matkul.id_prodi',$prodi)->where('mhsmatkul.del',NULL);
+		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('matkul.id_prodi',$prodi)->where('matkul.id_matkul',$id_matkul);
 		$this->db->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query->result ();
 	}
 	public function selected($id_prodi){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del, prodi.nama_prodi');
-		$this->db->from('mhs');
-		$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
-		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul');
-		$this->db->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
-		->where('mhsmatkul.del',NULL)->where('prodi.id_prodi',$id_prodi);
-		$this->db->order_by("matkul.nama_matkul", "asc");
+		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi')
+		->from('mhs')
+		->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim')
+		->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal')
+		->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')
+		->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
+		->where('prodi.id_prodi',$id_prodi)
+		->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query->result ();
 	}
-	// public function selectedmatkul($id_jadwal){
-	// 	$this->db->select('jadwal.id_jadwal, matkul.id_matkul, jadwal.id_matkul, matkul.nama_matkul, prodi.nama_prodi');
-	// 	$this->db->from('prodi');
-	// 	$this->db->join('matkul', 'matkul.id_prodi=prodi.id_prodi');
-	// 	$this->db->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul')->where('jadwal.id_jadwal',$id_jadwal);
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
-	// public function selectedprodi($id_prodi){
-	// 	$this->db->select('jadwal.id_jadwal, prodi.nama_prodi');
-	// 	$this->db->from('prodi');
-	// 	$this->db->join('matkul', 'matkul.id_prodi=prodi.id_prodi');
-	// 	$this->db->join('jadwal', 'matkul.id_matkul=jadwal.id_matkul')->where('prodi.id_prodi',$id_prodi);
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
-	// public function filter($id_jadwal, $id_prodi){
-	// 	$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, mhsmatkul.del, prodi.nama_prodi');
-	// 	$this->db->from('mhs');
-	// 	$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
-	// 	$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
-	// 	$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul');
-	// 	$this->db->join('prodi', 'matkul.id_prodi=prodi.id_prodi')
-	// 	->where('mhsmatkul.del',NULL)->where('prodi.id_prodi',$id_prodi)->where('jadwal.id_jadwal',$id_jadwal);
-	// 	$this->db->order_by("matkul.nama_matkul", "asc");
-	// 	$query = $this->db->get();
-	// 	return $query->result ();
-	// }
 	//IMPORT//CEK//
 	public function cekmhs($datascan,$datamhs,$data){
 		$this->db->trans_start();
@@ -170,12 +143,16 @@ class M_mhsmatkul extends CI_Model {
 					$this->db->insert('mhsmatkul', $data[$i]);
 				}
 				else{
+					$this->db->select('matkul.id_prodi')->from('matkul')->join('jadwal', 'jadwal.id_matkul=matkul.id_matkul')->where('jadwal.id_jadwal',$data[$i]['id_jadwal']);
+					$id_prodi = $this->db->get()->result();
+					$datamhs[$i]['id_prodi'] = $id_prodi[0]->id_prodi;
 					$this->m_mhs->insert($datamhs[$i],$datascan[$i]);
 					$this->db->insert('mhsmatkul', $data[$i]);
 				}
-			}			
+			}
 		}
 		$this->db->trans_complete();
+		return true;
 	}
 }
 		

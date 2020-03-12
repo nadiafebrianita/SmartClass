@@ -43,9 +43,15 @@ class Smt extends CI_Controller {
 			'status' => $status
 			);
 		$where = array('id_smt' => $id_smt);
-		$this->m->update_data($where,$data,'smt');
-		redirect('smt');
-		
+		$res=$this->m->update_data($where,$data,'smt');
+		if($res==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengubah Semester Aktif"); 
+			redirect('smt');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengubah Semester Aktif");
+			redirect('smt');
+		}
 	}
 	public function tambah(){
 		$this->load->view('header');
@@ -106,12 +112,8 @@ class Smt extends CI_Controller {
 	}
 	public function hapus($id_smt)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
         $where = array('id_smt' => $id_smt);
-		
-		$res = $this->m->update_data($where,$data,'smt');
+		$res=$this->m->hapus_data($where,'smt');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 

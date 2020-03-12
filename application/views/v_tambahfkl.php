@@ -27,7 +27,7 @@
               </div>
               <div class="form-group">
                 <label class="form-control-label" for="example3cols1Input">Singkatan Fakultas</label>
-                <input type="text" class="form-control" name="singkat" placeholder="Masukkan Singkatan Fakultas" required>
+                <input type="text" class="form-control" name="singkat" placeholder="Masukkan Singkatan Fakultas, max 3 karakter" maxlength="3" required>
               </div>
             </div>
           </div>

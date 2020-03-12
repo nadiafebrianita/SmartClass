@@ -34,7 +34,7 @@
               <div class="form-group">
                 <label class="form-control-label">Program Studi</label>
                     <select class="form-control" name="id_prodi">
-                      <option value="<?php echo $u->id_prodi ?>">- Pilih Prodi -</option>
+                      <option value="<?php echo $u->id_prodi ?>"><?php echo $u->nama_prodi ?></option>
                       <?php
                         $prodi=$this->session->userdata("id_prodi");
                         if(!empty($prodi)){

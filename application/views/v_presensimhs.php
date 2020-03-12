@@ -41,7 +41,7 @@
                   <h3 class="mb-0">Presensi Mahasiswa</h3>
                 </div>
                 <!-- <div class="col text-right">
-                  <a href="#!" class="btn btn-sm btn-primary"></a>
+                  <a href="<?php echo site_url('presensimhs'); ?>" class="btn btn-sm btn-primary">Log</a>
                 </div> -->
               </div>
             </div>

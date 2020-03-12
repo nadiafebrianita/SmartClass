@@ -12,15 +12,6 @@ class Kls extends CI_Controller {
 			redirect(site_url("admin/login"));
 		}
     }
-
-	public function index()
-	{
-		$this->load->view('header');
-		$data['u']=$this->m_kls->tampilkls();
-		$this->load->view('v_kls',$data);
-		$this->load->view('footer');
-		
-	}
 	public function show_kls()
 	{
 		$prodi=$this->session->userdata('id_prodi');
@@ -37,8 +28,9 @@ class Kls extends CI_Controller {
 	}
 	public function edit($id_kls)
 	{
-		$where = array('id_kls' => $id_kls);
-		$data['u'] = $this->m->edit_data($where,'kelas')->result();
+		//$where = array('id_kls' => $id_kls);
+		$data['u'] = $this->m_kls->edit_data($id_kls);
+		$data['dd'] = $this->m_kls->dd();
 		$prodi=$this->session->userdata('id_prodi');
 		if(!empty($prodi)){
 			$this->load->view('header2');
@@ -48,9 +40,7 @@ class Kls extends CI_Controller {
 		}
 		$this->load->view('v_editkls',$data);
 		$this->load->view('footer');	
-
 	}
-	
 	public function update(){
 		$id_kls = $this->input->post('id_kls');
 		$nama_kls = $this->input->post('nama_kls');
@@ -72,20 +62,20 @@ class Kls extends CI_Controller {
 			redirect('kls/show_kls');
 		}
 	}
-
 	public function tambah(){
 		$prodi=$this->session->userdata('id_prodi');
 		if(!empty($prodi)){
+			$data['ddsn'] = $this->m_kls->ddsn();
 			$this->load->view('header2');
-			$this->load->view('v_tambahkls');
+			$this->load->view('v_tambahkls',$data);
 		}
 		else{
 			$data['dd'] = $this->m_kls->dd();
+			$data['ddsn'] = $this->m_kls->ddsn();
 			$this->load->view('header');
 			$this->load->view('v_tambahkls',$data);
 		}
 		$this->load->view('footer');	
-
 	}
 	public function tambah_aksi(){
 		$sn = $this->input->post('sn');
@@ -100,7 +90,7 @@ class Kls extends CI_Controller {
 			'id_prodi' => $id_prodi
 			);
 		
-		$res = $this->m->input_data($data,'kelas');
+		$res = $this->m_kls->input_data($data);
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
@@ -112,12 +102,8 @@ class Kls extends CI_Controller {
 	}
 	public function hapus($id_kls)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
         $where = array('id_kls' => $id_kls);
-        
-		$res = $this->m->update_data($where,$data,'kelas');
+		$res=$this->m->hapus_data($where,'kelas');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 

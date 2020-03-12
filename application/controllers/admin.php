@@ -91,8 +91,7 @@ class Admin extends CI_Controller {
 		$data = array(
 			'username' => $username,
 			'password' => md5($password),
-			'id_prodi' => $id_prodi,
-			'del' => NULL
+			'id_prodi' => $id_prodi
 			);
 		$res = $this->m_admin->input_data($data);
 		if($res==true)
@@ -101,7 +100,7 @@ class Admin extends CI_Controller {
 			redirect('admin/atur');	
 		}
 		else{
-			$this->session->set_flashdata('info', "Data Admin $username Berhasil Dipulihkan"); 
+			$this->session->set_flashdata('err', "Gagal Menambahkan Data"); 
 			redirect('admin/atur');	
 		}
 	}
@@ -140,26 +139,21 @@ class Admin extends CI_Controller {
 	
 		$where = array('id_admin' => $id_admin);
 		
-		$this->m->update_data($where,$data,'admin');
+		$res = $this->m->update_data($where,$data,'admin');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Mengubah Data"); 
 			redirect('admin/atur');	
 		}
 		else{
-			$this->session->set_flashdata('info', "Gagal Mengubah Data"); 
+			$this->session->set_flashdata('err', "Gagal Mengubah Data"); 
 			redirect('admin/atur');
 		}
 	}
 	public function hapus($id_admin)
 	{
-		// date_default_timezone_set('UTC');
-		// $del = date("l , j F Y");
-		$del = "1";
-		$data = array(
-            'del' => $del);
-        $where = array('id_admin' => $id_admin);
-		$res = $this->m->update_data($where,$data,'admin');
+		$where = array('id_admin' => $id_admin);
+		$res=$this->m->hapus_data($where,'admin');
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menghapus Admin"); 

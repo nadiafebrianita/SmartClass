@@ -42,8 +42,6 @@
                 </div>
                 <div class="col text-right">
                   <a href="<?php echo site_url('jadwal/tambah'); ?>" class="btn btn-sm btn-primary">Tambah</a>
-                </div>
-                <div class="col text-right">
                   <a href="<?php echo site_url('jadwal/form'); ?>" class="btn btn-sm btn-success">Import</a>
                 </div>
               </div>

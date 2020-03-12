@@ -40,10 +40,18 @@ class Fkl extends CI_Controller {
 			'singkat' => $singkat
 			);
 	
-		$where = array('id_fakultas' => $id_fakultas);
-		
-		$this->m->update_data($where,$data,'fakultas');
-		redirect('fkl');
+		$cek = $this->m_fkl->cek($data);
+		if($cek==true){
+			$where = array('id_fakultas' => $id_fakultas);
+			$this->m->update_data($where,$data,'fakultas');
+			$this->session->set_flashdata('true', "Berhasil Mengedit Data"); 
+			redirect('fkl');
+		}
+		else{
+			$this->session->set_flashdata('err', "Gagal Mengedit Data, Fakultas Sudah Terdaftar");
+			redirect('fkl');
+		}		
+
 	}
 
 	public function tambah(){
@@ -59,16 +67,29 @@ class Fkl extends CI_Controller {
 			'nama_fakultas' => $nama_fakultas,
 			'singkat' => $singkat
 			);
-		$this->m->input_data($data,'fakultas');
-		redirect('fkl');
+		$cek = $this->m_fkl->cek($data);
+		if($cek==true){
+			$this->m->input_data($data,'fakultas');
+			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
+			redirect('fkl');
+		}
+		else{
+			$this->session->set_flashdata('err', "Gagal Menambahkan Data, Fakultas Sudah Terdaftar");
+			redirect('fkl');
+		}		
 	}
 	public function hapus($id_fakultas)
 	{
-		$del = "1";
-		$data = array(
-            'del' => $del);
         $where = array('id_fakultas' => $id_fakultas);
-        $this->m->update_data($where,$data,'fakultas');
-        redirect('fkl');
+		$res=$this->m->hapus_data($where,'fakultas');
+		if($res==true){
+			$this->session->set_flashdata('true', "Berhasil Menghapus Data"); 
+			redirect('fkl');
+		}
+		else{
+			$this->session->set_flashdata('err', "Gagal Menghapus Data");
+			redirect('fkl');
+		}		
+
 	}
 }

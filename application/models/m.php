@@ -17,6 +17,7 @@ class M extends CI_Model {
 	public function hapus_data($where,$table){
 		$this->db->where($where);
 		$this->db->delete($table);
+		return true;
 	}
 	//IMPORTT
 	public function upload_file($filename){

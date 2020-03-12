@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_jadwal extends CI_Model {
 	public function show_jadwal(){
-        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, smt.del, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, matkul.del, kelas.nama_kls, kelas.del, a.del, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.del, fakultas.del
+        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, kelas.nama_kls, jadwal.id_dosen, u.alias dosen1, s.alias dosen2
 		FROM smt
 		JOIN jadwal ON smt.id_smt=jadwal.id_smt
 		JOIN kelas ON kelas.id_kls=jadwal.id_kls
@@ -14,13 +14,13 @@ class M_jadwal extends CI_Model {
 		left join dosen b on jadwal.id_dosen2 = b.id_dosen
 		inner join user_scan u on a.id_scan = u.id_scan 
 		left join user_scan s on b.id_scan = s.id_scan
-		WHERE jadwal.del is null and a.del is NULL and smt.del is NULL and matkul.del is NULL and kelas.del is NULL and prodi.del is NULL and fakultas.del is NULL and smt.status='Aktif'
+		WHERE smt.status='Aktif'
 		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
         $query=$this->db->query($sql);
 		return $query->result ();
 	}
 	public function show_jadwalprodi($prodi){
-        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, smt.del, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, matkul.del, kelas.nama_kls, kelas.del, a.del, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.del, fakultas.del
+        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, kelas.nama_kls, jadwal.id_dosen, u.alias dosen1, s.alias dosen2
 		FROM smt
 		JOIN jadwal ON smt.id_smt=jadwal.id_smt
 		JOIN kelas ON kelas.id_kls=jadwal.id_kls
@@ -31,13 +31,13 @@ class M_jadwal extends CI_Model {
 		left join dosen b on jadwal.id_dosen2 = b.id_dosen
 		inner join user_scan u on a.id_scan = u.id_scan 
 		left join user_scan s on b.id_scan = s.id_scan
-		WHERE jadwal.del is null and a.del is NULL and smt.del is NULL and matkul.del is NULL and kelas.del is NULL and prodi.del is NULL and fakultas.del is NULL and smt.status='Aktif' and prodi.id_prodi=$prodi
+		WHERE smt.status='Aktif' and prodi.id_prodi=$prodi
 		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
         $query=$this->db->query($sql);
 		return $query->result ();
 	}
 	public function selected($id_prodi){
-        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, smt.del, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, matkul.del, kelas.nama_kls, kelas.del, a.del, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.del, prodi.nama_prodi, fakultas.del
+        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, kelas.nama_kls, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.nama_prodi
 		FROM smt
 		JOIN jadwal ON smt.id_smt=jadwal.id_smt
 		JOIN kelas ON kelas.id_kls=jadwal.id_kls
@@ -48,7 +48,7 @@ class M_jadwal extends CI_Model {
 		left join dosen b on jadwal.id_dosen2 = b.id_dosen
 		inner join user_scan u on a.id_scan = u.id_scan 
 		left join user_scan s on b.id_scan = s.id_scan
-		WHERE prodi.id_prodi = ".$id_prodi." and jadwal.del is null and a.del is NULL and smt.del is NULL and matkul.del is NULL and kelas.del is NULL and prodi.del is NULL and fakultas.del is NULL and smt.status='Aktif'
+		WHERE prodi.id_prodi = ".$id_prodi." and smt.status='Aktif'
 		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
         $query=$this->db->query($sql);
 		return $query->result ();
@@ -61,33 +61,38 @@ class M_jadwal extends CI_Model {
 	public function ddmatkul()
 	{
 		$this->db->order_by("nama_matkul", "asc");
-		$query = $this->db->get_where('matkul',array('del' => NULL));
+		$query = $this->db->get('matkul');
 		return $query;
 	}
 	public function ddmatkulprodi($prodi)
 	{
 		$this->db->order_by("nama_matkul", "asc");
-		$query = $this->db->get_where('matkul', array('id_prodi' => $prodi, 'del' => NULL));
+		$query = $this->db->get_where('matkul', array('id_prodi' => $prodi));
 		return $query;
 	}
 	public function dddosen()
 	{
 		$this->db->select('dosen.id_dosen,dosen.nama_dosen,user_scan.id_scan,user_scan.alias');
 		$this->db->from('dosen');
-		$this->db->join('user_scan', 'user_scan.id_scan=dosen.id_scan')->where('del', NULL);
+		$this->db->join('user_scan', 'user_scan.id_scan=dosen.id_scan');
 		$this->db->order_by("user_scan.alias", "asc");
 		$query = $this->db->get();
 		return $query;
 	}
 	public function ddkelas()
 	{
-		$query = $this->db->get_where('kelas',array('del' => NULL));
+		$query = $this->db->get('kelas');
 		return $query;
 	}
 	
 	public function ddprodi()
 	{
-		$query = $this->db->get_where('prodi',array('del' => NULL));
+		$this->db->select('prodi.id_prodi, prodi.nama_prodi')
+		->from('jadwal')
+		->join('matkul','matkul.id_matkul=jadwal.id_matkul')
+		->join('prodi','prodi.id_prodi=matkul.id_prodi')
+		->group_by('prodi.id_prodi');
+		$query = $this->db->get();
 		return $query;
 	}
 	public function insert_multiple($datasmt,$datamatkul,$datadosen1,$datadosen2,$datakls,$data)
@@ -132,12 +137,7 @@ class M_jadwal extends CI_Model {
 					$id_dosen2 = $dosen2[0]->id_dosen;
 					$data[$i]['id_dosen2'] = $id_dosen2;
 					$id_kls = $kls[0]->id_kls;
-					$data[$i]['id_kls'] = $id_kls;
-					
-					// $sql = "SELECT * FROM JADWAL WHERE waktu <= '$cekwkt' and akhir >= '$cekwkt' and id_kls = $datakls[$i]['nama_kls'] and hari = '$cekhari'";
-					// $query=$this->db->query($sql);
-					// $db = $query->result();
-		
+					$data[$i]['id_kls'] = $id_kls;		
 
 					$this->db->select('*')->from('jadwal')->where('hari',$data[$i]['hari'])->where('waktu'<=$data[$i]['waktu'])
 					->where('akhir'>=$data[$i]['akhir'])->where('id_kls',$id_kls)->where('id_smt',$id_smt);
@@ -162,8 +162,7 @@ class M_jadwal extends CI_Model {
 					$data[$i]['id_kls'] = $id_kls;
 					
 					$this->db->select('*')->from('jadwal')->where('hari',$data[$i]['hari'])->where('waktu',$data[$i]['waktu'])
-					->where('akhir',$data[$i]['akhir'])->where('id_matkul',$id_matkul)->where('id_dosen',$id_dosen)
-					->where('id_kls',$id_kls)->where('id_smt',$id_smt);
+					->where('akhir',$data[$i]['akhir'])->where('id_kls',$id_kls)->where('id_smt',$id_smt);
 					$ada=$this->db->get()->result();
 					if(empty($ada)){
 						$this->db->insert('jadwal', $data[$i]);
@@ -172,6 +171,7 @@ class M_jadwal extends CI_Model {
 			}
 		}
 		$this->db->trans_complete();
+		return true;
 	}
 	public function cek($data){
 		$cekkls = $data['id_kls'];

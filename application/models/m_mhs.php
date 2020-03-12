@@ -7,7 +7,6 @@ class M_mhs extends CI_Model {
 		->from('mhs')
 		->join('user_scan', 'user_scan.id_scan=mhs.id_scan')
 		->join('prodi', 'prodi.id_prodi=mhs.id_prodi')
-		->where('mhs.del',NULL)
 		->order_by("nim", "asc")
 		->order_by("nama_mhs", "asc");
 		$query = $this->db->get();
@@ -19,7 +18,6 @@ class M_mhs extends CI_Model {
 		->join('user_scan', 'user_scan.id_scan=mhs.id_scan')
 		->join('prodi', 'prodi.id_prodi=mhs.id_prodi')
 		->where('mhs.id_prodi',$prodi)
-		->where('mhs.del',NULL)
 		->order_by("nim", "asc")
 		->order_by("nama_mhs", "asc");
 		$query = $this->db->get();
@@ -27,7 +25,7 @@ class M_mhs extends CI_Model {
 	}
 	public function ddprodi()
 	{
-		$query = $this->db->get_where('prodi',array('del' => NULL));
+		$query = $this->db->get('prodi');
 		return $query;
 	}
 
@@ -40,16 +38,21 @@ class M_mhs extends CI_Model {
 	}
 	public function insert($data, $datascan)
 	{
-		$this->db->trans_start();
-		$this->db->insert('user_scan', $datascan); 
-		$id_scan = $this->db->insert_id(); 
-
-		$data['id_scan'] = $id_scan;
-		$this->db->insert('mhs', $data);
-
-		$this->db->trans_complete(); 
-
-		return $this->db->insert_id(); 
+		$ceknim = $data['nim'];
+		$sql = "SELECT * FROM mhs WHERE nim = '$ceknim'";
+		$query=$this->db->query($sql);
+		$db = $query->result();
+		if(empty($db)){
+			$this->db->trans_start();
+			$this->db->insert('user_scan', $datascan); 
+			$id_scan = $this->db->insert_id(); 
+	
+			$data['id_scan'] = $id_scan;
+			$this->db->insert('mhs', $data);
+	
+			$this->db->trans_complete();
+			return true; 
+		}
 	}
 	// Fungsi untuk melakukan proses upload file
 	public function upload_file($filename){
@@ -76,8 +79,11 @@ class M_mhs extends CI_Model {
 	{
 		$this->db->trans_start();
 		for($i = 0; $i < count($datascan); $i++){
-			$this->db->select('nim, nama_mhs')->from('mhs')->where('nim',$data[$i]['nim'])->where('nama_mhs',$data[$i]['nama_mhs']);
-			$ada=$this->db->get()->result();
+			$ceknim=$data[$i]['nim'];
+			$ceknama=$data[$i]['nama_mhs'];
+			$sql = "SELECT nim, nama_mhs FROM mhs WHERE nim = '$ceknim' OR nama_mhs = '$ceknama'";
+			$query=$this->db->query($sql);
+			$ada=$query->result ();
 			if(empty($ada)){
 				$this->db->insert('user_scan', $datascan[$i]);
 				$id_scan = $this->db->insert_id(); 
@@ -87,6 +93,6 @@ class M_mhs extends CI_Model {
 			}		
 		}
 		$this->db->trans_complete();
-		// die;
+		return true;
 	}
 }
