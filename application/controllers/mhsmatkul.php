@@ -64,12 +64,17 @@ class Mhsmatkul extends CI_Controller {
                 } 
             }    
         }
-
         if(!empty($prodi)){
             //admin jurusan
             $pilih=$this->session->userdata('pilih');
+            // var_dump($pilih);die;
             $this->m_mhsmatkul->userdata($pilih);
-            $data['u']=$this->m_mhsmatkul->matkulprodi($prodi,$pilih);
+            if(!empty($pilih)){
+                $data['u']=$this->m_mhsmatkul->matkulprodi($prodi,$pilih);
+            }
+            else{
+                $data['u']=$this->m_mhsmatkul->selected($prodi);
+            }
             $data['ddfiltermatkul']=$this->m_mhsmatkul->ddfiltermatkul($prodi);
             $data['pilih']=$pilih;
             //var_dump($data['pilih']);die;

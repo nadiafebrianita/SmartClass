@@ -2,54 +2,37 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_jadwal extends CI_Model {
-	public function show_jadwal(){
-        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, kelas.nama_kls, jadwal.id_dosen, u.alias dosen1, s.alias dosen2
+	public function show_jadwal($col,$val){
+        $sql = "SELECT j.id_jadwal, smt.nama_smt, smt.status, j.hari, j.waktu, j.akhir, m.id_matkul, m.nama_matkul, k.id_kls, k.nama_kls, j.id_dosen, j.id_dosen2, u.alias dosen1, s.alias dosen2
 		FROM smt
-		JOIN jadwal ON smt.id_smt=jadwal.id_smt
-		JOIN kelas ON kelas.id_kls=jadwal.id_kls
-		JOIN matkul ON jadwal.id_matkul=matkul.id_matkul
-		JOIN prodi ON matkul.id_prodi=prodi.id_prodi
-		JOIN fakultas ON fakultas.id_fakultas=prodi.id_fakultas
-		inner join dosen a on jadwal.id_dosen = a.id_dosen 
-		left join dosen b on jadwal.id_dosen2 = b.id_dosen
-		inner join user_scan u on a.id_scan = u.id_scan 
-		left join user_scan s on b.id_scan = s.id_scan
-		WHERE smt.status='Aktif'
-		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
+		JOIN jadwal j ON smt.id_smt=j.id_smt
+		JOIN kelas k ON k.id_kls=j.id_kls
+		JOIN matkul m ON j.id_matkul=m.id_matkul
+		JOIN prodi p ON m.id_prodi=p.id_prodi
+		JOIN fakultas f ON f.id_fakultas=p.id_fakultas
+		INNER JOIN dosen a ON j.id_dosen = a.id_dosen 
+		LEFT JOIN dosen b ON j.id_dosen2 = b.id_dosen
+		INNER JOIN user_scan u ON a.id_scan = u.id_scan 
+		LEFT JOIN user_scan s ON b.id_scan = s.id_scan
+		WHERE $col='$val'
+		ORDER BY FIELD(j.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), j.waktu ASC, k.nama_kls ASC";
         $query=$this->db->query($sql);
 		return $query->result ();
 	}
-	public function show_jadwalprodi($prodi){
-        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, kelas.nama_kls, jadwal.id_dosen, u.alias dosen1, s.alias dosen2
+	public function show_jadwalprodi($col,$val,$prodi){
+        $sql = "SELECT j.id_jadwal, smt.id_smt, smt.nama_smt, smt.status, j.hari, j.waktu, j.akhir, m.id_matkul, m.nama_matkul, k.id_kls, k.nama_kls, j.id_dosen, j.id_dosen2, u.alias dosen1, s.alias dosen2, p.nama_prodi
 		FROM smt
-		JOIN jadwal ON smt.id_smt=jadwal.id_smt
-		JOIN kelas ON kelas.id_kls=jadwal.id_kls
-		JOIN matkul ON jadwal.id_matkul=matkul.id_matkul
-		JOIN prodi ON matkul.id_prodi=prodi.id_prodi
-		JOIN fakultas ON fakultas.id_fakultas=prodi.id_fakultas
-		inner join dosen a on jadwal.id_dosen = a.id_dosen 
-		left join dosen b on jadwal.id_dosen2 = b.id_dosen
-		inner join user_scan u on a.id_scan = u.id_scan 
-		left join user_scan s on b.id_scan = s.id_scan
-		WHERE smt.status='Aktif' and prodi.id_prodi=$prodi
-		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
-        $query=$this->db->query($sql);
-		return $query->result ();
-	}
-	public function selected($id_prodi){
-        $sql = "SELECT jadwal.id_jadwal, smt.nama_smt, smt.status, jadwal.hari, jadwal.waktu, jadwal.akhir, matkul.nama_matkul, kelas.nama_kls, jadwal.id_dosen, u.alias dosen1, s.alias dosen2, prodi.nama_prodi
-		FROM smt
-		JOIN jadwal ON smt.id_smt=jadwal.id_smt
-		JOIN kelas ON kelas.id_kls=jadwal.id_kls
-		JOIN matkul ON jadwal.id_matkul=matkul.id_matkul
-		JOIN prodi ON matkul.id_prodi=prodi.id_prodi
-		JOIN fakultas ON fakultas.id_fakultas=prodi.id_fakultas
-		inner join dosen a on jadwal.id_dosen = a.id_dosen 
-		left join dosen b on jadwal.id_dosen2 = b.id_dosen
-		inner join user_scan u on a.id_scan = u.id_scan 
-		left join user_scan s on b.id_scan = s.id_scan
-		WHERE prodi.id_prodi = ".$id_prodi." and smt.status='Aktif'
-		ORDER BY FIELD(jadwal.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), jadwal.waktu asc, kelas.nama_kls asc";
+		JOIN jadwal j ON smt.id_smt = j.id_smt
+		JOIN kelas k ON k.id_kls = j.id_kls
+		JOIN matkul m ON j.id_matkul = m.id_matkul
+		JOIN prodi p ON m.id_prodi = p.id_prodi
+		JOIN fakultas f ON f.id_fakultas = p.id_fakultas
+		INNER JOIN dosen a ON j.id_dosen = a.id_dosen 
+		LEFT JOIN dosen b ON j.id_dosen2 = b.id_dosen
+		INNER JOIN user_scan u ON a.id_scan = u.id_scan 
+		LEFT JOIN user_scan s ON b.id_scan = s.id_scan
+		WHERE $col = '$val' AND p.id_prodi = $prodi
+		ORDER BY FIELD(j.hari, 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY', 'SUNDAY'), j.waktu ASC, k.nama_kls ASC";
         $query=$this->db->query($sql);
 		return $query->result ();
 	}
@@ -57,6 +40,20 @@ class M_jadwal extends CI_Model {
 	{
 		$query = $this->db->get_where('smt', array('status' => "aktif"));
 		return $query;
+	}
+	public function ddsmtall()
+	{
+		$sql = "SELECT * FROM smt WHERE status NOT IN ('aktif') ORDER BY tahun DESC, nama_smt DESC LIMIT 2";
+		$query=$this->db->query($sql);
+		return $query->result ();
+
+		// $this->db->select("*")
+		// ->from('smt')
+		// ->where_not_in('status', "aktif")
+		// ->order_by('tahun', 'desc')
+		// ->order_by('nama_smt', 'desc');
+		// $query = $this->db->get();
+  		// return $query;
 	}
 	public function ddmatkul()
 	{
@@ -173,11 +170,21 @@ class M_jadwal extends CI_Model {
 		$this->db->trans_complete();
 		return true;
 	}
-	public function cek($data){
+	public function cek($data,$col,$val){
+		// var_dump($data[0]['id_kls']);die;
 		$cekkls = $data['id_kls'];
+		$cekdosen1 = $data['id_dosen'];
+		$cekdosen2 = $data['id_dosen2'];
 		$cekwkt = $data['waktu'];
 		$cekhari = $data['hari'];
-		$sql = "SELECT * FROM JADWAL WHERE waktu <= '$cekwkt' and akhir >= '$cekwkt' and id_kls = $cekkls and hari = '$cekhari'";
+		if(!empty($cekdosen2)){
+			$sql = "SELECT * FROM JADWAL j JOIN SMT ON j.id_smt=smt.id_smt 
+			WHERE j.hari = '$cekhari' and j.waktu <= '$cekwkt' and j.akhir >= '$cekwkt' and (j.id_kls = $cekkls or j.id_dosen = $cekdosen1 or j.id_dosen2 = $cekdosen1 or j.id_dosen = $cekdosen2 or j.id_dosen2 = $cekdosen2) and $col = '$val'";	
+		}
+		else{
+			$sql = "SELECT * FROM JADWAL j JOIN SMT ON j.id_smt=smt.id_smt 
+			WHERE j.hari = '$cekhari' and j.waktu <= '$cekwkt' and j.akhir >= '$cekwkt' and (j.id_kls = $cekkls or j.id_dosen = $cekdosen1 or j.id_dosen2 = $cekdosen1) and $col = '$val'";
+		}
 		$query=$this->db->query($sql);
 		$db = $query->result();
 		if(empty($db)){

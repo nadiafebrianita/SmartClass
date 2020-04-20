@@ -20,6 +20,7 @@ class M_dashboard extends CI_Model {
 	public function jadwalprodi($prodi){
 		$sql = "SELECT prodi.nama_prodi, jadwal.hari,jadwal.waktu, jadwal.akhir, matkul.nama_matkul, u.alias dosen1, s.alias dosen2, kelas.nama_kls
 		FROM jadwal
+		JOIN smt ON smt.id_smt=jadwal.id_smt 
 		JOIN kelas ON kelas.id_kls=jadwal.id_kls 
 		JOIN matkul ON jadwal.id_matkul=matkul.id_matkul 
 		JOIN prodi ON prodi.id_prodi=matkul.id_prodi 
@@ -27,7 +28,7 @@ class M_dashboard extends CI_Model {
 		left join dosen b on jadwal.id_dosen2 = b.id_dosen
 		inner join user_scan u on a.id_scan = u.id_scan 
 		left join user_scan s on b.id_scan = s.id_scan
-		WHERE prodi.id_prodi=$prodi and (jadwal.waktu < jadwal.akhir AND NOW() BETWEEN jadwal.waktu AND jadwal.akhir AND jadwal.hari = DAYNAME(NOW()))";
+		WHERE smt.status='Aktif' and prodi.id_prodi=$prodi and (jadwal.waktu < jadwal.akhir AND NOW() BETWEEN jadwal.waktu AND jadwal.akhir AND jadwal.hari = DAYNAME(NOW()))";
         $query=$this->db->query($sql);
 		//$query = $this->db->get();
 		return $query->result ();

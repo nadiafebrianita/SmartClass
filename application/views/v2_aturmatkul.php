@@ -27,7 +27,6 @@
                     <th scope="col">No</th>
                     <th scope="col">Kode Mata Kuliah</th>
                     <th scope="col">Nama Mata Kuliah</th>
-                    <th scope="col">Program Studi</th>
                     <th scope="col">Opsi</th>
                   </tr>
                 </thead>
@@ -40,7 +39,6 @@
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->kode_matkul ?></td>
                     <td><?php echo $u->nama_matkul ?></td>
-                    <td><?php echo $u->nama_prodi ?></td>
                     <td>
                     <button type="button" class="btn btn-sm btn-outline-primary"><?php echo anchor('matkul/edit/'.$u->id_matkul,'Edit');?></button>
                     <button type="button" class="btn btn-sm btn-outline-danger" data-toggle="modal" data-target="#modal-notification<?php echo $u->id_matkul; ?>">Hapus</button>

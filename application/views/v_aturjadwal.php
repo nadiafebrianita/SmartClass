@@ -13,9 +13,8 @@
                     <option value="0">Semua</option>
                     <?php
                       if ($p!==1) {
-                        echo "<option value selected='".$jadwal[0]->id_jadwal."'>".$jadwal[0]->nama_prodi."</option>";                      }
-                    ?>
-                    <?php
+                        echo "<option value selected='".$jadwal[0]->id_jadwal."'>".$jadwal[0]->nama_prodi."</option>";
+                      }
                       foreach ($ddprodi->result() as $dd) {
                         echo "<option value='".$dd->id_prodi."'>".$dd->nama_prodi."</option>";
                       }
@@ -126,7 +125,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           },
                           {
@@ -135,7 +134,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           },
                           {
@@ -144,7 +143,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           },
                           {
@@ -153,7 +152,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           }
                         ]

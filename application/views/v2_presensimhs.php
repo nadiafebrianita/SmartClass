@@ -10,10 +10,10 @@
                 <h6 class="h3 text-white d-inline-block mb-5">Mata Kuliah</h6>
                 <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                   <select class="form-control-sm" style="width: 200px" name="id_matkul">
-                  <option value="0">Pilih</option>
+                  <option value selected="0">Semua</option>
                     <?php
-                      if (!empty($u[0]->id_matkul)) {
-                        echo "<option value selected='".$u[0]->id_matkul."'>".$u[0]->nama_matkul."</option>";                      }
+                      if(!empty($id_matkul)) {
+                        echo "<option value selected='".$u[0]->id_matkul."'>".$u[0]->nama_matkul."</option>";}
                     ?>
                     <?php
                       foreach ($ddmatkul->result() as $dd) {
@@ -53,6 +53,7 @@
                     <th scope="col">No</th>
                     <th scope="col">NIM</th>
                     <th scope="col">Mahasiswa</th>
+                    <th scope="col">Mata Kuliah</th>
                     <th scope="col">Presensi</th>
                   </tr>
                 </thead>
@@ -66,6 +67,7 @@
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->nim ?></td>
                     <td><?php echo $u->nama_mhs ?></td>
+                    <td><?php echo $u->nama_matkul ?></td>
                     <td><?php echo $u->presensi ?></td>
                   </tr>
                 <?php }} ?>

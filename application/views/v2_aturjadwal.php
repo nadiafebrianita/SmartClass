@@ -99,7 +99,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           },
                           {
@@ -108,7 +108,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           },
                           {
@@ -117,7 +117,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           },
                           {
@@ -126,7 +126,7 @@
                               return "Data Jadwal - Smart Class"
                             },
                             exportOptions: {
-                                columns: [ 0, 1, 2, 3, 4, 5, 6]
+                                columns: [ 0, 1, 2, 3, 4, 5, 6, 7]
                             }
                           }
                         ]

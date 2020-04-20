@@ -1,5 +1,34 @@
-    <!-- Header -->
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+<!-- Header -->
+<div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">
+          <!-- Card stats -->
+          <div class="row align-items-center">
+            <div class="col-lg-5">
+              <form action="<?php echo site_url('presensidosen'); ?>" method="post">
+              <form role="form">
+                <h6 class="h3 text-white d-inline-block mb-5">Mata Kuliah</h6>
+                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
+                  <select class="form-control-sm" style="width: 200px" name="id_matkul">
+                  <option value selected="0">Semua</option>
+                    <?php
+                      if(!empty($id_matkul)) {
+                        echo "<option value selected='".$u[0]->id_matkul."'>".$u[0]->nama_matkul."</option>";}
+                    ?>
+                    <?php
+                      foreach ($ddmatkul->result() as $dd) {
+                        echo "<option value='".$dd->id_matkul."'>".$dd->nama_matkul."</option>";
+                      }
+                    ?>
+                  </select>
+                  <button type="submit" class="btn btn-sm btn-success">Set</a>
+                </nav>
+              </form>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <!-- Tabel -->
     <div class="container-fluid mt--9">
@@ -27,7 +56,6 @@
                     <th scope="col">Waktu</th>
                     <th scope="col">Kode MK</th>
                     <th scope="col">Mata Kuliah</th>
-                    <th scope="col">Program Studi</th>
                     <th scope="col">Dosen</th>
                   </tr>
                 </thead>
@@ -40,10 +68,9 @@
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->hari_scan ?></td>
                     <td><?php echo $u->tanggal_scan ?></td>
-                    <td><?php echo $u->waktu_scan ?></td>
+                    <td><?php echo $u->waktus ?></td>
                     <td><?php echo $u->kode_matkul ?></td>
                     <td><?php echo $u->nama_matkul ?></td>
-                    <td><?php echo $u->nama_prodi ?></td>
                     <td><?php echo $u->nama_dosen ?></td>
                   </tr>
                   <?php } ?>

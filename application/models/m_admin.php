@@ -3,8 +3,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class M_admin extends CI_Model{	
 	public function cek($username, $password){
-		$this->db->select('*');
-		$this->db->from('admin')->where('username',$username)->where('password', $password);
+		$this->db->select('*')
+		->from('admin')
+		->where('username',$username)
+		->where('password', $password);
 		$all=$this->db->get()->result();
 		if(!empty($all[0]->id_prodi)){
 			$this->db->select('admin.username, admin.password, admin.id_prodi, prodi.nama_prodi');
@@ -17,8 +19,8 @@ class M_admin extends CI_Model{
 		}
 	}	
 	public function admin(){
-        $this->db->select('admin.id_admin, admin.username, admin.id_prodi, prodi.nama_prodi');
-		$this->db->from('admin')->join('prodi','prodi.id_prodi=admin.id_prodi','left');
+        $this->db->select('admin.id_admin, admin.username, admin.id_prodi, prodi.nama_prodi')
+		->from('admin')->join('prodi','prodi.id_prodi=admin.id_prodi','left');
 		$query = $this->db->get();
 		return $query->result ();
 	}

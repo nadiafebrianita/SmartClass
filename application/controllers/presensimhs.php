@@ -13,20 +13,21 @@ class Presensimhs extends CI_Controller {
     }
 	public function index()
 	{
-		$prodi=$this->session->userdata('nama_prodi');
 		$id_prodi=$this->session->userdata('id_prodi');
-		$id_matkul = $this->input->post('id_matkul');
-		if(!empty($prodi)){
+		if(!empty($id_prodi)){
 			//admin jurusan
+			$id_matkul=$this->input->post('id_matkul');
 			if(!empty($id_matkul)){
 				//sudah pilih dd matkul
-				$data['u']=$this->m_presensimhs->matkul($id_matkul);
+				$data['id_matkul']=$id_matkul;
+				$data['u']=$this->m_presensimhs->matkul($id_matkul,$id_prodi);
 				$data['ddmatkul']=$this->m_presensimhs->ddmatkul($id_prodi);
 				$this->load->view('header2');
 				$this->load->view('v2_presensimhs',$data);
 			}
 			else{
 				//belum pilih dd matkul
+				$data['u']=$this->m_presensimhs->matkul($id_matkul,$id_prodi);
 				$data['ddmatkul']=$this->m_presensimhs->ddmatkul($id_prodi);
 				$this->load->view('header2');
 				$this->load->view('v2_presensimhs',$data);

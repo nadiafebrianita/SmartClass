@@ -87,12 +87,15 @@ class M_mhsmatkul extends CI_Model {
 		return $query;
 	}
 	public function matkul(){
-		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul');
+		$this->db->select('mhsmatkul.id_mhsmatkul, mhs.nim, mhs.nama_mhs, matkul.id_matkul, matkul.kode_matkul, matkul.nama_matkul, prodi.nama_prodi');
 		$this->db->from('mhs');
 		$this->db->join('mhsmatkul', 'mhs.nim=mhsmatkul.nim');
 		$this->db->join('jadwal', 'mhsmatkul.id_jadwal=jadwal.id_jadwal');
 		$this->db->join('smt', 'jadwal.id_smt=smt.id_smt');
-		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul')->where('smt.status','Aktif');
+		$this->db->join('matkul', 'matkul.id_matkul=jadwal.id_matkul');
+		$this->db->join('prodi', 'prodi.id_prodi=matkul.id_prodi')
+		->where('smt.status','Aktif');
+		$this->db->order_by("prodi.nama_prodi", "asc");
 		$this->db->order_by("matkul.nama_matkul", "asc");
 		$query = $this->db->get();
 		return $query->result ();

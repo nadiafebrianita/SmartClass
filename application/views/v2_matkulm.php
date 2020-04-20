@@ -10,7 +10,7 @@
                 <h6 class="h3 text-white d-inline-block mb-5">Mata Kuliah</h6>
                 <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
                   <select class="form-control-sm" style="width: 200px" name="id_matkul">
-                  <option value="0">Pilih</option>
+                  <option value="0">Semua</option>
                     <?php
                       //$matkul= $this->session->userdata('pilih');
                       if(!empty($pilih)){

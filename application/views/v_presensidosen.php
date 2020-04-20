@@ -5,7 +5,7 @@
           <!-- Card stats -->
           <div class="row align-items-center">
             <div class="col-lg-5">
-              <form action="<?php echo site_url('presensimhs/prodi'); ?>" method="post">
+              <form action="<?php echo site_url('presensidosen/prodi'); ?>" method="post">
               <form role="form">
                 <h6 class="h3 text-white d-inline-block mb-5">Program Studi</h6>
                 <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-2 mr-2">
@@ -69,7 +69,7 @@
                     <td><?php echo $no++ ?></td>
                     <td><?php echo $u->hari_scan ?></td>
                     <td><?php echo $u->tanggal_scan ?></td>
-                    <td><?php echo $u->waktu_scan ?></td>
+                    <td><?php echo $u->waktus ?></td>
                     <td><?php echo $u->kode_matkul ?></td>
                     <td><?php echo $u->nama_matkul ?></td>
                     <td><?php echo $u->nama_prodi ?></td>

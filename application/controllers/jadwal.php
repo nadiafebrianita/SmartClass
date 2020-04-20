@@ -19,12 +19,16 @@ class Jadwal extends CI_Controller {
 	{
 		$prodi = $this->session->userdata("id_prodi");
 		if(!empty($prodi)){
-			$data['jadwal']=$this->m_jadwal->show_jadwalprodi($prodi);
+			$col='smt.status';
+			$val='Aktif';
+			$data['jadwal']=$this->m_jadwal->show_jadwalprodi($col,$val,$prodi);
 			$this->load->view('header2');
 			$this->load->view('v2_aturjadwal',$data);	
 		}
 		else{
-			$data['jadwal']=$this->m_jadwal->show_jadwal();
+			$col='smt.status';
+			$val='Aktif';
+			$data['jadwal']=$this->m_jadwal->show_jadwal($col,$val);
 			$data['ddprodi']=$this->m_jadwal->ddprodi();
 			$data['p']=1;
 			$this->load->view('header');
@@ -35,12 +39,14 @@ class Jadwal extends CI_Controller {
 
 	public function prodi()
 	{
+		$col = 'smt.status';
+		$val = 'aktif';
 		$id_prodi = $this->input->post('id_prodi');
         if($id_prodi=="0"){
             redirect('jadwal/aturjadwal');
         }
         else{
-			$data['jadwal']=$this->m_jadwal->selected($id_prodi);
+			$data['jadwal']=$this->m_jadwal->show_jadwalprodi($col,$val,$id_prodi);
 			$data['ddprodi']=$this->m_jadwal->ddprodi();
 			$this->load->view('header');
 			$this->load->view('v_aturjadwal',$data);
@@ -88,14 +94,15 @@ class Jadwal extends CI_Controller {
 			'id_dosen2' => $id_dosen2,
 			'id_kls' => $id_kls
 			);
-		
-		$res = $this->m_jadwal->cek($data);
+		$col='smt.status';
+		$val='aktif';
+		$res = $this->m_jadwal->cek($data,$col,$val);
 		if($res==true)
 		{
 			$this->session->set_flashdata('true', "Berhasil Menambahkan Data"); 
 			redirect('jadwal/aturjadwal');
 		}else{
-			$this->session->set_flashdata('err', "Gagal Menambahkan Data, Kelas Dipakai");
+			$this->session->set_flashdata('err', "Gagal Menambahkan Data");
 			redirect('jadwal/aturjadwal');
 		}		
 	}
@@ -173,6 +180,7 @@ class Jadwal extends CI_Controller {
 	//IMPORTTT
 	public function form(){
 		$data = array(); // Buat variabel $data sebagai array
+		$data['ddsmtall']=$this->m_jadwal->ddsmtall();
 		if(isset($_POST['preview'])){ // Jika user menekan tombol Preview pada form
 			
 			// lakukan upload file dengan memanggil function upload yang ada di SiswaModel.php
@@ -202,6 +210,42 @@ class Jadwal extends CI_Controller {
 		}
 		$this->load->view('v_jadwalform', $data);
 		$this->load->view('footer');
+	}
+	public function importsmt(){
+		$col = 'smt.id_smt';
+		$val = $this->input->post('id_smt');
+		$prodi = $this->session->userdata('id_prodi');
+		if(!empty($prodi)){
+			$db = $this->m_jadwal->show_jadwalprodi($col,$val,$prodi);
+		}
+		else{
+			$db = $this->m_jadwal->show_jadwal($col,$val);
+		}
+		$id_smt = $this->m_jadwal->ddsmt()->result();
+		for($i = 0; $i < count($db); $i++){
+			$data = array(
+				'hari'=>$db[$i]->hari,
+				'waktu'=>$db[$i]->waktu,
+				'akhir'=>$db[$i]->akhir,
+				'id_matkul'=>$db[$i]->id_matkul,
+				'id_dosen'=>$db[$i]->id_dosen,
+				'id_dosen2'=>$db[$i]->id_dosen2,
+				'id_kls'=>$db[$i]->id_kls,
+				'id_smt'=>$id_smt[0]->id_smt
+			);
+			$col = 'smt.status';
+			$val = 'aktif';
+			$cek = $this->m_jadwal->cek($data,$col,$val);
+		}
+		if($cek==true)
+		{
+			$this->session->set_flashdata('true', "Berhasil Mengimpor Data"); 
+			redirect('jadwal/aturjadwal');
+		}else{
+			$this->session->set_flashdata('err', "Gagal Mengimpor Data");
+			redirect('jadwal/aturjadwal');
+		}
+
 	}
 	public function import(){
 		// Load plugin PHPExcel nya

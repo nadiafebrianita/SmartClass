@@ -24,9 +24,25 @@
         <div class="row">
           <div class="col">
             <div class="form-group">
-              <form method="post" action="<?php echo site_url("jadwal/form"); ?>" enctype="multipart/form-data">
+              <form method="post" action="<?php echo site_url("jadwal/importsmt"); ?>" enctype="multipart/form-data">
                 <div class="row">
-                  <div class="col-sm-2"><label class="form-control-label">Import Jadwal</label></div>
+                  <div class="col-sm-2"><label class="form-control-label">Pilih Semester Lain</label></div>
+                  <div class="col-sm-3">
+                    <select class="form-control-sm" style="width: 200px" name="id_smt">
+                      <option>- Pilih Semester -</option>
+                        <?php
+                          foreach ($ddsmtall as $dd) {
+                            echo "<option value='".$dd->id_smt."'>".$dd->nama_smt,$dd->tahun."</option>";
+                          }
+                        ?>
+                    </select>
+                  </div>
+                  <div class="col-sm-4"><input type="submit" class="btn btn-sm btn-success" name="preview" value="Import"></div>
+                </div>
+              </form>
+              <form method="post" action="<?php echo site_url("jadwal/form"); ?>" enctype="multipart/form-data">
+                <div class="row mt-5">
+                  <div class="col-sm-2"><label class="form-control-label">Pilih File</label></div>
                   <div class="col-sm-3"><input type="file" class="btn btn-sm" name="file"></div>
                   <div class="col-sm-4"><input type="submit" class="btn btn-sm btn-success" name="preview" value="Preview"></div>
                 </div>

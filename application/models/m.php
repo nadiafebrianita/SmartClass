@@ -14,6 +14,10 @@ class M extends CI_Model {
 		$this->db->insert($table,$data);
 		return true;
 	}
+	public function input_multiple($data,$table){
+		$this->db->insert_batch($table,$data);
+		return true;
+	}
 	public function hapus_data($where,$table){
 		$this->db->where($where);
 		$this->db->delete($table);
